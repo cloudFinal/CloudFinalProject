@@ -19,6 +19,18 @@
     
 <script>
 var uid;
+
+String.prototype.hashCode = function() {
+	  var hash = 0, i, chr, len;
+	  if (this.length == 0) return hash;
+	  for (i = 0, len = this.length; i < len; i++) {
+	    chr   = this.charCodeAt(i);
+	    hash  = ((hash << 5) - hash) + chr;
+	    hash |= 0; // Convert to 32bit integer
+	  }
+	  return hash;
+	};
+
 function loadXMLDoc()
 {
 	uid=document.getElementById("username").value;
@@ -97,6 +109,75 @@ function signupSucceeded(result) {
 	}
 }
 
+function addPref(){
+	uid=document.getElementById("addPref").value;
+	document.getElementById("signup").disabled=true;
+	var array={
+			"platform":"haha",
+			"preference":[
+				{
+					"user_id":uid,
+					"preference_name":1,
+					"location_id":"address".hashCode(),
+					"distance_to_tolerance":112.23,
+					"start_time":123123123,
+					"end_time":12312323212,
+					"key_word":"abc",
+					"activity_name":"name",
+					"number_limit_from":2,
+					"number_limit_to":3
+				},
+				{
+					"user_id":uid,
+					"preference_name":1,
+					"location_id":"address".hashCode(),
+					"distance_to_tolerance":112.23,
+					"start_time":123123123,
+					"end_time":12312323212,
+					"key_word":"abc",
+					"activity_name":"name",
+					"number_limit_from":2,
+					"number_limit_to":3
+				}
+			]
+	};
+	$.ajax({
+	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	    type: 'POST',
+	    dataType: "json",
+	    data: JSON.stringify({ 
+	    	"location_id": document.getElementById("sb").value,
+	    	"address": "address",
+	    	"longitude":12,
+	    	"latitude":12
+	    }),    
+	    processData: false,
+	    ContentType: 'application/json',
+	    dataType: 'json',
+	    success: function(result) {
+	    	$.ajax({
+	    	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	    	    type: 'POST',
+	    	    dataType: "json",
+	    	    data: JSON.stringify({ 
+	    	    	"location_id": document.getElementById("sb").value,
+	    	    	"address": "address",
+	    	    	"longitude":12,
+	    	    	"latitude":12
+	    	    }),    
+	    	    processData: false,
+	    	    ContentType: 'application/json',
+	    	    dataType: 'json',
+	    	    success: function(result) {
+	    	        
+	    	    },
+	    	    error: AjaxFailed
+	    	});
+	    },
+	    error: AjaxFailed
+	});
+}
+
 
 
 </script>
@@ -161,7 +242,7 @@ function signupSucceeded(result) {
 			        <div class="container"> 
 					     <div class="row">
 					   		<div class="col-sm-6 col-md-6 col-lg-6">
-					   			<button type="button" class="btn btn-primary btn-block">Log in</button>
+					   			<button type="button" class="btn btn-primary btn-block" id="addPref" onclick="addPref()">AddPref</button>
 					   		</div>
 					   		<div class="col-sm-6 col-md-6 col-lg-6">
 					   			<button type="button" class="btn btn-primary btn-block">Sign up</button>
