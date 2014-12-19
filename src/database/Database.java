@@ -326,6 +326,7 @@ public class Database
 			stmt.execute(QueryGenerator.insertQ("prefer_at","user_id","String",preference.getUserId(),"preference_name","String",preference.getPreferenceName(),"location_id","Integer",String.valueOf(preference.getLocationId()),"distance_tolerance","float",String.valueOf(preference.getDistanceTolerance()),"start_time","Long",String.valueOf(preference.getStartTime()),"end_time","Long",String.valueOf(preference.getEndTime()),"key_word","String",preference.getKeyWord(),"activity_name","String",preference.getActivityName(),"number_limit_from","Integer",String.valueOf(preference.getNumberLimitFrom()),"number_limit_to","Integer",String.valueOf(preference.getNumberLimitTo())));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -336,6 +337,7 @@ public class Database
 			stmt.execute(QueryGenerator.insertQ("event","event_id","Integer",String.valueOf(event.getEventId()),"held_in","Integer",String.valueOf(event.getHeldIn()),"activity_name","String",event.getActivityName(),"start_time","Long",String.valueOf(event.getStartTime()),"end_time","Long",String.valueOf(event.getEndTime()),"number_limit_from","Integer",String.valueOf(event.getNumberLimit()),"number_limit_to","Integer",String.valueOf(event.getNumberLimitTo())));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
 		return true;

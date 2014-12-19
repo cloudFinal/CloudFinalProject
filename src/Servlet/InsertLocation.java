@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import beans.Location;
@@ -46,14 +47,15 @@ public class InsertLocation extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		JSONObject output = new JSONObject();
 		boolean result=false;
+		Location location=null;
 		if(Parse.plantForm(input)==null){
 			String s = input.getString("1");
 			Gson gson = new Gson();
-			Location location = gson.fromJson(s, Location.class);
-			result = Center.db.insertLocation(location);
+			location = gson.fromJson(s, Location.class);
 		}else{
-			
+			location = Location.fromJson(input.getJSONObject("location")); 
 		}
+		result = Center.db.insertLocation(location);
 		output.put("result", result);
 		JsonProcess.sendJson(response, output);
 	}
