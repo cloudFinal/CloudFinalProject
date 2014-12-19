@@ -1,6 +1,10 @@
 package beans;
 
-public class ReceiveEducation{
+import java.io.Serializable;
+
+import org.json.JSONObject;
+
+public class ReceiveEducation implements Serializable,JsonAble{
 
     /** 
      * Persistent Instance variables. This data is directly 
@@ -8,8 +12,8 @@ public class ReceiveEducation{
      */
     private int userId;
     private int educationId;
-    private String startDate;
-    private String endDate;
+    private long startDate;
+    private long endDate;
 
 
 
@@ -52,17 +56,17 @@ public class ReceiveEducation{
           this.educationId = educationIdIn;
     }
 
-    public String getStartDate() {
+    public long getStartDate() {
           return this.startDate;
     }
-    public void setStartDate(String startDateIn) {
+    public void setStartDate(long startDateIn) {
           this.startDate = startDateIn;
     }
 
-    public String getEndDate() {
+    public long getEndDate() {
           return this.endDate;
     }
-    public void setEndDate(String endDateIn) {
+    public void setEndDate(long endDateIn) {
           this.endDate = endDateIn;
     }
 
@@ -78,11 +82,19 @@ public class ReceiveEducation{
 
     public void setAll(int userIdIn,
           int educationIdIn,
-          String startDateIn,
-          String endDateIn) {
+          long startDateIn,
+          long endDateIn) {
           this.userId = userIdIn;
           this.educationId = educationIdIn;
           this.startDate = startDateIn;
           this.endDate = endDateIn;
     }
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("user_id", userId);
+		jo.put("education_id", educationId);
+		jo.put("start_date", startDate);
+		jo.put("end_date", endDate);
+		return jo;
+	}
 }

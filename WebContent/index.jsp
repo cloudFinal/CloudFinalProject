@@ -49,7 +49,7 @@
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right" role="search" action="" method="post">
       	<div class="form-group">
           <input type="text" class="form-control" placeholder="Username">
         </div>

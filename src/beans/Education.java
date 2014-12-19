@@ -1,6 +1,8 @@
 package beans;
 
-public class Education {
+import java.io.Serializable;
+
+public class Education implements Serializable{
 	/** 
 	 * Get- and Set-methods for persistent variables. The default
 	 * behaviour does not make any checks against malformed data,

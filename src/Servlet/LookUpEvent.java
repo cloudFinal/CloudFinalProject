@@ -54,12 +54,15 @@ public class LookUpEvent extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String receivedData = Parse.getPostData(request);
-		JSONObject jo = JsonProcess.getJason(receivedData);
-		String obj = jo.getString("1");
-		Gson gson = new Gson();
-		Preference preference = gson.fromJson(obj, Preference.class);
-		ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
-		JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
+		JSONObject input = Parse.getJson(request);
+		if(Parse.plantForm(input)==null){
+			String obj = input.getString("1");
+			Gson gson = new Gson();
+			Preference preference = gson.fromJson(obj, Preference.class);
+			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
+			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
+		}else{
+			
+		}
 	}
 }

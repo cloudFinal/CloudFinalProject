@@ -2,7 +2,10 @@ package beans;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-public class Profile {
+import java.io.Serializable;
+
+import org.json.JSONObject;
+public class Profile implements Serializable,JsonAble{
 	private String userid;
 	private String password;
 	private String name;
@@ -84,5 +87,18 @@ public class Profile {
 		 this.locationId=locationId;
 		 this.image=image;
 		 this.online=online;
+	}
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("user_id", userid);
+		jo.put("password", password);
+		jo.put("name", name);
+		jo.put("date_of_birth", dateOfBirth);
+		jo.put("nationality", nationality);
+		jo.put("gender", gender);
+		jo.put("location_id", locationId);
+		jo.put("image", image);
+		jo.put("online", online);
+		return jo;
 	}
 }

@@ -38,8 +38,7 @@ public class NumberOfEvent extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String text = Parse.getPostData(request);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		int eventId = input.getInt("eventid");
 		int number= Center.db.numberInEvent(Center.db.getEvent(eventId));
 		JSONObject output = new JSONObject();

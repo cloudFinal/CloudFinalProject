@@ -42,9 +42,7 @@ public class Register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		String u = input.getString("username");
 		String p = input.getString("password");
 		boolean result = Center.db.register(u,p);

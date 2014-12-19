@@ -43,16 +43,18 @@ public class InsertPreference extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("InsertPreference!");
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
-		String s = input.getString("1");
-		Gson gson = new Gson();
-		Preference preference = gson.fromJson(s, Preference.class);
-		boolean result = Center.db.insertPreference(preference);
-		JSONObject output = new JSONObject();
-		output.put("result", result);
-		JsonProcess.sendJson(response, output);
+		JSONObject input = Parse.getJson(request);
+		if(Parse.plantForm(input)==null){
+			String s = input.getString("1");
+			Gson gson = new Gson();
+			Preference preference = gson.fromJson(s, Preference.class);
+			boolean result = Center.db.insertPreference(preference);
+			JSONObject output = new JSONObject();
+			output.put("result", result);
+			JsonProcess.sendJson(response, output);
+		}else{
+			
+		}
 	}
 
 }

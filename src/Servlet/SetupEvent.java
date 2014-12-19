@@ -44,19 +44,22 @@ public class SetupEvent extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String receivedData = Parse.getPostData(request);
-		JSONObject jo = JsonProcess.getJason(receivedData);
-		String obj = jo.getString("1");
-		Gson gson = new Gson();
-		Preference preference = gson.fromJson(obj, Preference.class);
-		Event e =new Event(preference.getLocationId(),preference.getActivityName(),preference.getStartTime(),preference.getEndTime(),preference.getNumberLimitFrom(),preference.getNumberLimitTo());
-		boolean result = Center.db.insertEvent(e);
-		boolean result2 = Center.db.insertParticipatesIn(preference, e);
-		JSONObject output = new JSONObject();
-		output.put("result", result&&result2);
-		Gson gson2 = new Gson();
-		String objOut = gson2.toJson(e);
-		output.put("object",objOut);
-		JsonProcess.sendJson(response, output);
+		JSONObject input = Parse.getJson(request);
+		if(Parse.plantForm(input)==null){
+			String obj = input.getString("1");
+			Gson gson = new Gson();
+			Preference preference = gson.fromJson(obj, Preference.class);
+			Event e =new Event(preference.getLocationId(),preference.getActivityName(),preference.getStartTime(),preference.getEndTime(),preference.getNumberLimitFrom(),preference.getNumberLimitTo());
+			boolean result = Center.db.insertEvent(e);
+			boolean result2 = Center.db.insertParticipatesIn(preference, e);
+			JSONObject output = new JSONObject();
+			output.put("result", result&&result2);
+			Gson gson2 = new Gson();
+			String objOut = gson2.toJson(e);
+			output.put("object",objOut);
+			JsonProcess.sendJson(response, output);
+		}else{
+			
+		}
 	}
 }

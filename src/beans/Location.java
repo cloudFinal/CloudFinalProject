@@ -1,6 +1,10 @@
 package beans;
 
-public class Location {
+import java.io.Serializable;
+
+import org.json.JSONObject;
+
+public class Location implements Serializable,JsonAble{
 	private int locationid;
 	private String address;
 	private float x;
@@ -44,5 +48,14 @@ public class Location {
 		double c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a)); 
 		double d = 6373 * c;
 		return d;
+	}
+	@Override
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("location_id", locationid);
+		jo.put("address", address);
+		jo.put("latitude", y);
+		jo.put("longitude", x);
+		return jo;
 	}
 }

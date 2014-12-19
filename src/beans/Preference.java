@@ -1,6 +1,10 @@
 package beans;
 
-public class Preference{
+import java.io.Serializable;
+
+import org.json.JSONObject;
+
+public class Preference implements Serializable,JsonAble{
 
     /** 
      * Persistent Instance variables. This data is directly 
@@ -117,4 +121,18 @@ public class Preference{
           this.numberLimitFrom=numberLimitFrom;
           this.numberLimitTo=numberLimitTo;
     }
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("user_id", userId);
+		jo.put("preference_name", preferenceName);
+		jo.put("location_id", locationId);
+		jo.put("distance_to_tolerance", distanceTolerance);
+		jo.put("start_time", startTime);
+		jo.put("end_time", endTime);
+		jo.put("key_word", locationId);
+		jo.put("activity_name", activityName);
+		jo.put("number_limit_from", numberLimitFrom);
+		jo.put("number_limit_to", numberLimitTo);
+		return jo;
+	}
 }

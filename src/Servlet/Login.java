@@ -38,15 +38,13 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("login!!");
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		String u = input.getString("username");
 		String p = input.getString("password");
 		boolean result = Center.db.login(u,p);
 		JSONObject output = new JSONObject();
 		output.put("result",result);
 		JsonProcess.sendJson(response,output);
+		System.out.println(result);
 	}
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import beans.Activity;
+import parse.JsonArrayForWeb;
 import parse.JsonArrayListGenerator;
 import parse.JsonProcess;
 import parse.Parse;
@@ -34,6 +35,11 @@ public class ActivityReply extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		JSONObject input = Parse.getJson(request);
+		ArrayList<Activity> result = Center.db.findActivityList();
+		JSONObject jo = new JSONObject();
+		jo.put("activity", JsonArrayForWeb.createJsonArray(result));
+		JsonProcess.sendJson(response, jo);
 	}
 
 	/**
@@ -41,8 +47,15 @@ public class ActivityReply extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		JSONObject input = Parse.getJson(request);
 		ArrayList<Activity> result = Center.db.findActivityList();
-		JsonProcess.sendJson(response,new JsonArrayListGenerator<Activity>(result).getObject());
+		if(Parse.plantForm(input)==null){
+			JsonProcess.sendJson(response,new JsonArrayListGenerator<Activity>(result).getObject());
+		}else{
+			JSONObject jo = new JSONObject();
+			jo.put("activity", JsonArrayForWeb.createJsonArray(result));
+			JsonProcess.sendJson(response, jo);
+		}
 	}
 
 }

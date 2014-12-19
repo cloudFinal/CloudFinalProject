@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import sun.misc.BASE64Decoder;
@@ -64,6 +65,19 @@ public class Parse{
             e.printStackTrace();
         }
         return imageString;
+    }
+    public static JSONObject getJson(HttpServletRequest request){
+    	String text = Parse.getPostData(request);
+    	System.out.println(text);
+		JSONObject input = JsonProcess.getJason(text);
+    	return input;
+    }
+    public static String plantForm(JSONObject jo){
+    	try{
+    		return jo.getString("plantform");
+    	}catch(JSONException jse){
+    		return null;
+    	}
     }
 	/*
 	public static String objectToString(Object myObject){

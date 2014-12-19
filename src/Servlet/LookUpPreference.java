@@ -44,11 +44,14 @@ public class LookUpPreference extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String receivedData = Parse.getPostData(request);
-		JSONObject jo = JsonProcess.getJason(receivedData);
-		String userId = jo.getString("user_id");
-		ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
-		JsonProcess.sendJson(response,new JsonArrayListGenerator<Preference>(result).getObject());
+		JSONObject input = Parse.getJson(request);
+		String userId = input.getString("user_id");
+		if(Parse.plantForm(input)==null){
+			ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
+			JsonProcess.sendJson(response,new JsonArrayListGenerator<Preference>(result).getObject());
+		}else{
+			
+		}
 	}
 
 }

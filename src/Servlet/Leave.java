@@ -38,8 +38,7 @@ public class Leave extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String text = Parse.getPostData(request);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("userid");
 		int eventId = input.getInt("eventid");
 		boolean result = Center.db.leaveEvent(userId,eventId);

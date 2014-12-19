@@ -43,14 +43,17 @@ public class InsertLocation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("InsertLocation");
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
-		String s = input.getString("1");
-		Gson gson = new Gson();
-		Location location = gson.fromJson(s, Location.class);
-		boolean result = Center.db.insertLocation(location);
+		JSONObject input = Parse.getJson(request);
 		JSONObject output = new JSONObject();
+		boolean result=false;
+		if(Parse.plantForm(input)==null){
+			String s = input.getString("1");
+			Gson gson = new Gson();
+			Location location = gson.fromJson(s, Location.class);
+			result = Center.db.insertLocation(location);
+		}else{
+			
+		}
 		output.put("result", result);
 		JsonProcess.sendJson(response, output);
 	}

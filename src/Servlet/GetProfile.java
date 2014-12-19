@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import parse.JsonArrayForWeb;
 import parse.JsonProcess;
 import parse.Parse;
 import beans.Profile;
@@ -56,22 +57,26 @@ public class GetProfile extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("Get Profile");
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("userid");
 		Profile profile = Center.db.getProfile(userId);
 		boolean result=false;
-		String obj=null;
-		if(profile!=null){
-			result=true;
-			Gson gson = new Gson();
-			obj = gson.toJson(profile);
-		}
 		JSONObject output = new JSONObject();
+		if(Parse.plantForm(input)==null){
+			String obj=null;
+			if(profile!=null){
+				result=true;
+				Gson gson = new Gson();
+				obj = gson.toJson(profile);
+			}
+			output.put("object", obj);
+		}else{
+			if(profile!=null){
+				result=true;
+			}
+			output.put("profile", profile.toJson());
+		}
 		output.put("result", result);
-		output.put("object", obj);
 		JsonProcess.sendJson(response, output);
 	}
-
 }

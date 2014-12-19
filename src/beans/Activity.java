@@ -2,7 +2,9 @@ package beans;
 
 import java.io.Serializable;
 
-public class Activity implements Serializable{
+import org.json.JSONObject;
+
+public class Activity implements Serializable,JsonAble{
 	/**
 	 * 
 	 */
@@ -24,5 +26,11 @@ public class Activity implements Serializable{
 	public void setAll(String name,String type){
 		this.name=name;
 		this.type=type;
+	}
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("name", name);
+		jo.put("type", type);
+		return jo;
 	}
 }

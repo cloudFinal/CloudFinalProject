@@ -41,11 +41,10 @@ public class JoinEvent extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String receivedData = Parse.getPostData(request);
-		JSONObject jo = JsonProcess.getJason(receivedData);
-		String userId = jo.getString("userid");
-		String preferenceName = jo.getString("preferencename");
-		int eventId = jo.getInt("eventid");
+		JSONObject input = Parse.getJson(request);
+		String userId = input.getString("userid");
+		String preferenceName = input.getString("preferencename");
+		int eventId = input.getInt("eventid");
 		Event event = Center.db.getEvent(eventId);
 		Preference preference = Center.db.getPreference(userId, preferenceName);
 		boolean result=false;

@@ -1,9 +1,12 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Event{
+import org.json.JSONObject;
+
+public class Event implements Serializable,JsonAble{
 
     /** 
      * Persistent Instance variables. This data is directly 
@@ -142,4 +145,15 @@ public class Event{
           this.numberLimit = numberLimitIn;
           this.numberLimitTo = numberLimitToIn;
     }
+	public JSONObject toJson(){
+		JSONObject jo = new JSONObject();
+		jo.put("event_id", eventId);
+		jo.put("held_in", heldIn);
+		jo.put("activity_name", activityName);
+		jo.put("start_time", startTime);
+		jo.put("end_time", endTime);
+		jo.put("number_limit_from", numberLimit);
+		jo.put("number_limit_to", numberLimitTo);
+		return jo;
+	}
 }

@@ -45,17 +45,19 @@ public class UpdateProfile extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("Update Profile");
-		String text = Parse.getPostData(request);
-		System.out.println(text);
-		JSONObject input = JsonProcess.getJason(text);
+		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("user_id");
 		String password = input.getString("password");
 		boolean result=false;
 		if(Center.db.userExist(userId, password)){
 			String s = input.getString("1");
-			Gson gson = new Gson();
-			Profile profile = gson.fromJson(s, Profile.class);
-			result = Center.db.updateProfile(profile);
+			if(Parse.plantForm(input)==null){
+				Gson gson = new Gson();
+				Profile profile = gson.fromJson(s, Profile.class);
+				result = Center.db.updateProfile(profile);
+			}else{
+				
+			}
 		}
 		JSONObject output = new JSONObject();
 		output.put("result", result);
