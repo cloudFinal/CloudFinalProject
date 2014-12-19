@@ -24,20 +24,20 @@
 			<div class="middle">
 			  <div class="jumbotron">
 			    <h1 class="text-center">Welcome!</h1>
+			        <div class="container"> 
+					     <div class="row">
+					   		<div class="col-sm-6 col-md-6 col-lg-6">
+					   			<button type="button" class="btn btn-primary btn-block">Log in</button>
+					   		</div>
+					   		<div class="col-sm-6 col-md-6 col-lg-6">
+					   			<button type="button" class="btn btn-primary btn-block">Sign up</button>
+					   		</div>
+						 </div>
+					 </div>
 			  </div>
 		 	</div>
 		</div>
 	</div>
-    <div class="container"> 
-	     <div class="row">
-	   		<div class="col-sm-6 col-md-6 col-lg-6">
-	   			<button type="button" class="btn btn-primary btn-block">rome</button>
-	   		</div>
-	   		<div class="col-sm-6 col-md-6 col-lg-6">
-	   			<button type="button" class="btn btn-primary btn-block">rome</button>
-	   		</div>
-		 </div>
-	 </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
