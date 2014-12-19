@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap 101 Template</title>
-
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -16,6 +16,38 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+<script>
+function loadXMLDoc()
+{
+
+	$.ajax({
+	    url: 'http://cloudfinal.elasticbeanstalk.com/Login',
+	    type: 'POST',
+	    data: JSON.stringify({ 
+	    	username: document.getElementById("username").value,
+	    	password:  document.getElementById("password").value
+	    }),
+	    processData: false,
+	    ContentType: 'application/json',
+	    dataType: 'json',
+	    success:AjaxSucceeded,
+	    error: AjaxFailed
+	});
+}
+
+function AjaxSucceeded(result) {
+    alert("hello");
+    alert(result.d);
+}
+function AjaxFailed(result) {
+    alert("bad");
+    alert(result.status + ' ' + result.statusText);
+}
+</script>
+    
+    
+    
   </head>
   <body>
   <nav class="navbar navbar-default" role="navigation">
@@ -49,16 +81,20 @@
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-right" role="search">
+      	<div class="navbar-form navbar-right">
       	<div class="form-group">
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" class="form-control" placeholder="Username" id="username">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Password">
+          <input type="text" class="form-control" placeholder="Password" id="password">
         </div>
-        <button type="submit" class="btn btn-default">SignIn</button>
-        <button type="submit" class="btn btn-default">SignUp</button>
-      </form>
+        	<div class="form-group">
+        		<button  class="btn btn-default" onclick="loadXMLDoc()">SignIn</button>
+        	</div>
+        	<div class="form-group">
+        		<button  class="btn btn-default">SignUp</button>
+       		</div>
+        </div>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
