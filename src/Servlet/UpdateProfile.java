@@ -50,14 +50,15 @@ public class UpdateProfile extends HttpServlet {
 		String password = input.getString("password");
 		boolean result=false;
 		if(Center.db.userExist(userId, password)){
-			String s = input.getString("1");
+			Profile profile;
 			if(Parse.plantForm(input)==null){
+				String s = input.getString("1");
 				Gson gson = new Gson();
-				Profile profile = gson.fromJson(s, Profile.class);
-				result = Center.db.updateProfile(profile);
+				profile = gson.fromJson(s, Profile.class);
 			}else{
-				
+				profile = Profile.fromJson(input.getJSONObject("profile"));
 			}
+			result = Center.db.updateProfile(profile);
 		}
 		JSONObject output = new JSONObject();
 		output.put("result", result);
