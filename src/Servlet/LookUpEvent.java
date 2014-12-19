@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+import parse.JsonArrayForWeb;
 import parse.JsonArrayListGenerator;
 import parse.JsonProcess;
 import parse.Parse;
@@ -55,14 +56,17 @@ public class LookUpEvent extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject input = Parse.getJson(request);
+		Preference preference;
 		if(Parse.plantForm(input)==null){
 			String obj = input.getString("1");
 			Gson gson = new Gson();
-			Preference preference = gson.fromJson(obj, Preference.class);
+			preference = gson.fromJson(obj, Preference.class);
 			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
 		}else{
-			
+			preference = Preference.fromJson(input);
+			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
+			JsonArrayForWeb.createJsonArray(result);
 		}
 	}
 }

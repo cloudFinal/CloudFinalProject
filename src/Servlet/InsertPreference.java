@@ -44,18 +44,19 @@ public class InsertPreference extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("InsertPreference!");
 		JSONObject input = Parse.getJson(request);
+		Preference preference=null;
 		if(Parse.plantForm(input)==null){
 			String s = input.getString("1");
 			Gson gson = new Gson();
-			Preference preference = gson.fromJson(s, Preference.class);
-			boolean result = Center.db.insertPreference(preference);
-			System.out.println("the result is"+result);
-			JSONObject output = new JSONObject();
-			output.put("result", result);
-			JsonProcess.sendJson(response, output);
+			preference = gson.fromJson(s, Preference.class);
 		}else{
-			
+			preference=Preference.fromJson(input.getJSONObject("preference"));
 		}
+		boolean result = Center.db.insertPreference(preference);
+		//System.out.println("the result is"+result);
+		JSONObject output = new JSONObject();
+		output.put("result", result);
+		JsonProcess.sendJson(response, output);
 	}
 
 }
