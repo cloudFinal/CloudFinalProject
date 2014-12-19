@@ -156,4 +156,9 @@ public class Event implements Serializable,JsonAble{
 		jo.put("number_limit_to", numberLimitTo);
 		return jo;
 	}
+	public static Event fromJson(JSONObject input){
+		Event result = new Event();
+		result.setAll(input.getInt("event_id"), input.getInt("held_in"),input.getString("activity_name"),input.getLong("start_time"),input.getInt("end_time"),input.getInt("number_limit_from"),input.getInt("number_limit_to"));
+		return result;
+	}
 }

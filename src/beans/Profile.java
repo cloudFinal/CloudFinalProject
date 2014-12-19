@@ -101,4 +101,9 @@ public class Profile implements Serializable,JsonAble{
 		jo.put("online", online);
 		return jo;
 	}
+	public static Profile fromJson(JSONObject input){
+		Profile result = new Profile();
+		result.setAll(input.getString("user_id"), input.getString("password"),input.getString("name"),input.getLong("date_of_birth"),input.getString("nationality"),input.getString("gender"),input.getInt("location_id"),input.getString("image"),input.getString("online"));
+		return result;
+	}
 }

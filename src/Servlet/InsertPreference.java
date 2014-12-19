@@ -49,6 +49,7 @@ public class InsertPreference extends HttpServlet {
 			Gson gson = new Gson();
 			Preference preference = gson.fromJson(s, Preference.class);
 			boolean result = Center.db.insertPreference(preference);
+			System.out.println("the result is"+result);
 			JSONObject output = new JSONObject();
 			output.put("result", result);
 			JsonProcess.sendJson(response, output);

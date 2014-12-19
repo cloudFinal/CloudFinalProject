@@ -33,4 +33,9 @@ public class Activity implements Serializable,JsonAble{
 		jo.put("type", type);
 		return jo;
 	}
+	public static Activity fromJson(JSONObject input){
+		Activity result = new Activity();
+		result.setAll(input.getString("name"), input.getString("type"));
+		return result;
+	}
 }

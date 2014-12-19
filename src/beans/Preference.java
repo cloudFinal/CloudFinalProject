@@ -135,4 +135,9 @@ public class Preference implements Serializable,JsonAble{
 		jo.put("number_limit_to", numberLimitTo);
 		return jo;
 	}
+	public static Preference fromJson(JSONObject input){
+		Preference result = new Preference();
+		result.setAll(input.getString("user_id"), input.getString("preference_name"),input.getInt("location_id"),(float)input.getDouble("distance_to_tolerance"),input.getLong("start_time"),input.getLong("end_time"),input.getString("key_word"),input.getString("activity_name"),input.getInt("number_limit_from"),input.getInt("number_limit_to"));
+		return result;
+	}
 }
