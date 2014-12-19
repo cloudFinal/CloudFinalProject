@@ -18,12 +18,27 @@
     <![endif]-->
     
 <script>
+var uid;
+
+String.prototype.hashCode = function() {
+	  var hash = 0, i, chr, len;
+	  if (this.length == 0) return hash;
+	  for (i = 0, len = this.length; i < len; i++) {
+	    chr   = this.charCodeAt(i);
+	    hash  = ((hash << 5) - hash) + chr;
+	    hash |= 0; // Convert to 32bit integer
+	  }
+	  return hash;
+	};
+
 function loadXMLDoc()
 {
-
+	uid=document.getElementById("username").value;
+	document.getElementById("signin").disabled=true;
 	$.ajax({
-	    url: 'http://cloudfinal.elasticbeanstalk.com/Login',
+	    url: 'http://localhost:8080/CloudFinal/Login',
 	    type: 'POST',
+	    dataType: "json",
 	    data: JSON.stringify({ 
 	    	username: document.getElementById("username").value,
 	    	password:  document.getElementById("password").value
@@ -37,13 +52,134 @@ function loadXMLDoc()
 }
 
 function AjaxSucceeded(result) {
-    alert("hello");
-    alert(result.d);
+	if(result.result){
+		document.getElementById("welcome").innerHTML="Success!";
+		var a=document.getElementById("signin");
+		document.getElementById("signin").parentElement.removeChild(document.getElementById("signin"));
+		var b=document.getElementById("signup");
+		document.getElementById("signup").parentElement.removeChild(document.getElementById("signup"));
+		var c=document.getElementById("username");
+		document.getElementById("username").parentElement.removeChild(document.getElementById("username"));
+		var d=document.getElementById("password");
+		document.getElementById("password").parentElement.removeChild(document.getElementById("password"));
+	}
+	else{
+		document.getElementById("signin").disabled=false;
+	}
 }
 function AjaxFailed(result) {
     alert("bad");
     alert(result.status + ' ' + result.statusText);
 }
+
+function singup()
+{
+	uid=document.getElementById("username").value;
+	document.getElementById("signup").disabled=true;
+	$.ajax({
+	    url: 'http://localhost:8080/CloudFinal/Register',
+	    type: 'POST',
+	    dataType: "json",
+	    data: JSON.stringify({ 
+	    	username: document.getElementById("username").value,
+	    	password:  document.getElementById("password").value
+	    }),
+	    processData: false,
+	    ContentType: 'application/json',
+	    dataType: 'json',
+	    success: signupSucceeded,
+	    error: AjaxFailed
+	});
+}
+
+function signupSucceeded(result) {
+	if(result.result){
+		document.getElementById("welcome").innerHTML="Success!";
+		var a=document.getElementById("signin");
+		document.getElementById("signin").parentElement.removeChild(document.getElementById("signin"));
+		var b=document.getElementById("signup");
+		document.getElementById("signup").parentElement.removeChild(document.getElementById("signup"));
+		var c=document.getElementById("username");
+		document.getElementById("username").parentElement.removeChild(document.getElementById("username"));
+		var d=document.getElementById("password");
+		document.getElementById("password").parentElement.removeChild(document.getElementById("password"));
+	}
+	else{
+		document.getElementById("signup").disabled=false;
+	}
+}
+
+function addPref(){
+	uid=document.getElementById("addPref").value;
+	document.getElementById("signup").disabled=true;
+	var array={
+			"platform":"haha",
+			"preference":[
+				{
+					"user_id":uid,
+					"preference_name":1,
+					"location_id":"address".hashCode(),
+					"distance_to_tolerance":112.23,
+					"start_time":123123123,
+					"end_time":12312323212,
+					"key_word":"abc",
+					"activity_name":"name",
+					"number_limit_from":2,
+					"number_limit_to":3
+				},
+				{
+					"user_id":uid,
+					"preference_name":1,
+					"location_id":"address".hashCode(),
+					"distance_to_tolerance":112.23,
+					"start_time":123123123,
+					"end_time":12312323212,
+					"key_word":"abc",
+					"activity_name":"name",
+					"number_limit_from":2,
+					"number_limit_to":3
+				}
+			]
+	};
+	$.ajax({
+	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	    type: 'POST',
+	    dataType: "json",
+	    data: JSON.stringify({ 
+	    	"location_id": document.getElementById("sb").value,
+	    	"address": "address",
+	    	"longitude":12,
+	    	"latitude":12
+	    }),    
+	    processData: false,
+	    ContentType: 'application/json',
+	    dataType: 'json',
+	    success: function(result) {
+	    	$.ajax({
+	    	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	    	    type: 'POST',
+	    	    dataType: "json",
+	    	    data: JSON.stringify({ 
+	    	    	"location_id": document.getElementById("sb").value,
+	    	    	"address": "address",
+	    	    	"longitude":12,
+	    	    	"latitude":12
+	    	    }),    
+	    	    processData: false,
+	    	    ContentType: 'application/json',
+	    	    dataType: 'json',
+	    	    success: function(result) {
+	    	        
+	    	    },
+	    	    error: AjaxFailed
+	    	});
+	    },
+	    error: AjaxFailed
+	});
+}
+
+
+
 </script>
     
     
@@ -60,7 +196,7 @@ function AjaxFailed(result) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Welcome</a>
+      <a class="navbar-brand" href="#">CloudFinal</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -83,16 +219,16 @@ function AjaxFailed(result) {
       </ul>
       	<div class="navbar-form navbar-right">
       	<div class="form-group">
-          <input type="text" class="form-control" placeholder="Username" id="username">
+          <input type="text" class="form-control"  id="username">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Password" id="password">
+          <input type="text" class="form-control"  id="password">
         </div>
         	<div class="form-group">
-        		<button  class="btn btn-default" onclick="loadXMLDoc()">SignIn</button>
+        		<button  class="btn btn-default" onclick="loadXMLDoc()" id="signin">SignIn</button>
         	</div>
         	<div class="form-group">
-        		<button  class="btn btn-default">SignUp</button>
+        		<button  class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
        		</div>
         </div>
     </div><!-- /.navbar-collapse -->
@@ -102,11 +238,11 @@ function AjaxFailed(result) {
 		<div class="row">
 			<div class="middle">
 			  <div class="jumbotron">
-			    <h1 class="text-center">Welcome!</h1>
+			    <h1 class="text-center" id="welcome">Welcome!</h1>
 			        <div class="container"> 
 					     <div class="row">
 					   		<div class="col-sm-6 col-md-6 col-lg-6">
-					   			<button type="button" class="btn btn-primary btn-block">Log in</button>
+					   			<button type="button" class="btn btn-primary btn-block" id="addPref" onclick="addPref()">AddPref</button>
 					   		</div>
 					   		<div class="col-sm-6 col-md-6 col-lg-6">
 					   			<button type="button" class="btn btn-primary btn-block">Sign up</button>
