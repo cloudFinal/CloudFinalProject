@@ -70,12 +70,8 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
-<<<<<<< HEAD
-=======
 			$("#test0").show(1000);
 			$("#test1").show(1000);
-			$("#test3").show(1000);
->>>>>>> branch 'master' of https://github.com/cloudFinal/CloudFinalProject.git
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -121,6 +117,8 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
+			$("#test0").show(1000);
+			$("#test1").show(1000);
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -431,6 +429,7 @@
 
 			<div class="col-sm-5 col-md-5" style="float: right" id="test3">
 				<div id="dvMap" style="height: 400px"></div>
+
 			</div>
 		</div>
 	</div>
@@ -447,7 +446,6 @@
 	<script type="text/javascript">
 		$("#test1").hide();
 		$("#test2").hide();
-		$("#test3").hide();
 		$("#test0").hide();
 	</script>
 </body>
