@@ -66,9 +66,6 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
-			$( "#test0" ).show(1000);
-			$( "#test1" ).show(1000);
-			$( "#test3" ).show(1000);
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -114,9 +111,6 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
-			$( "#test0" ).show(1000);
-			$( "#test1" ).show(1000);
-			$( "#test3" ).show(1000);
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -270,6 +264,11 @@
 					updateMarkerPosition(latLng);
 				});
 	}
+	
+	function mapFromMiddleToRight(){
+		
+	}
+	
 </script>
 
 
@@ -390,8 +389,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-5 col-md-5" style="float:right" id="test3">
-				<div id="dvMap" style="height: 400px"></div>
+			<div class="col-sm-5 col-md-5" style="float:right">
+				<div id="dvMap" style="height: 400px" id="map"></div>
 			</div>
 		</div>
 	</div>
