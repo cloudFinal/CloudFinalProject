@@ -205,6 +205,8 @@
 	var address;
 	var x;
 	var y;
+	var map;
+	var pinImage;
 	//var addressRes;
 	var geocoder = new google.maps.Geocoder();
 	function geocodePosition(pos) {
@@ -226,7 +228,7 @@
 
 	// write current address to screen
 	function updateMarkerAddress(str) {
-		document.getElementById('address').innerHTML = str;
+		document.getElementById('maddress').innerHTML = str;
 	}
 	// write current location to screen
 	function updateMarkerPosition(latLng) {
@@ -243,10 +245,9 @@
 
 		var infoWindow = new google.maps.InfoWindow();
 		var latlngbounds = new google.maps.LatLngBounds();
-		var map = new google.maps.Map(document.getElementById("dvMap"),
-				mapOptions);
+		map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
 		var pinColor = "0000ff";
-		var pinImage = new google.maps.MarkerImage(
+		pinImage = new google.maps.MarkerImage(
 				"http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
 						+ pinColor, new google.maps.Size(21, 34),
 				new google.maps.Point(0, 0), new google.maps.Point(10, 34));
@@ -270,11 +271,10 @@
 					updateMarkerPosition(latLng);
 				});
 	}
-	
-	function mapFromMiddleToRight(){
-		
+
+	function mapFromMiddleToRight() {
+
 	}
-	
 </script>
 
 
@@ -348,7 +348,7 @@
 					<li><a href="#">Export</a></li>
 				</ul>
 			</div>
-			<div class="col-sm-5 col-md-5" id="test1">
+			<div class="col-sm-4 col-md-4" id="test1">
 				<div class="jumbotron">
 					<div class="container">
 						<div class="row" id="divt">
@@ -358,8 +358,7 @@
 							</div>
 							<div class='col-sm-12 col-md-12'>
 								<input id="distance_to_tolerance" type="text"
-									class="form-control"
-									placeholder="I prefer within">
+									class="form-control" placeholder="I prefer within">
 							</div>
 						</div>
 						<div class="row" id="divt">
@@ -380,11 +379,10 @@
 								</div>
 							</div>
 							<div class='col-sm-6 col-md-6'>
-								Select an activity
-								<select id="activity_name" class="form-control">
+								Select an activity <select id="activity_name"
+									class="form-control">
 									<option value="one">Basketball</option>
-								</select>
-								<input id="number_limit_from"></input><label>number_limit_from</label>
+								</select> <input id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="maddress"></input><label>address</label> <input
 									id="xCoordinate"></input><label>longitude</label> <input
@@ -401,33 +399,65 @@
 				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test2">
-				<div class="jumbotron">
-					<h1 class="text-center" id="welcome">SHA!</h1>
-					<div class="container">
-						<div class="row" id="divt">
-							<div class="col-sm-6 col-md-6 col-lg-6">
-								<button type="button" class="btn btn-primary btn-block"
-									id="addPref" onclick="addPref()">AddPref</button>
-							</div>
-							<div>
-								<input id="preference name"></input><label>preference
-									name</label> <input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
-								<input id="start_time"></input><label>start_time</label> <input
-									id="end_time"></input><label>end_time</label> <input
-									id="key_word"></input><label>key_word</label> <input
-									id="activity_name"></input><label>activity_name</label> <input
-									id="number_limit_from"></input><label>number_limit_from</label>
-								<input id="number_limit_to"></input><label>number_limit_to</label>
-								<input id="address"></input><label>address</label> <input
-									id="longitude"></input><label>longitude</label> <input
-									id="latitude"></input><label>latitude</label>
-							</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="togglePreference()">Preference Detail</a>
+					</div>
+					<div id="preference-table" class="panel-body">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>Preference Name</td>
+									<td id="welcome">1</td>
+								</tr>
+								<tr>
+									<td>Activit</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Prefered Location</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Start Time</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>End Time</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>Number Limit From</td>
+									<td>1</td>
+								</tr>
+								<td>Number Limit To</td>
+								<td>1</td>
+								</tr>
+								<div class="form-group">
+									<button class="btn btn-default" onclick="addMarker(0,0)"
+										id="signup">addMarker</button>
+								</div>
+								<div class="form-group">
+									<button class="btn btn-default" onclick="clearEventMarker()"
+										id="signup">clear</button>
+								</div>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="toggleEvent()">Current Event</a>
+					</div>
+					<div id="event-table" class="panel-body">
+						<div class="row" id="event-table-detail">
+							
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-sm-5 col-md-5" style="float: right" id="test3">
+			<div class="col-sm-6 col-md-6" style="float: right" id="test3">
 				<div id="dvMap" style="height: 400px"></div>
 
 			</div>
@@ -447,6 +477,28 @@
 		$("#test1").hide();
 		$("#test2").hide();
 		$("#test0").hide();
+	</script>
+	<script type="text/javascript">
+		function addMarker(lat, longi, address, activityName, startTime,
+				numberLimitFrom, numberLimitTo) {
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi),
+				icon : pinImage
+			});
+		}
+		function clearEventMarker() {
+			for (var i = 0; i < marker.length; i++) {
+				marker[i].setMap(null);
+			}
+			marker = [];
+		}
+		function togglePreference() {
+			$("#preference-table").toggle("slow");
+		}
+		function toggleEvent() {
+			$("#event-table").toggle("slow");
+		}
 	</script>
 </body>
 </html>
