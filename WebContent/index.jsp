@@ -119,15 +119,15 @@ function addPref(){
 			"plantform":"haha",
 			"preference":{
 					"user_id":uid,
-					"preference_name":"asdfssd",
-					"location_id":"address".hashCode(),
-					"distance_to_tolerance":112.23,
-					"start_time":123123123,
-					"end_time":12312323212,
-					"key_word":"abc",
-					"activity_name":"name",
-					"number_limit_from":2,
-					"number_limit_to":3
+					"preference_name":document.getElementById("preference_name").value,
+					"location_id":document.getElementById("address").value.hashCode(),
+					"distance_to_tolerance":document.getElementById("distance_to_tolerance").value,
+					"start_time":document.getElementById("start_time").value,
+					"end_time":document.getElementById("end_time").value,
+					"key_word":document.getElementById("key_word").value,
+					"activity_name":document.getElementById("activity_name").value,
+					"number_limit_from":document.getElementById("number_limit_from").value,
+					"number_limit_to":document.getElementById("number_limit_to").value
 				}
 	};
 	$.ajax({
@@ -137,29 +137,31 @@ function addPref(){
 	    data: JSON.stringify({ 
 	    	"plantform":"haha",
 	    		"location":{
-	    			"location_id": "address".hashCode(),
-	    			"address": "address",
-	    			"longitude":12,
-	    			"latitude":12
+	    			"location_id": document.getElementById("address").value.hashCode(),
+	    			"address": document.getElementById("address").value,
+	    			"longitude":document.getElementById("longitude").value,
+	    			"latitude":document.getElementById("latitude").value
 	    		}
 	    }),    
 	    processData: false,
 	    ContentType: 'application/json',
 	    dataType: 'json',
 	    success: function(result) {
-	    	$.ajax({
-	    	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
-	    	    type: 'POST',
-	    	    dataType: "json",
-	    	    data: JSON.stringify(array),    
-	    	    processData: false,
-	    	    ContentType: 'application/json',
-	    	    dataType: 'json',
-	    	    success: function(result) {
+	    	if(result.result){
+	    		$.ajax({
+	    		    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	   		 	    type: 'POST',
+	  	  	    	dataType: "json",
+	  	  	    	data: JSON.stringify(array),    
+	    	    	processData: false,
+	    	    	ContentType: 'application/json',
+	    	    	dataType: 'json',
+	    	    	success: function(result) {
 	    	       		alert("GOOGOGOGOGOOGGO!!");
-	    	    },
+	    	    	},
 	    	    error: AjaxFailed
 	    	});
+	    	}
 	    },
 	    error: AjaxFailed
 	});
@@ -233,6 +235,19 @@ function addPref(){
 					   		</div>
 					   		<div class="col-sm-6 col-md-6 col-lg-6">
 					   			<button type="button" class="btn btn-primary btn-block">Sign up</button>
+					   		</div>
+					   		<div>
+					   		<input id="preference name"></input><label>preference name</label>
+					   		<input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
+					   		<input id="start_time"></input><label>start_time</label>
+					   		<input id="end_time"></input><label>end_time</label>
+					   		<input id="key_word"></input><label>key_word</label>
+					   		<input id="activity_name"></input><label>activity_name</label>
+					   		<input id="number_limit_from"></input><label>number_limit_from</label>
+					   		<input id="number_limit_to"></input><label>number_limit_to</label>
+					   		<input id="address"></input><label>address</label>
+					   		<input id="longitude"></input><label>longitude</label>
+					   		<input id="latitude"></input><label>latitude</label>				   		
 					   		</div>
 						 </div>
 					 </div>
