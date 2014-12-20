@@ -325,10 +325,10 @@
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="#" onclick="$( '#test1' ).toggle('slow')">New Preference</a></li>
+					<li><a href="#" onclick="$( '#test1' ).toggle('slow');$( '#test2' ).toggle('slow')">New Preference</a></li>
 				</ul>
 				<ul class="nav nav-sidebar" id="preflist">
-					<li><a href="#">Reports</a></li>
+					<li><a href="#" onclick="$( '#test2' ).toggle('slow');$( '#test2' ).toggle('slow')">Reports</a></li>
 					<li><a href="#">Analytics</a></li>
 					<li><a href="#">Export</a></li>
 				</ul>
