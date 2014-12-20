@@ -64,6 +64,8 @@ function AjaxSucceeded(result) {
 		document.getElementById("password").parentElement.removeChild(document.getElementById("password"));
 	}
 	else{
+		document.getElementById('undiv').className += ' has-error';
+		document.getElementById('pwdiv').className += ' has-error';
 		document.getElementById("signin").disabled=false;
 	}
 }
@@ -105,6 +107,8 @@ function signupSucceeded(result) {
 		document.getElementById("password").parentElement.removeChild(document.getElementById("password"));
 	}
 	else{
+		document.getElementById('undiv').className += ' has-error';
+			document.getElementById('pwdiv').className += ' has-error';
 		document.getElementById("signup").disabled=false;
 	}
 }
@@ -115,7 +119,7 @@ function addPref(){
 			"plantform":"haha",
 			"preference":{
 					"user_id":uid,
-					"preference_name":1,
+					"preference_name":"asdfssd",
 					"location_id":"address".hashCode(),
 					"distance_to_tolerance":112.23,
 					"start_time":123123123,
@@ -201,10 +205,10 @@ function addPref(){
         </li>
       </ul>
       	<div class="navbar-form navbar-right">
-      	<div class="form-group">
+      	<div class="form-group" id="undiv">
           <input type="text" class="form-control"  id="username">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="pwdiv">
           <input type="password" class="form-control"  id="password">
         </div>
         	<div class="form-group">
@@ -236,9 +240,12 @@ function addPref(){
 		 	</div>
 		</div>
 	</div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+	
+	
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    
+    
   </body>
 </html>
