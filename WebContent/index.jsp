@@ -321,19 +321,53 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
-
-
-	<div class="col-sm-3 col-md-2 sidebar">
-		<ul class="nav nav-sidebar">
-			<li><a href="#" onclick="alert(1)">New Preference</a></li>
-		</ul>
-		<ul class="nav nav-sidebar" id="preflist">
-			<li><a href="#">Reports</a></li>
-			<li><a href="#">Analytics</a></li>
-			<li><a href="#">Export</a></li>
-		</ul>
+	<div>
+		<div class="row">
+			<div class="col-sm-2 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="#" onclick="alert(1)">New Preference</a></li>
+				</ul>
+				<ul class="nav nav-sidebar" id="preflist">
+					<li><a href="#">Reports</a></li>
+					<li><a href="#">Analytics</a></li>
+					<li><a href="#">Export</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-4 col-md-4">
+				<div class="jumbotron">
+						<h1 class="text-center" id="welcome">Welcome!</h1>
+						<div class="container">
+							<div class="row" id="divt">
+								<div class="col-sm-6 col-md-6 col-lg-6">
+									<button type="button" class="btn btn-primary btn-block"
+										id="addPref" onclick="addPref()">AddPref</button>
+								</div>
+								<div class="col-sm-6 col-md-6 col-lg-6">
+									<button type="button" class="btn btn-primary btn-block">Sign
+										up</button>
+								</div>
+								<div>
+									<input id="preference name"></input><label>preference
+										name</label> <input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
+									<input id="start_time"></input><label>start_time</label> <input
+										id="end_time"></input><label>end_time</label> <input
+										id="key_word"></input><label>key_word</label> <input
+										id="activity_name"></input><label>activity_name</label> <input
+										id="number_limit_from"></input><label>number_limit_from</label>
+									<input id="number_limit_to"></input><label>number_limit_to</label>
+									<input id="address"></input><label>address</label> <input
+										id="longitude"></input><label>longitude</label> <input
+										id="latitude"></input><label>latitude</label>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="col-sm-5 col-md-5">
+				<div id="dvMap" style="height: 400px"></div>
+			</div>
+		</div>
 	</div>
-
 
 
 	<div class="container">
@@ -361,8 +395,8 @@
 									id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="address"></input><label>address</label> <input
-									id="longitude"></input><label>longitude</label> <input
-									id="latitude"></input><label>latitude</label>
+									id="xCoordinate"></input><label>longitude</label> <input
+									id="yCoordinate"></input><label>latitude</label>
 							</div>
 						</div>
 					</div>
@@ -404,8 +438,7 @@
 					</tr>
 					<tr>
 						<td style="width: 33%"></td>
-						<td style="width: 33%"><div id="dvMap"
-								style="width: 800px; height: 400px"></div></td>
+						<td style="width: 33%"></td>
 						<td style="width: 33%"></td>
 					</tr>
 					<tr>
