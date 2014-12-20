@@ -345,7 +345,7 @@ function addPref(){
 			<tr>
 			<td><b>Y coordinate:</b></td><td><input id="yCoordinate" type="text" name="yCoordinate"></td>
 		</tr>
-	</table>
+</table>
 	</td>    
 	<td>
 		<table width="50%" border="1" cellpadding="8" cellspacing="3">
@@ -373,7 +373,6 @@ function addPref(){
 	</td>
 	</tr>
 </table>
-	
 	
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
