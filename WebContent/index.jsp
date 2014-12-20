@@ -111,9 +111,8 @@ function signupSucceeded(result) {
 
 function addPref(){
 	uid=document.getElementById("addPref").value;
-	document.getElementById("signup").disabled=true;
 	var array={
-			"platform":"haha",
+			"plantform":"haha",
 			"preference":[
 				{
 					"user_id":uid,
@@ -142,14 +141,17 @@ function addPref(){
 			]
 	};
 	$.ajax({
-	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
+	    url: 'http://localhost:8080/CloudFinal/InsertLocation',
 	    type: 'POST',
 	    dataType: "json",
 	    data: JSON.stringify({ 
-	    	"location_id": document.getElementById("sb").value,
-	    	"address": "address",
-	    	"longitude":12,
-	    	"latitude":12
+	    	"plantform":"haha",
+	    		"location":{
+	    			"location_id": "address".hashCode(),
+	    			"address": "address",
+	    			"longitude":12,
+	    			"latitude":12
+	    		}
 	    }),    
 	    processData: false,
 	    ContentType: 'application/json',
@@ -159,17 +161,12 @@ function addPref(){
 	    	    url: 'http://localhost:8080/CloudFinal/InsertPreference',
 	    	    type: 'POST',
 	    	    dataType: "json",
-	    	    data: JSON.stringify({ 
-	    	    	"location_id": document.getElementById("sb").value,
-	    	    	"address": "address",
-	    	    	"longitude":12,
-	    	    	"latitude":12
-	    	    }),    
+	    	    data: JSON.stringify(array),    
 	    	    processData: false,
 	    	    ContentType: 'application/json',
 	    	    dataType: 'json',
 	    	    success: function(result) {
-	    	        
+	    	       		alert("GOOGOGOGOGOOGGO!!");
 	    	    },
 	    	    error: AjaxFailed
 	    	});
