@@ -24,6 +24,8 @@
 
 <script>
 	var uid;
+	var prefs;
+	
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
 		if (this.length == 0)
@@ -57,7 +59,7 @@
 
 	function AjaxSucceeded(result) {
 		if (result.result) {
-			document.getElementById("welcome").innerHTML = "Success!";
+			document.getElementById("welcome").innerHTML = "EventList";
 			var a = document.getElementById("signin");
 			document.getElementById("signin").parentElement
 					.removeChild(document.getElementById("signin"));
@@ -72,6 +74,8 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#logout").show(100);
+			getAndCreateAllPreference();
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -119,6 +123,8 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#logout").show(100);
+			getAndCreateAllPreference();
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -131,22 +137,23 @@
 		element.
 
 		uid = document.getElementById("addPref").value;
+		var selectop=document.getElementById("activity_name");
 		var array = {
 			"plantform" : "haha",
 			"preference" : {
 				"user_id" : uid,
-				"preference_name" : document.getElementById("preference_name").value,
-				"location_id" : document.getElementById("address").value
+				"preference_name" : (new Date()).getTime()+":"+document.getElementById("preference_name").value,
+				"location_id" : document.getElementById("maddress").value
 						.hashCode(),
-				"distance_to_tolerance" : document
-						.getElementById("distance_to_tolerance").value,
-				"start_time" : document.getElementById("start_time").value,
-				"end_time" : document.getElementById("end_time").value,
-				"key_word" : document.getElementById("key_word").value,
-				"activity_name" : document.getElementById("activity_name").value,
-				"number_limit_from" : document
-						.getElementById("number_limit_from").value,
-				"number_limit_to" : document.getElementById("number_limit_to").value
+				"distance_to_tolerance" : parseFloat(document
+						.getElementById("distance_to_tolerance").value),
+				"start_time" : parseInt(Date.parse(document.getElementById("start_time").value)),
+				"end_time" : parseInt(Date.parse(document.getElementById("end_time").value)),
+				"key_word" : "Hello",
+				"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
+				"number_limit_from" : parseInt(document
+						.getElementById("number_limit_from").value),
+				"number_limit_to" : parseInt(document.getElementById("number_limit_to").value)
 			}
 		};
 		$
@@ -159,14 +166,14 @@
 								"plantform" : "haha",
 								"location" : {
 									"location_id" : document
-											.getElementById("address").value
+											.getElementById("maddress").value
 											.hashCode(),
 									"address" : document
-											.getElementById("address").value,
-									"longitude" : document
-											.getElementById("longitude").value,
-									"latitude" : document
-											.getElementById("latitude").value
+											.getElementById("maddress").value,
+									"longitude" : parseFloat(document
+											.getElementById("xCoordinate").value),
+									"latitude" : parseFloat(document
+											.getElementById("yCoordinate").value)
 								}
 							}),
 					processData : false,
@@ -184,7 +191,7 @@
 										ContentType : 'application/json',
 										dataType : 'json',
 										success : function(result) {
-											alert("GOOGOGOGOGOOGGO!!");
+											getAndCreateAllPreference();
 										},
 										error : AjaxFailed
 									});
@@ -193,6 +200,55 @@
 					error : AjaxFailed
 				});
 	}
+	
+	
+	function getAndCreateAllPreference(){
+		var myNode = document.getElementById("motherlist");
+		while (myNode.firstChild) {
+		    myNode.removeChild(myNode.firstChild);
+		}
+		
+		$.ajax({
+			url : 'http://localhost:8080/CloudFinal/LookUpPreference',
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				plantform : "aads",
+				userid : uid
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				prefs=result.preference;
+				for (var ke in prefs){
+					createSublist(prefs[ke].preference_name);
+				}
+			},
+			error : AjaxFailed
+		});
+	}
+	
+	function createSublist(prefname){
+		var elementa = document.createElement("li");
+		var elementb = document.createElement("a");
+		elementb.onclick=function (){
+			$("#test2").show(400);
+			$("#test1").hide(200);
+		};
+		var n = prefname.indexOf(":");
+		elementb.innerHTML=prefname.substring(n+1);
+		elementa.appendChild(elementb);
+		document.getElementById('motherlist').appendChild(elementa);
+	}
+	
+	function addPreference(){
+		$("#test1").show(400);
+		$("#test2").hide(200);
+	}
+	
+	
+	
 </script>
 <script type="text/javascript"
 	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -296,23 +352,6 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-				<li><a href="#">Link</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-expanded="false">Dropdown
-						<span class="caret"></span>
-				</a>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul></li>
-			</ul>
 			<div class="navbar-form navbar-right">
 				<div class="form-group" id="undiv">
 					<input type="text" class="form-control" id="username"
@@ -328,6 +367,11 @@
 				<div class="form-group">
 					<button class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
 				</div>
+				<div class="form-group" id="logout">
+					<button class="btn btn-default">
+						<a href="">Log out</a>
+					</button>
+				</div>
 			</div>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -338,14 +382,10 @@
 			<div class="col-sm-2 col-md-2 sidebar" id="test0">
 				<ul class="nav nav-sidebar">
 					<li><a href="#"
-						onclick="$( '#test1' ).show(600);$( '#test2' ).hide(400)">New
+						onclick="addPreference()">New
 							Preference</a></li>
 				</ul>
-				<ul class="nav nav-sidebar" id="preflist">
-					<li><a href="#"
-						onclick="$( '#test1' ).hide(400);$( '#test2' ).show(600)">Reports</a></li>
-					<li><a href="#">Analytics</a></li>
-					<li><a href="#">Export</a></li>
+				<ul class="nav nav-sidebar" id="motherlist">
 				</ul>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test1">
@@ -353,7 +393,7 @@
 					<div class="container">
 						<div class="row" id="divt">
 							<div class='col-sm-12 col-md-12'>
-								<input type="text" class="form-control" id="preferencename"
+								<input type="text" class="form-control" id="preference_name"
 									placeholder="Enter Your Preference Name">
 							</div>
 							<div class='col-sm-12 col-md-12'>
@@ -364,7 +404,7 @@
 						<div class="row" id="divt">
 							<div class='col-sm-12 col-md-12'>
 								<div class='input-group date' id='datetimepicker1'>
-									<input id="end_time" type='text' class="form-control"
+									<input id="start_time" type='text' class="form-control"
 										placeholder="Start Time To" /> <span
 										class="input-group-addon"><span
 										class="glyphicon glyphicon-calendar"></span></span>
@@ -451,7 +491,6 @@
 					</div>
 					<div id="event-table" class="panel-body">
 						<div class="row" id="event-table-detail">
-							
 						</div>
 					</div>
 				</div>
@@ -477,6 +516,7 @@
 		$("#test1").hide();
 		$("#test2").hide();
 		$("#test0").hide();
+		$("#logout").hide();
 	</script>
 	<script type="text/javascript">
 		function addMarker(lat, longi, address, activityName, startTime,
@@ -498,6 +538,31 @@
 		}
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
+		}
+	</script>
+	<script type="text/javascript">
+		function addMarker(lat, longi, address, activityName, startTime,
+				numberLimitFrom, numberLimitTo) {
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi),
+				icon : pinImage
+			});
+		}
+		function clearEventMarker() {
+			for (var i = 0; i < marker.length; i++) {
+				marker[i].setMap(null);
+			}
+			marker = [];
+		}
+		function togglePreference() {
+			$("#preference-table").toggle("slow");
+		}
+		function toggleEvent() {
+			$("#event-table").toggle("slow");
+		}
+		function addEvents(location,activityName,startTime,endTime,numberLimitFrom,number){
+			
 		}
 	</script>
 </body>

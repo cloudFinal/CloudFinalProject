@@ -18,7 +18,6 @@ public class Event implements Serializable,JsonAble{
     private long startTime;
     private long endTime;
     private int numberLimit;
-    private ArrayList<String> userList = new ArrayList<String>();
     private int preferedLocation;
     private double distance;
     private int numberLimitTo;
@@ -47,9 +46,6 @@ public class Event implements Serializable,JsonAble{
         eventId=new Random().nextInt(Integer.MAX_VALUE);
     }
     public Event(){}
-    public ArrayList<String> getUserList(){
-    	return userList;
-    }
     public int getPreferedLocation(){
 		return preferedLocation;
     }
@@ -154,6 +150,9 @@ public class Event implements Serializable,JsonAble{
 		jo.put("end_time", endTime);
 		jo.put("number_limit_from", numberLimit);
 		jo.put("number_limit_to", numberLimitTo);
+		jo.put("address", address);
+		jo.put("latitude", latitude);
+		jo.put("longitude", longitude);
 		return jo;
 	}
 	public static Event fromJson(JSONObject input){

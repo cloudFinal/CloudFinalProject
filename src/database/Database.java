@@ -159,6 +159,36 @@ public class Database
 			return null;
 		}
 	}
+	public ArrayList<Profile> getUsersInEvent(int eventId){
+		ArrayList<Profile> result = new ArrayList<Profile>();
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select users.user_id,name,date_of_birth,nationality,gender,location_id,image,online from users,participates_in where event_id="+eventId+" and users.user_id=participates_in.user_id");
+			while(rset.next()){
+				Profile p=new Profile();
+				p.setAll(rset.getString(1),null,rset.getString(2),rset.getLong(3),rset.getString(4),rset.getString(5),rset.getInt(6),rset.getString(7),rset.getString(8));
+				result.add(p);
+			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+		return result;
+	}
+	public boolean isParticipateIn(String userId, int eventId){
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select * from participates_in where user_id='"+userId+"' and event_id="+eventId);
+			if(rset.next()){
+				return false;
+			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public Preference getPreference(String userId,String preferenceName){
 		try{
 			stmt=conn.createStatement();
