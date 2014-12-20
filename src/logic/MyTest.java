@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.Date;
+
 import beans.Location;
 import beans.Preference;
 import database.Database;
@@ -7,10 +9,13 @@ import Servlet.Center;
 
 public class MyTest {
 	public static boolean t(){
-		Database db = Center.db;
+		Date a = new Date();
+		a.setTime(Long.valueOf("1417465980000"));
+		System.out.println(a.toString());
+		/*Database db = Center.db;
 		db.register("zhangluoma", "hello");
 		db.insertLocation(newLoc("New York",10,10));
-		Preference p= new Preference();
+		Preference p= new Preference();*/
 		/*p.setAll("zhangluoma", preferenceNameIn, locationIdIn, distanceToleranceIn, startTimeIn, endTimeIn, keyWordIn, activityNameIn, numberLimitFrom, numberLimitTo);
 		db.insertPreference(preference)*/
 		return true;
