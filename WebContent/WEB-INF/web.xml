@@ -149,4 +149,14 @@
     <servlet-name>GetProfile</servlet-name>
     <url-pattern>/GetProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeletePreference</display-name>
+    <servlet-name>DeletePreference</servlet-name>
+    <servlet-class>Servlet.DeletePreference</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeletePreference</servlet-name>
+    <url-pattern>/DeletePreference</url-pattern>
+  </servlet-mapping>
 </web-app>
