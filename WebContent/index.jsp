@@ -113,20 +113,7 @@ function addPref(){
 	uid=document.getElementById("addPref").value;
 	var array={
 			"plantform":"haha",
-			"preference":[
-				{
-					"user_id":uid,
-					"preference_name":1,
-					"location_id":"address".hashCode(),
-					"distance_to_tolerance":112.23,
-					"start_time":123123123,
-					"end_time":12312323212,
-					"key_word":"abc",
-					"activity_name":"name",
-					"number_limit_from":2,
-					"number_limit_to":3
-				},
-				{
+			"preference":{
 					"user_id":uid,
 					"preference_name":1,
 					"location_id":"address".hashCode(),
@@ -138,7 +125,6 @@ function addPref(){
 					"number_limit_from":2,
 					"number_limit_to":3
 				}
-			]
 	};
 	$.ajax({
 	    url: 'http://localhost:8080/CloudFinal/InsertLocation',

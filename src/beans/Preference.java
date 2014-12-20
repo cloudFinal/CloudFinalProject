@@ -1,14 +1,11 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import org.json.JSONObject;
 
-public class Preference implements Serializable,JsonAble{
-
-    /**
-	 * 
-	 */
+public class Preference implements Serializable, JsonAble{
 	private static final long serialVersionUID = 1L;
 	/** 
      * Persistent Instance variables. This data is directly 
@@ -24,78 +21,102 @@ public class Preference implements Serializable,JsonAble{
     private String activityName;
     private int numberLimitFrom;
     private int numberLimitTo;
-    /** 
-     * Get- and Set-methods for persistent variables. The default
-     * behaviour does not make any checks against malformed data,
-     * so these might require some manual additions.
-     */
 
-    public String getUserId() {
-          return this.userId;
-    }
-    public void setUserId(String userIdIn) {
-          this.userId = userIdIn;
-    }
-    public int getLocationId() {
-          return this.locationId;
-    }
-    public void setLocationId(int locationIdIn) {
-          this.locationId = locationIdIn;
-    }
+	/**
+	 * Get- and Set-methods for persistent variables. The default behaviour does
+	 * not make any checks against malformed data, so these might require some
+	 * manual additions.
+	 */
 
-    public String getPreferenceName() {
-          return this.preferenceName;
-    }
-    public void setPreferenceName(String preferenceNameIn) {
-          this.preferenceName = preferenceNameIn;
-    }
+	public String getUserId() {
+		return this.userId;
+	}
 
-    public double getDistanceTolerance() {
-          return this.distanceTolerance;
-    }
-    public void setDistanceTolerance(double distanceToleranceIn) {
-          this.distanceTolerance = distanceToleranceIn;
-    }
+	public void setUserId(String userIdIn) {
+		this.userId = userIdIn;
+	}
 
-    public long getStartTime() {
-          return this.startTime;
-    }
-    public void setStartTime(long startTimeIn) {
-          this.startTime = startTimeIn;
-    }
+	public int getLocationId() {
+		return this.locationId;
+	}
 
-    public long getEndTime() {
-          return this.endTime;
-    }
-    public void setEndTime(long endTimeIn) {
-          this.endTime = endTimeIn;
-    }
+	public void setLocationId(int locationIdIn) {
+		this.locationId = locationIdIn;
+	}
 
-    public String getKeyWord() {
-          return this.keyWord;
-    }
-    public void setKeyWord(String keyWordIn) {
-          this.keyWord = keyWordIn;
-    }
+	public String getPreferenceName() {
+		return this.preferenceName;
+	}
 
-    public String getActivityName() {
-          return this.activityName;
-    }
-    public void setActivityName(String activityNameIn) {
-          this.activityName = activityNameIn;
-    }
-    public void setNumberLimitFrom(int numberLimitFrom){
-    	this.numberLimitFrom=numberLimitFrom;
-    }
-    public void setNumberLimitTo(int numberLimitTo){
-    	this.numberLimitTo=numberLimitTo;
-    }
-    public int getNumberLimitFrom(){
-    	return numberLimitFrom;
-    }
-    public int getNumberLimitTo(){
-    	return numberLimitTo;
-    }
+	public void setPreferenceName(String preferenceNameIn) {
+		this.preferenceName = preferenceNameIn;
+	}
+
+	public double getDistanceTolerance() {
+		return this.distanceTolerance;
+	}
+
+	public void setDistanceTolerance(double distanceToleranceIn) {
+		this.distanceTolerance = distanceToleranceIn;
+	}
+
+	public Calendar getStartCalendar() {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(numberLimitFrom);
+		return c;
+	}
+	public long getStartTime(){
+		return startTime;
+	}
+	public long getEndTime(){
+		return endTime;
+	}
+
+	public void setStartTime(long startTimeIn) {
+		this.startTime = startTimeIn;
+	}
+
+	public Calendar getEndCalendar() {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(numberLimitFrom);
+		return c;
+	}
+
+	public void setEndTime(long endTimeIn) {
+		this.endTime = endTimeIn;
+	}
+
+	public String getKeyWord() {
+		return this.keyWord;
+	}
+
+	public void setKeyWord(String keyWordIn) {
+		this.keyWord = keyWordIn;
+	}
+
+	public String getActivityName() {
+		return this.activityName;
+	}
+
+	public void setActivityName(String activityNameIn) {
+		this.activityName = activityNameIn;
+	}
+
+	public void setNumberLimitFrom(int numberLimitFrom) {
+		this.numberLimitFrom = numberLimitFrom;
+	}
+
+	public void setNumberLimitTo(int numberLimitTo) {
+		this.numberLimitTo = numberLimitTo;
+	}
+
+	public int getNumberLimitFrom() {
+		return numberLimitFrom;
+	}
+
+	public int getNumberLimitTo() {
+		return numberLimitTo;
+	}
     /** 
      * setAll allows to set all persistent variables in one method call.
      * This is useful, when all data is available and it is needed to 
