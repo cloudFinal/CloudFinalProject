@@ -7,10 +7,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bootstrap 101 Template</title>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<link rel="stylesheet" type="text/css" media="screen"
+	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript"
+	src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -20,7 +24,6 @@
 
 <script>
 	var uid;
-
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
 		if (this.length == 0)
@@ -67,6 +70,9 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
+			$("#test0").show(1000);
+			$("#test1").show(1000);
+			$("#test3").show(1000);
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -112,6 +118,9 @@
 			var d = document.getElementById("password");
 			document.getElementById("password").parentElement
 					.removeChild(document.getElementById("password"));
+			$("#test0").show(1000);
+			$("#test1").show(1000);
+			$("#test3").show(1000);
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -303,10 +312,12 @@
 			</ul>
 			<div class="navbar-form navbar-right">
 				<div class="form-group" id="undiv">
-					<input type="text" class="form-control" id="username">
+					<input type="text" class="form-control" id="username"
+						placeholder="Username">
 				</div>
 				<div class="form-group" id="pwdiv">
-					<input type="password" class="form-control" id="password">
+					<input type="password" class="form-control" id="password"
+						placeholder="Password">
 				</div>
 				<div class="form-group">
 					<button class="btn btn-default" onclick="loadXMLDoc()" id="signin">SignIn</button>
@@ -321,12 +332,15 @@
 	<!-- /.container-fluid --> </nav>
 	<div>
 		<div class="row">
-			<div class="col-sm-2 col-md-2 sidebar">
+			<div class="col-sm-2 col-md-2 sidebar" id="test0">
 				<ul class="nav nav-sidebar">
-					<li><a href="#" onclick="$( '#test1' ).toggle('slow');$( '#test2' ).toggle('slow')">New Preference</a></li>
+					<li><a href="#"
+						onclick="$( '#test1' ).show(600);$( '#test2' ).hide(400)">New
+							Preference</a></li>
 				</ul>
 				<ul class="nav nav-sidebar" id="preflist">
-					<li><a href="#" onclick="$( '#test2' ).toggle('slow');$( '#test2' ).toggle('slow')">Reports</a></li>
+					<li><a href="#"
+						onclick="$( '#test1' ).hide(400);$( '#test2' ).show(600)">Reports</a></li>
 					<li><a href="#">Analytics</a></li>
 					<li><a href="#">Export</a></li>
 				</ul>
@@ -335,14 +349,39 @@
 				<div class="jumbotron">
 					<div class="container">
 						<div class="row" id="divt">
-						<input type="text" class="form-control" id="preferencename" placeholder="preference">
-							<div>
-								<input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
-								<input id="start_time"></input><label>start_time</label> <input
-									id="end_time"></input><label>end_time</label> <input
-									id="key_word"></input><label>key_word</label> <input
-									id="activity_name"></input><label>activity_name</label> <input
-									id="number_limit_from"></input><label>number_limit_from</label>
+							<div class='col-sm-12 col-md-12'>
+								<input type="text" class="form-control" id="preferencename"
+									placeholder="Enter Your Preference Name">
+							</div>
+							<div class='col-sm-12 col-md-12'>
+								<input id="distance_to_tolerance" type="text"
+									class="form-control"
+									placeholder="I prefer within">
+							</div>
+						</div>
+						<div class="row" id="divt">
+							<div class='col-sm-12 col-md-12'>
+								<div class='input-group date' id='datetimepicker1'>
+									<input id="end_time" type='text' class="form-control"
+										placeholder="Start Time To" /> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+							</div>
+							<div class='col-sm-12 col-md-12'>
+								<div class='input-group date' id='datetimepicker2'>
+									<input id="end_time" type='text' class="form-control"
+										placeholder="Start Time To" /> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-calendar"></span> </span>
+								</div>
+							</div>
+							<div class='col-sm-6 col-md-6'>
+								Select an activity
+								<select id="activity_name" class="form-control">
+									<option value="one">Basketball</option>
+								</select>
+								<input id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="maddress"></input><label>address</label> <input
 									id="xCoordinate"></input><label>longitude</label> <input
@@ -354,20 +393,56 @@
 								<button type="button" class="btn btn-primary btn-block"
 									id="addPref" onclick="addPref()">AddPref</button>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4" id="test2">
+				<div class="jumbotron">
+					<h1 class="text-center" id="welcome">SHA!</h1>
+					<div class="container">
+						<div class="row" id="divt">
 							<div class="col-sm-6 col-md-6 col-lg-6">
-								<button type="button" class="btn btn-primary btn-block">Sign
-									up</button>
+								<button type="button" class="btn btn-primary btn-block"
+									id="addPref" onclick="addPref()">AddPref</button>
+							</div>
+							<div>
+								<input id="preference name"></input><label>preference
+									name</label> <input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
+								<input id="start_time"></input><label>start_time</label> <input
+									id="end_time"></input><label>end_time</label> <input
+									id="key_word"></input><label>key_word</label> <input
+									id="activity_name"></input><label>activity_name</label> <input
+									id="number_limit_from"></input><label>number_limit_from</label>
+								<input id="number_limit_to"></input><label>number_limit_to</label>
+								<input id="address"></input><label>address</label> <input
+									id="longitude"></input><label>longitude</label> <input
+									id="latitude"></input><label>latitude</label>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-5 col-md-5" style="float:right">
+			<div class="col-sm-5 col-md-5" style="float: right" id="test3">
 				<div id="dvMap" style="height: 400px"></div>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#datetimepicker1').datetimepicker();
+		});
+		$(function() {
+			$('#datetimepicker2').datetimepicker();
+		});
+	</script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$("#test1").hide();
+		$("#test2").hide();
+		$("#test3").hide();
+		$("#test0").hide();
+	</script>
 </body>
 </html>

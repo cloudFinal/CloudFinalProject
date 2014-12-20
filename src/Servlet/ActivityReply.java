@@ -35,7 +35,6 @@ public class ActivityReply extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		JSONObject input = Parse.getJson(request);
 		ArrayList<Activity> result = Center.db.findActivityList();
 		JSONObject jo = new JSONObject();
 		JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("activity",result));

@@ -469,4 +469,15 @@ public class Database
 			return false;
 		}
 	}
+	public boolean deletePreference(String user_id,String preferenceName){
+		try {
+			stmt=conn.createStatement();
+			stmt.execute("delete from prefer_at where user_id='"+user_id+"' and preference_name='"+preferenceName+"'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

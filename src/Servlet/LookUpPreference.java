@@ -39,6 +39,9 @@ public class LookUpPreference extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String userId = "";
+		ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
+		JsonProcess.sendJson(response,JsonArrayForWeb.createJsonArray("preference",result));
 	}
 
 	/**
@@ -47,7 +50,7 @@ public class LookUpPreference extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		JSONObject input = Parse.getJson(request);
-		String userId = input.getString("user_id");
+		String userId = input.getString("userid");
 		ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
 		if(Parse.plantForm(input)==null){
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Preference>(result).getObject());
