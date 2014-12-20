@@ -168,7 +168,77 @@ function addPref(){
 
 
 </script>
-    
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+    var marker=[];
+    var marker2=[];
+    var infowindow=[];
+    var infowindow2=[];
+    var mapline=[];
+	var address;
+	var x;
+	var y;
+	//var addressRes;
+	var geocoder = new google.maps.Geocoder();
+	function geocodePosition(pos) {
+	  geocoder.geocode({
+		latLng: pos
+	  }, function(responses) {
+		if (responses && responses.length > 0) {
+		  address = responses[0].formatted_address;
+		  document.getElementById('maddress').value =address;
+		  updateMarkerAddress(responses[0].formatted_address);
+		} else {
+		  updateMarkerAddress('Cannot determine address at this location.');
+		}
+	  });
+	}
+	
+	// write current address to screen
+	function updateMarkerAddress(str) {
+	document.getElementById('address').innerHTML = str;
+	}	
+	// write current location to screen
+	function updateMarkerPosition(latLng) {
+	  document.getElementById('info').innerHTML = [
+		latLng.lat(),
+		latLng.lng()
+	  ].join(', ');
+	  document.getElementById('xCoordinate').value =x;
+	  document.getElementById('yCoordinate').value =y;
+	}
+        window.onload = function () {
+            var mapOptions = {
+                center: new google.maps.LatLng(40.786341754739205, -73.97232055664062),
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+			
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var pinColor = "0000ff";
+            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+            	    new google.maps.Size(21, 34),
+            	    new google.maps.Point(0,0),
+            	    new google.maps.Point(10, 34));
+			// mouse click event
+			google.maps.event.addListener(map, 'click', function (e) {
+				var latLng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+				x=e.latLng.lng();
+				y=e.latLng.lat();
+				marker2[1]=null;
+				marker2[1] = new google.maps.Marker({
+					map: map,
+					position: new google.maps.LatLng(y,x),
+					icon: pinImage
+		      	});
+				//marker = new google.maps.Marker({position: event.latLng, map: map});
+				geocodePosition(latLng);
+				updateMarkerPosition(latLng);
+            });
+        }	
+    </script>
     
     
   </head>
@@ -240,7 +310,52 @@ function addPref(){
 		 	</div>
 		</div>
 	</div>
-
+<table  width="100%" border="0" cellpadding="8" cellspacing="3">
+	<col width="800">
+  	<col width="800">
+	<tr>
+		<td style="vertical-align: top;">
+		<table width="50%" border="0" cellpadding="8" cellspacing="3">
+			<tr>
+			<td><h3>LocationList</h3></td>
+			</tr>
+			<tr>
+			<td><b>Address:</b></td><td><input id="maddress" type="text" name="address"></td>
+			</tr>
+			<tr>
+			<td><b>X coordinate:</b></td><td><input id="xCoordinate" type="text" name="xCoordinate"></td>
+			</tr>
+			<tr>
+			<td><b>Y coordinate:</b></td><td><input id="yCoordinate" type="text" name="yCoordinate"></td>
+		</tr>
+	</table>
+	</td>    
+	<td>
+		<table width="50%" border="1" cellpadding="8" cellspacing="3">
+			<tr>
+			<td style="width:33%"></td>
+			<td style="width:33%"><p><b>GOOGLE MAP LOCATION SERVICE </b></p></td>
+			<td style="width:33%"></td>
+			</tr>
+			<tr>
+			<td style="width:33%"></td>
+			<td style="width:33%"><div id="dvMap"  style="width: 800px; height: 400px"></div></td>
+			<td style="width:33%"></td>
+			</tr>
+			<tr>
+			<td style="width:33%"><b>Current Address:</b></td>
+			<td style="width:33%"><div id="address"></div></td>
+			<td style="width:33%"></td>
+			</tr>
+			<tr>
+			<td style="width:33%"><b>Current position:</b></td>
+			<td style="width:33%"> <div id="info"></div></td>
+			<td style="width:33%"></td>
+			</tr>
+			</table>
+	</td>
+	</tr>
+</table>
 	
 	
     <!-- Include all compiled plugins (below), or include individual files as needed -->
