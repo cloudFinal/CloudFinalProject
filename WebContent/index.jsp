@@ -173,7 +173,7 @@ function addPref(){
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
     var marker=[];
-    var marker2=[];
+    var tmpMarker;
     var infowindow=[];
     var infowindow2=[];
     var mapline=[];
@@ -229,8 +229,10 @@ function addPref(){
 				var latLng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
 				x=e.latLng.lng();
 				y=e.latLng.lat();
-				marker2[1]=null;
-				marker2[1] = new google.maps.Marker({
+				if(tmpMarker!=null){
+					tmpMarker.setMap(null);
+				}
+				tmpMarker = new google.maps.Marker({
 					map: map,
 					position: new google.maps.LatLng(y,x),
 					icon: pinImage
