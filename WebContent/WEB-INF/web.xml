@@ -159,4 +159,24 @@
     <servlet-name>DeletePreference</servlet-name>
     <url-pattern>/DeletePreference</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LookUpUsersInEvent</display-name>
+    <servlet-name>LookUpUsersInEvent</servlet-name>
+    <servlet-class>Servlet.LookUpUsersInEvent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LookUpUsersInEvent</servlet-name>
+    <url-pattern>/LookUpUsersInEvent</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>IsParticipatesIn</display-name>
+    <servlet-name>IsParticipatesIn</servlet-name>
+    <servlet-class>Servlet.IsParticipatesIn</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IsParticipatesIn</servlet-name>
+    <url-pattern>/IsParticipatesIn</url-pattern>
+  </servlet-mapping>
 </web-app>

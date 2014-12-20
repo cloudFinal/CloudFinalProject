@@ -47,6 +47,7 @@ public class JoinEvent extends HttpServlet {
 		int eventId = input.getInt("eventid");
 		Event event = Center.db.getEvent(eventId);
 		Preference preference = Center.db.getPreference(userId, preferenceName);
+		//System.out.println("the result"+preference==null);
 		boolean result=false;
 		if(event==null){
 			event = new Event();

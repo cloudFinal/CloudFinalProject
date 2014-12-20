@@ -176,6 +176,9 @@ public class Preference implements Serializable, JsonAble{
 		jo.put("activity_name", activityName);
 		jo.put("number_limit_from", numberLimitFrom);
 		jo.put("number_limit_to", numberLimitTo);
+		jo.put("address", address);
+		jo.put("latitude", latitude);
+		jo.put("longitude", longitude);
 		return jo;
 	}
 	public static Preference fromJson(JSONObject input){

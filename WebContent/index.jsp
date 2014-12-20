@@ -444,7 +444,6 @@
 				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test2">
-
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a href="#" onclick="togglePreference()">Preference Detail</a>
@@ -543,6 +542,31 @@
 		}
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
+		}
+	</script>
+	<script type="text/javascript">
+		function addMarker(lat, longi, address, activityName, startTime,
+				numberLimitFrom, numberLimitTo) {
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi),
+				icon : pinImage
+			});
+		}
+		function clearEventMarker() {
+			for (var i = 0; i < marker.length; i++) {
+				marker[i].setMap(null);
+			}
+			marker = [];
+		}
+		function togglePreference() {
+			$("#preference-table").toggle("slow");
+		}
+		function toggleEvent() {
+			$("#event-table").toggle("slow");
+		}
+		function addEvents(location,activityName,startTime,endTime,numberLimitFrom,number){
+			
 		}
 	</script>
 </body>
