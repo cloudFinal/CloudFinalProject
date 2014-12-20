@@ -21,17 +21,30 @@ public class Preference implements Serializable, JsonAble{
     private String activityName;
     private int numberLimitFrom;
     private int numberLimitTo;
-
+    private String address;
+    private float latitude;
+    private float longitude;
 	/**
 	 * Get- and Set-methods for persistent variables. The default behaviour does
 	 * not make any checks against malformed data, so these might require some
 	 * manual additions.
 	 */
+    public String getAddress() {
+		return address;
+	}
+	
+	public float getLatitude() {
+		return latitude;
+	}
 
+	public float getLongitude() {
+		return longitude;
+	}
+	
 	public String getUserId() {
 		return this.userId;
 	}
-
+	
 	public void setUserId(String userIdIn) {
 		this.userId = userIdIn;
 	}
@@ -145,6 +158,11 @@ public class Preference implements Serializable, JsonAble{
           this.activityName = activityNameIn;
           this.numberLimitFrom=numberLimitFrom;
           this.numberLimitTo=numberLimitTo;
+    }
+    public void setLocation(Location l){
+    	this.address=l.getAddress();
+    	this.latitude=l.getY();
+    	this.longitude=l.getX();
     }
 	public JSONObject toJson(){
 		JSONObject jo = new JSONObject();

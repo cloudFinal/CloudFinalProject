@@ -51,6 +51,7 @@ public class JoinEvent extends HttpServlet {
 		if(event==null){
 			event = new Event();
 			event.setAll(eventId, preference.getLocationId(), preference.getActivityName(), preference.getStartTime(), preference.getEndTime(), preference.getNumberLimitFrom(), preference.getNumberLimitTo());
+			event.setLocation(Center.db.getLocation(event.getEventId()));
 			result=(Center.db.insertEvent(event) && Center.db.insertParticipatesIn(preference, event));
 		}else{
 			result = Center.db.joinEvent(preference, event);

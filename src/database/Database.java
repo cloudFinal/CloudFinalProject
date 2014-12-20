@@ -149,6 +149,7 @@ public class Database
 			if(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1), rset.getInt(2), rset.getString(3), rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
+				e.setLocation(Center.db.getLocation(e.getHeldIn()));
 				return e;
 			}else{
 				return null;
@@ -165,6 +166,7 @@ public class Database
 			if(rset.next()){
 				Preference p=new Preference();
 				p.setAll(rset.getString(1),rset.getString(2),rset.getInt(3),rset.getDouble(4),rset.getLong(5),rset.getLong(6),rset.getString(7),rset.getString(8),rset.getInt(9),rset.getInt(10));
+				p.setLocation(Center.db.getLocation(p.getLocationId()));
 				return p;
 			}else{
 				return null;
@@ -181,6 +183,7 @@ public class Database
 			if(rset.next()){
 				Preference p=new Preference();
 				p.setAll(rset.getString(1),rset.getString(2),rset.getInt(3),rset.getDouble(4),rset.getLong(5),rset.getLong(6),rset.getString(7),rset.getString(8),rset.getInt(9),rset.getInt(10));
+				p.setLocation(Center.db.getLocation(p.getLocationId()));
 				return p;
 			}else{
 				return null;
@@ -198,6 +201,7 @@ public class Database
 			while(rset.next()){
 				Preference p=new Preference();
 				p.setAll(rset.getString(1),rset.getString(2),rset.getInt(3),rset.getDouble(4),rset.getLong(5),rset.getLong(6),rset.getString(7),rset.getString(8),rset.getInt(9),rset.getInt(10));
+				p.setLocation(Center.db.getLocation(p.getLocationId()));
 				preferenceList.add(p);
 			}
 		}catch (SQLException e) {
@@ -236,6 +240,7 @@ public class Database
 			while(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
+				e.setLocation(Center.db.getLocation(e.getHeldIn()));
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
@@ -247,11 +252,11 @@ public class Database
 			}
 			if(waitingList.size()==0){
 				Event event = new Event(preference.getLocationId(),preference.getActivityName(),preference.getStartTime(),preference.getEndTime(),preference.getNumberLimitFrom(),preference.getNumberLimitTo());
+				event.setLocation(Center.db.getLocation(event.getHeldIn()));
 				waitingList.add(event);
 			}
 			for(Event e:waitingList){
 				Location l= Center.db.getLocation(e.getHeldIn());
-				e.setLocation(l.getAddress(), l.getY(), l.getY());
 			}
 			return waitingList;
 		}catch (SQLException e) {
@@ -280,6 +285,7 @@ public class Database
 			while(rset.next()){
 				Preference p=new Preference();
 				p.setAll(rset.getString(1),rset.getString(2),rset.getInt(3),rset.getDouble(4),rset.getLong(5),rset.getLong(6),rset.getString(7),rset.getString(8),rset.getInt(9),rset.getInt(10));
+				p.setLocation(Center.db.getLocation(p.getLocationId()));
 				ps.add(p);
 			}
 			return ps;

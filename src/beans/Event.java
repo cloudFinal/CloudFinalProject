@@ -108,10 +108,10 @@ public class Event implements Serializable,JsonAble{
     public void setNumberLimitTo(int numberLimitToIn) {
         this.numberLimitTo = numberLimitToIn;
     }
-    public void setLocation(String address,float lat, float longi){
-    	this.address=address;
-    	this.latitude=lat;
-    	this.longitude=longi;
+    public void setLocation(Location l){
+    	this.address=l.getAddress();
+    	this.latitude=l.getY();
+    	this.longitude=l.getX();
     }
     public String getAddress(){
     	return address;
