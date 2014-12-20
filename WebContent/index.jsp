@@ -223,8 +223,6 @@
 	}
 	// write current location to screen
 	function updateMarkerPosition(latLng) {
-		document.getElementById('info').innerHTML = [ latLng.lat(),
-				latLng.lng() ].join(', ');
 		document.getElementById('xCoordinate').value = x;
 		document.getElementById('yCoordinate').value = y;
 	}
@@ -335,7 +333,7 @@
 			</div>
 			<div class="col-sm-4 col-md-4">
 				<div class="jumbotron">
-						<h1 class="text-center" id="welcome">Welcome!</h1>
+						<h3 class="text-center" id="welcome">Add Preference</h3>
 						<div class="container">
 							<div class="row" id="divt">
 								<div class="col-sm-6 col-md-6 col-lg-6">
@@ -355,116 +353,19 @@
 										id="activity_name"></input><label>activity_name</label> <input
 										id="number_limit_from"></input><label>number_limit_from</label>
 									<input id="number_limit_to"></input><label>number_limit_to</label>
-									<input id="address"></input><label>address</label> <input
-										id="longitude"></input><label>longitude</label> <input
-										id="latitude"></input><label>latitude</label>
+									<input id="maddress"></input><label>address</label> <input
+										id="xCoordinate"></input><label>longitude</label> <input
+										id="yCoordinate"></input><label>latitude</label>
 								</div>
 							</div>
 						</div>
 				</div>
 			</div>
-			<div class="col-sm-5 col-md-5">
+			<div class="col-sm-6 col-md-6">
 				<div id="dvMap" style="height: 400px"></div>
 			</div>
 		</div>
 	</div>
-
-
-	<div class="container">
-		<div class="row">
-			<div class="middle">
-				<div class="jumbotron">
-					<h1 class="text-center" id="welcome">Welcome!</h1>
-					<div class="container">
-						<div class="row" id="divt">
-							<div class="col-sm-6 col-md-6 col-lg-6">
-								<button type="button" class="btn btn-primary btn-block"
-									id="addPref" onclick="addPref()">AddPref</button>
-							</div>
-							<div class="col-sm-6 col-md-6 col-lg-6">
-								<button type="button" class="btn btn-primary btn-block">Sign
-									up</button>
-							</div>
-							<div>
-								<input id="preference name"></input><label>preference
-									name</label> <input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
-								<input id="start_time"></input><label>start_time</label> <input
-									id="end_time"></input><label>end_time</label> <input
-									id="key_word"></input><label>key_word</label> <input
-									id="activity_name"></input><label>activity_name</label> <input
-									id="number_limit_from"></input><label>number_limit_from</label>
-								<input id="number_limit_to"></input><label>number_limit_to</label>
-								<input id="address"></input><label>address</label> <input
-									id="xCoordinate"></input><label>longitude</label> <input
-									id="yCoordinate"></input><label>latitude</label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<table width="100%" border="0" cellpadding="8" cellspacing="3">
-		<col width="800">
-		<col width="800">
-		<tr>
-			<td style="vertical-align: top;">
-				<table width="50%" border="0" cellpadding="8" cellspacing="3">
-					<tr>
-						<td><h3>LocationList</h3></td>
-					</tr>
-					<tr>
-						<td><b>Address:</b></td>
-						<td><input id="maddress" type="text" name="address"></td>
-					</tr>
-					<tr>
-						<td><b>X coordinate:</b></td>
-						<td><input id="xCoordinate" type="text" name="xCoordinate"></td>
-					</tr>
-					<tr>
-						<td><b>Y coordinate:</b></td>
-						<td><input id="yCoordinate" type="text" name="yCoordinate"></td>
-					</tr>
-				</table>
-			</td>
-			<td>
-				<table width="50%" border="1" cellpadding="8" cellspacing="3">
-					<tr>
-						<td style="width: 33%"></td>
-						<td style="width: 33%"><p>
-								<b>GOOGLE MAP LOCATION SERVICE </b>
-							</p></td>
-						<td style="width: 33%"></td>
-					</tr>
-					<tr>
-						<td style="width: 33%"></td>
-						<td style="width: 33%"></td>
-						<td style="width: 33%"></td>
-					</tr>
-					<tr>
-						<td style="width: 33%"><b>Current Address:</b></td>
-						<td style="width: 33%"><div id="address"></div></td>
-						<td style="width: 33%"></td>
-					</tr>
-					<tr>
-						<td style="width: 33%"><b>Current position:</b></td>
-						<td style="width: 33%">
-							<div id="info"></div>
-						</td>
-						<td style="width: 33%"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-<p id="toggle">
-    <span> Left </span>
-    <span> Right </span>
-</p>
-
-<div id="left"> LEFT CONTENT </div>
-<div id="right"> RIGHT CONTENT </div>
-
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
 
