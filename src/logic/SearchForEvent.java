@@ -51,6 +51,10 @@ public class SearchForEvent {
 				return Center.db.getLocation(op.getLocationId());
 			}
 		}
+		double dis = Center.db.getLocation(tested.getLocationId()).distance(Center.db.getLocation(targetEvent.getHeldIn()));
+		if(dis<=tested.getDistanceTolerance()){
+			return Center.db.getLocation(targetEvent.getHeldIn());
+		}
 		return null;
 	}
 }

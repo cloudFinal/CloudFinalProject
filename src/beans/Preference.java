@@ -6,7 +6,11 @@ import org.json.JSONObject;
 
 public class Preference implements Serializable,JsonAble{
 
-    /** 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** 
      * Persistent Instance variables. This data is directly 
      * mapped to the columns of database table.
      */

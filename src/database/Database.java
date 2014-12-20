@@ -441,30 +441,30 @@ public class Database
 				break;
 			}
 		}
-		if(locationId!=null){
-			if(deleteParticipatesIn(userId,eventId)){
-				long startTime=Long.MIN_VALUE;
-				long endTime=Long.MAX_VALUE;
-				int numberLimitFrom=Integer.MIN_VALUE;
-				int numberLimitTo=Integer.MAX_VALUE;
-				for(Preference p:list){
-					if(p.getStartTime()>startTime){startTime=p.getStartTime();}
-					if(p.getEndTime()<endTime){endTime=p.getEndTime();}
-					if(p.getNumberLimitFrom()>numberLimitFrom){numberLimitFrom=p.getNumberLimitFrom();}
-					if(p.getNumberLimitTo()<numberLimitTo){numberLimitTo=p.getNumberLimitTo();}
-				}
-				try {
-					stmt=conn.createStatement();
+		if(deleteParticipatesIn(userId,eventId)){
+			long startTime=Long.MIN_VALUE;
+			long endTime=Long.MAX_VALUE;
+			int numberLimitFrom=Integer.MIN_VALUE;
+			int numberLimitTo=Integer.MAX_VALUE;
+			for(Preference p:list){
+				if(p.getStartTime()>startTime){startTime=p.getStartTime();}
+				if(p.getEndTime()<endTime){endTime=p.getEndTime();}
+				if(p.getNumberLimitFrom()>numberLimitFrom){numberLimitFrom=p.getNumberLimitFrom();}
+				if(p.getNumberLimitTo()<numberLimitTo){numberLimitTo=p.getNumberLimitTo();}
+			}
+			try {
+				stmt=conn.createStatement();
+				if(locationId!=null){
 					stmt.execute("update event set held_in="+locationId+", start_time="+startTime+", end_time="+endTime+", number_limit_from="+numberLimitFrom+", number_limit_to="+numberLimitTo+" where event_id="+eventId);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					return false;
+				}else{
+					stmt.execute("update event set start_time="+startTime+", end_time="+endTime+", number_limit_from="+numberLimitFrom+", number_limit_to="+numberLimitTo+" where event_id="+eventId);
 				}
-				return true;
-			}else{
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				return false;
 			}
+			return true;
 		}else{
 			return false;
 		}
