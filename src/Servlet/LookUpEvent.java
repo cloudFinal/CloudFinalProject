@@ -64,9 +64,9 @@ public class LookUpEvent extends HttpServlet {
 			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
 		}else{
-			preference = Preference.fromJson(input);
+			preference = Preference.fromJson(input.getJSONObject("preference"));
 			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
-			JsonArrayForWeb.createJsonArray(result);
+			JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("event",result));
 		}
 	}
 }

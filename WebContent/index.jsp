@@ -219,7 +219,7 @@ function addPref(){
           <input type="text" class="form-control"  id="username">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control"  id="password">
+          <input type="password" class="form-control"  id="password">
         </div>
         	<div class="form-group">
         		<button  class="btn btn-default" onclick="loadXMLDoc()" id="signin">SignIn</button>

@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import parse.JsonArrayForWeb;
 import parse.JsonArrayListGenerator;
 import parse.JsonProcess;
 import parse.Parse;
@@ -46,11 +48,11 @@ public class LookUpPreference extends HttpServlet {
 		// TODO Auto-generated method stub
 		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("user_id");
+		ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
 		if(Parse.plantForm(input)==null){
-			ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Preference>(result).getObject());
 		}else{
-			
+			JsonProcess.sendJson(response,JsonArrayForWeb.createJsonArray("preference",result));
 		}
 	}
 

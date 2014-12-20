@@ -60,7 +60,7 @@ public class Location implements Serializable,JsonAble{
 	}
 	public static Location fromJson(JSONObject input){
 		Location result = new Location();
-		result.setAll(input.getInt("location_id"), input.getString("address"),(float)input.getDouble("x"),(float)input.getDouble("y"));
+		result.setAll(input.getInt("location_id"), input.getString("address"),(float)input.getDouble("longitude"),(float)input.getDouble("latitude"));
 		return result;
 	}
 }

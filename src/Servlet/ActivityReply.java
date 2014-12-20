@@ -38,8 +38,7 @@ public class ActivityReply extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		ArrayList<Activity> result = Center.db.findActivityList();
 		JSONObject jo = new JSONObject();
-		jo.put("activity", JsonArrayForWeb.createJsonArray(result));
-		JsonProcess.sendJson(response, jo);
+		JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("activity",result));
 	}
 
 	/**
@@ -52,9 +51,7 @@ public class ActivityReply extends HttpServlet {
 		if(Parse.plantForm(input)==null){
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Activity>(result).getObject());
 		}else{
-			JSONObject jo = new JSONObject();
-			jo.put("activity", JsonArrayForWeb.createJsonArray(result));
-			JsonProcess.sendJson(response, jo);
+			JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("activity",result));
 		}
 	}
 
