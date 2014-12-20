@@ -52,6 +52,11 @@ public class LookUpPreference extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("userid");
 		ArrayList<Preference> result = Center.db.getPreferenceFromUserId(userId);
+		System.out.println("-------");
+		for(Preference p :result){
+			System.out.println(p.getPreferenceName());
+			System.out.println(p.getAddress());
+		}
 		if(Parse.plantForm(input)==null){
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Preference>(result).getObject());
 		}else{
