@@ -323,61 +323,51 @@
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="#" onclick="alert(1)">New Preference</a></li>
+					<li><a href="#" onclick="$( '#test1' ).toggle('slow');$( '#test2' ).toggle('slow')">New Preference</a></li>
 				</ul>
 				<ul class="nav nav-sidebar" id="preflist">
-					<li><a href="#">Reports</a></li>
+					<li><a href="#" onclick="$( '#test2' ).toggle('slow');$( '#test2' ).toggle('slow')">Reports</a></li>
 					<li><a href="#">Analytics</a></li>
 					<li><a href="#">Export</a></li>
 				</ul>
 			</div>
-			<div class="col-sm-4 col-md-4">
+			<div class="col-sm-5 col-md-5" id="test1">
 				<div class="jumbotron">
-						<h3 class="text-center" id="welcome">Add Preference</h3>
-						<div class="container">
-							<div class="row" id="divt">
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									<button type="button" class="btn btn-primary btn-block"
-										id="addPref" onclick="addPref()">AddPref</button>
-								</div>
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									<button type="button" class="btn btn-primary btn-block">Sign
-										up</button>
-								</div>
-								<div>
-									<input id="preference name"></input><label>preference
-										name</label> <input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
-									<input id="start_time"></input><label>start_time</label> <input
-										id="end_time"></input><label>end_time</label> <input
-										id="key_word"></input><label>key_word</label> <input
-										id="activity_name"></input><label>activity_name</label> <input
-										id="number_limit_from"></input><label>number_limit_from</label>
-									<input id="number_limit_to"></input><label>number_limit_to</label>
-									<input id="maddress"></input><label>address</label> <input
-										id="xCoordinate"></input><label>longitude</label> <input
-										id="yCoordinate"></input><label>latitude</label>
-								</div>
+					<div class="container">
+						<div class="row" id="divt">
+						<input type="text" class="form-control" id="preferencename" placeholder="preference">
+							<div>
+								<input id="distance_to_tolerance"></input><label>distance_to_tolerance</label>
+								<input id="start_time"></input><label>start_time</label> <input
+									id="end_time"></input><label>end_time</label> <input
+									id="key_word"></input><label>key_word</label> <input
+									id="activity_name"></input><label>activity_name</label> <input
+									id="number_limit_from"></input><label>number_limit_from</label>
+								<input id="number_limit_to"></input><label>number_limit_to</label>
+								<input id="maddress"></input><label>address</label> <input
+									id="xCoordinate"></input><label>longitude</label> <input
+									id="yCoordinate"></input><label>latitude</label>
 							</div>
 						</div>
+						<div class="row" id="divt">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<button type="button" class="btn btn-primary btn-block"
+									id="addPref" onclick="addPref()">AddPref</button>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<button type="button" class="btn btn-primary btn-block">Sign
+									up</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-6">
+			<div class="col-sm-5 col-md-5" style="float:right">
 				<div id="dvMap" style="height: 400px"></div>
 			</div>
 		</div>
 	</div>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
-
- <script>
-        $(function() {        
-        	$('#toggle > span').click(function() {
-        	    var ix = $(this).index();
-
-        	    $('#left').toggle( ix === 0 );
-        	    $('#right').toggle( ix === 1 );
-        	});   
-        });
-    </script>
 </body>
 </html>
