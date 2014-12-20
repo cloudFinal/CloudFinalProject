@@ -1,10 +1,11 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import org.json.JSONObject;
 
-public class Preference {
+public class Preference implements Serializable, JsonAble{
 
 	/**
 	 * Persistent Instance variables. This data is directly mapped to the
