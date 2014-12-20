@@ -221,20 +221,25 @@
 			dataType : 'json',
 			success : function(result) {
 				prefs=result.preference;
+				var iindexforpresu=0;
 				for (var ke in prefs){
-					createSublist(prefs[ke].preference_name);
+					createSublist(prefs[ke].preference_name,iindexforpresu);
+					indexforpresu=indexforpresu+1;
 				}
 			},
 			error : AjaxFailed
 		});
 	}
 	
-	function createSublist(prefname){
+	function createSublist(prefname,indexi){
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
-		elementb.onclick=function (){
+		elementb.onclick=function (indexi){
 			$("#test2").show(400);
 			$("#test1").hide(200);
+			$("#event-table").hide();
+			$("#preference-table").show(600);
+			
 		};
 		var n = prefname.indexOf(":");
 		elementb.innerHTML=prefname.substring(n+1);
@@ -247,7 +252,7 @@
 		$("#test2").hide(200);
 	}
 	
-	
+		
 	
 </script>
 <script type="text/javascript"
@@ -461,18 +466,18 @@
 								</tr>
 								<tr>
 									<td>Start Time</td>
-									<td>1</td>
+									<td id="set_starttime">1</td>
 								</tr>
 								<tr>
 									<td>End Time</td>
-									<td>1</td>
+									<td id="set_endtime">1</td>
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
-									<td>1</td>
+									<td id="set_numberlimitfrom">1</td>
 								</tr>
 								<td>Number Limit To</td>
-								<td>1</td>
+								<td id="set_numberlimitto">1</td>
 								</tr>
 								<div class="form-group">
 									<button class="btn btn-default" onclick="addMarker(0,0)"
@@ -520,8 +525,7 @@
 		$("#logout").hide();
 	</script>
 	<script type="text/javascript">
-		function addMarker(lat, longi, address, activityName, startTime,
-				numberLimitFrom, numberLimitTo) {
+		function addMarker(lat, longi) {
 			marker[marker.length] = new google.maps.Marker({
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
