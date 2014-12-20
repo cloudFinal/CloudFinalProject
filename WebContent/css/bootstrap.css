@@ -6351,4 +6351,16 @@ button.close {
     display: none !important;
   }
 }
+.container2 {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.container3 {
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
 /*# sourceMappingURL=bootstrap.css.map */
