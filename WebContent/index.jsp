@@ -108,7 +108,6 @@
 
 	function signupSucceeded(result) {
 		if (result.result) {
-			document.getElementById("welcome").innerHTML = "Success!";
 			var a = document.getElementById("signin");
 			document.getElementById("signin").parentElement
 					.removeChild(document.getElementById("signin"));
