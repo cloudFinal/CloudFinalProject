@@ -23,6 +23,7 @@
     <![endif]-->
 
 <script>
+   var basicurl="http://cloudfinal.elasticbeanstalk.com/";
 	var uid;
 	var prefs;
 	var currentPreference;
@@ -43,7 +44,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signin").disabled = true;
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/Login',
+			url : basicurl+"Login",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -92,7 +93,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signup").disabled = true;
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/Register',
+			url : basicurl+"Register",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -162,7 +163,7 @@
 		};
 		$
 				.ajax({
-					url : 'http://localhost:8080/CloudFinal/InsertLocation',
+					url : basicurl+"InsertLocation",
 					type : 'POST',
 					dataType : "json",
 					data : JSON
@@ -187,7 +188,7 @@
 						if (result.result) {
 							$
 									.ajax({
-										url : 'http://localhost:8080/CloudFinal/InsertPreference',
+										url : basicurl+"InsertPreference",
 										type : 'POST',
 										dataType : "json",
 										data : JSON.stringify(array),
@@ -212,7 +213,7 @@
 		}
 
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/LookUpPreference',
+			url : basicurl+"LookUpPreference",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -263,7 +264,7 @@
 			}
 
 			$.ajax({
-				url : 'http://localhost:8080/CloudFinal/LookUpEvent',
+				url : basicurl+"LookUpEvent",
 				type : 'POST',
 				dataType : "json",
 				data : JSON.stringify({
@@ -305,7 +306,7 @@
 	//delete preference
 	function deletePreference() {
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/DeletePreference',
+			url : basicurl+"DeletePreference",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -317,18 +318,20 @@
 			ContentType : 'application/json',
 			dataType : 'json',
 			success : function(result) {
-				var events = result.event;
-				for ( var ke in events) {
-					if (result.result) {
-						getAndCreateAllPreference();
-						$("#test2").hide(200);
-						$("#test1").show(400);
-					} else {
-
-					}
+				if (result.result) {
+					getAndCreateAllPreference();
+					$("#test2").hide(200);
+					$("#test1").show(400);
+					document.getElementById('maddress').value = "";
+					document.getElementById('xCoordinate').value = "";
+					document.getElementById('yCoordinate').value = "";
+				} else {
+					alert("Sorry guys, but you should leave the event before you delete this preference.");
 				}
 			},
-			error : AjaxFailed
+			error : function(){
+				alert("Sorry guys, an error happens.");
+			}
 		});
 
 	}
@@ -511,7 +514,7 @@
 							<div class='col-sm-6 col-md-6'>
 								Select an activity <select id="activity_name"
 									class="form-control">
-									<option value="one">Basketball</option>
+									<option value="one">basketball</option>
 								</select> <input id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="maddress"></input><label>address</label> <input
@@ -590,8 +593,8 @@
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
 								<div class="col-sm-4 col-md-12">
-									<input type="file" id="uploadFile">
-									<img src="/bootstrap/images/download.png" class="img-thumbnail">
+									<input type="file" id="uploadFile"> <img
+										src="/bootstrap/images/download.png" class="img-thumbnail">
 									<button onclick="loadImageFile()">upload</button>
 								</div>
 							</div>
@@ -677,42 +680,71 @@
 		</div>*/
 		function addEvents(location, activityName, startTime, numberLimitFrom,
 				numberLimitTo, currentNumber, eventid, is_enrolled) {
-			var bt = createB("join", "button");
+			var bt;
+			if(currentNumber==0){
+				bt = createB("Create", "button");
+			}else
+				{
+				bt = createB("Join", "button");
+				}
 			bt.setAttribute("class", "btn btn-primary");
 			bt.setAttribute("id", "btn btn-primary");
-			bt.id = "1" + eventid;
-			bt.onclick = function() {
+			bt.id = "1_" + eventid;
 
+			var bt2 = createB("leave", "button");
+			bt2.setAttribute("class", "btn btn-primary");
+			bt2.id = "2_" + eventid;
+
+			bt.onclick = function(e) {
+				document.getElementById("1_"
+						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
 				$
 						.ajax({
-							url : 'http://localhost:8080/CloudFinal/JoinEvent',
+							url : basicurl+"JoinEvent",
 							type : 'POST',
 							dataType : "json",
-							data : JSON.stringify({
-								plantform : "aads",
-								userid : uid,
-								eventid : eventid
-							}),
+							data : JSON
+									.stringify({
+										plantform : "aads",
+										userid : uid,
+										eventid : eventid,
+										preferencename : prefs[currentPreference].preference_name
+									}),
 							processData : false,
 							ContentType : 'application/json',
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									document.getElementById("1" + eventid).disabled = false;
-									document.getElementById("2" + eventid).disabled = true;
+									var total = document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML;
+									var first = total.substring(0, total
+											.indexOf("/"));
+									var second = total.substring(total
+											.indexOf("/") + 1);
+									document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML=(parseInt(first)+1)+"/"+second;
+									document.getElementById("2_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).disabled = false;
 								}
 							},
-							error : AjaxFailed
+							error : function() {
+								document.getElementById("1_"
+										+ e.target.id.substring(e.target.id
+												.indexOf("_") + 1)).disabled = false;
+							}
 						});
 
 			};
 
-			var bt2 = createB("leave", "button");
-			bt2.setAttribute("class", "btn btn-primary");
-			bt2.inclick = function() {
+			bt2.onclick = function(e) {
+				document.getElementById("2_"
+						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
 				$
 						.ajax({
-							url : 'http://localhost:8080/CloudFinal/Leave',
+							url : basicurl+"Leave",
 							type : 'POST',
 							dataType : "json",
 							data : JSON.stringify({
@@ -725,15 +757,30 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									document.getElementById("1" + eventid).disabled = true;
-									document.getElementById("2" + eventid).disabled = false;
+									var total = document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML;
+									var first = total.substring(0, total
+											.indexOf("/"));
+									var second = total.substring(total
+											.indexOf("/") + 1);
+									document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_")+1)).innerHTML=(parseInt(first)-1)+"/"+second;
+									document.getElementById("1_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).disabled = false;
+
 								}
 							},
-							error : AjaxFailed
+							error : function() {
+								document.getElementById("2_"
+										+ e.target.id.substring(e.target.id
+												.indexOf("_") + 1)).disabled = false;
+							}
 						});
 
 			}
-			bt2.id = "2" + eventid;
 
 			var d1 = createElement("div");
 			d1.setAttribute("class", "caption");
@@ -741,7 +788,10 @@
 			d1.appendChild(createP("activityName: " + activityName, "p"));
 			d1.appendChild(createP("startTime: " + startTime, "p"));
 			d1.appendChild(createP("Limit:", "p"));
-			d1.appendChild(createP(currentNumber + "/" + numberLimitTo, "p"));
+			var currentonline = createP(currentNumber + "/" + numberLimitTo,
+					"p")
+			currentonline.id = "3_" + eventid;
+			d1.appendChild(currentonline);
 			d1.appendChild(bt);
 			d1.appendChild(bt2);
 			var image = createElement("img");
@@ -756,11 +806,11 @@
 			var outer = document.getElementById("event-table-detail");
 			outer.appendChild(d3);
 			if (is_enrolled) {
-				document.getElementById("1" + eventid).disabled = true;
-				document.getElementById("2" + eventid).disabled = false;
+				document.getElementById("1_" + eventid).disabled = true;
+				document.getElementById("2_" + eventid).disabled = false;
 			} else {
-				document.getElementById("1" + eventid).disabled = false;
-				document.getElementById("2" + eventid).disabled = true;
+				document.getElementById("1_" + eventid).disabled = false;
+				document.getElementById("2_" + eventid).disabled = true;
 			}
 		}
 		function createP(str, type) {
@@ -813,25 +863,21 @@
 			var e = document.getElementById(elementId);
 			e.className = "";
 		}
-		function loadImageFile()
-		{
-		    var filesSelected = document.getElementById("inputFileToLoad").files;
-		    if (filesSelected.length > 0)
-		    {
-		        var fileToLoad = filesSelected[0];
+		function loadImageFile() {
+			var filesSelected = document.getElementById("inputFileToLoad").files;
+			if (filesSelected.length > 0) {
+				var fileToLoad = filesSelected[0];
 
-		        if (fileToLoad.type.match("image.*"))
-		        {
-		            var fileReader = new FileReader();
-		            fileReader.onload = function(fileLoadedEvent) 
-		            {
-		                var imageLoaded = document.createElement("img");
-		                imageLoaded.src = fileLoadedEvent.target.result;
-		                document.body.appendChild(imageLoaded);
-		            };
-		            fileReader.readAsDataURL(fileToLoad);
-		        }
-		    }
+				if (fileToLoad.type.match("image.*")) {
+					var fileReader = new FileReader();
+					fileReader.onload = function(fileLoadedEvent) {
+						var imageLoaded = document.createElement("img");
+						imageLoaded.src = fileLoadedEvent.target.result;
+						document.body.appendChild(imageLoaded);
+					};
+					fileReader.readAsDataURL(fileToLoad);
+				}
+			}
 		}
 	</script>
 </body>

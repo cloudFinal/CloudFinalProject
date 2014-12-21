@@ -50,7 +50,7 @@ public class DeletePreference extends HttpServlet {
 		// TODO Auto-generated method stub
 		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("user_id");
-		String preferenceName = input.getString("preferen_name");
+		String preferenceName = input.getString("preference_name");
 		boolean result = Center.db.deletePreference(userId,preferenceName);
 		JSONObject output = new JSONObject();
 		output.put("result", result);
