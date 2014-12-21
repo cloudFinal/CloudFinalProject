@@ -12,7 +12,9 @@
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/semantic.css" rel="stylesheet">
 <script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/semantic.js"></script>
 <script type="text/javascript"
 	src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -23,7 +25,7 @@
     <![endif]-->
 
 <script>
-   var basicurl="http://localhost:8080/CloudFinal/";
+	var basicurl = "http://localhost:8080/CloudFinal/";
 	var uid;
 	var prefs;
 	var currentPreference;
@@ -44,7 +46,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signin").disabled = true;
 		$.ajax({
-			url : basicurl+"Login",
+			url : basicurl + "Login",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -93,7 +95,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signup").disabled = true;
 		$.ajax({
-			url : basicurl+"Register",
+			url : basicurl + "Register",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -161,49 +163,44 @@
 						.getElementById("number_limit_to").value)
 			}
 		};
-		$
-				.ajax({
-					url : basicurl+"InsertLocation",
-					type : 'POST',
-					dataType : "json",
-					data : JSON
-							.stringify({
-								"plantform" : "haha",
-								"location" : {
-									"location_id" : document
-											.getElementById("maddress").value
-											.hashCode(),
-									"address" : document
-											.getElementById("maddress").value,
-									"longitude" : parseFloat(document
-											.getElementById("xCoordinate").value),
-									"latitude" : parseFloat(document
-											.getElementById("yCoordinate").value)
-								}
-							}),
-					processData : false,
-					ContentType : 'application/json',
-					dataType : 'json',
-					success : function(result) {
-						if (result.result) {
-							$
-									.ajax({
-										url : basicurl+"InsertPreference",
-										type : 'POST',
-										dataType : "json",
-										data : JSON.stringify(array),
-										processData : false,
-										ContentType : 'application/json',
-										dataType : 'json',
-										success : function(result) {
-											getAndCreateAllPreference();
-										},
-										error : AjaxFailed
-									});
-						}
-					},
-					error : AjaxFailed
-				});
+		$.ajax({
+			url : basicurl + "InsertLocation",
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				"plantform" : "haha",
+				"location" : {
+					"location_id" : document.getElementById("maddress").value
+							.hashCode(),
+					"address" : document.getElementById("maddress").value,
+					"longitude" : parseFloat(document
+							.getElementById("xCoordinate").value),
+					"latitude" : parseFloat(document
+							.getElementById("yCoordinate").value)
+				}
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				if (result.result) {
+					$.ajax({
+						url : basicurl + "InsertPreference",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify(array),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							getAndCreateAllPreference();
+						},
+						error : AjaxFailed
+					});
+				}
+			},
+			error : AjaxFailed
+		});
 	}
 	//get and create all preference
 	function getAndCreateAllPreference() {
@@ -213,7 +210,7 @@
 		}
 
 		$.ajax({
-			url : basicurl+"LookUpPreference",
+			url : basicurl + "LookUpPreference",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -264,7 +261,7 @@
 			}
 
 			$.ajax({
-				url : basicurl+"LookUpEvent",
+				url : basicurl + "LookUpEvent",
 				type : 'POST',
 				dataType : "json",
 				data : JSON.stringify({
@@ -305,34 +302,36 @@
 	}
 	//delete preference
 	function deletePreference() {
-		$.ajax({
-			url : basicurl+"DeletePreference",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
-				plantform : "aads",
-				user_id : uid,
-				preference_name : prefs[currentPreference].preference_name
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : function(result) {
-				if (result.result) {
-					getAndCreateAllPreference();
-					$("#test2").hide(200);
-					$("#test1").show(400);
-					document.getElementById('maddress').value = "";
-					document.getElementById('xCoordinate').value = "";
-					document.getElementById('yCoordinate').value = "";
-				} else {
-					alert("Sorry guys, but you should leave the event before you delete this preference.");
-				}
-			},
-			error : function(){
-				alert("Sorry guys, an error happens.");
-			}
-		});
+		$
+				.ajax({
+					url : basicurl + "DeletePreference",
+					type : 'POST',
+					dataType : "json",
+					data : JSON
+							.stringify({
+								plantform : "aads",
+								user_id : uid,
+								preference_name : prefs[currentPreference].preference_name
+							}),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						if (result.result) {
+							getAndCreateAllPreference();
+							$("#test2").hide(200);
+							$("#test1").show(400);
+							document.getElementById('maddress').value = "";
+							document.getElementById('xCoordinate').value = "";
+							document.getElementById('yCoordinate').value = "";
+						} else {
+							alert("Sorry guys, but you should leave the event before you delete this preference.");
+						}
+					},
+					error : function() {
+						alert("Sorry guys, an error happens.");
+					}
+				});
 
 	}
 </script>
@@ -576,8 +575,10 @@
 					<div class="panel-heading">
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
-					<div id="event-table" class="panel-body">
-						<div class="row" id="event-table-detail"></div>
+					<div id="event_loading">
+						<div id="event-table" class="panel-body">
+							<div class="row" id="event-table-detail"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -681,12 +682,11 @@
 		function addEvents(location, activityName, startTime, numberLimitFrom,
 				numberLimitTo, currentNumber, eventid, is_enrolled) {
 			var bt;
-			if(currentNumber==0){
+			if (currentNumber == 0) {
 				bt = createB("Create", "button");
-			}else
-				{
+			} else {
 				bt = createB("Join", "button");
-				}
+			}
 			bt.setAttribute("class", "btn btn-primary");
 			bt.setAttribute("id", "btn btn-primary");
 			bt.id = "1_" + eventid;
@@ -696,11 +696,10 @@
 			bt2.id = "2_" + eventid;
 
 			bt.onclick = function(e) {
-				document.getElementById("1_"
-						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				document.getElementById("event_loading").className = "ui loading segment";
 				$
 						.ajax({
-							url : basicurl+"JoinEvent",
+							url : basicurl + "JoinEvent",
 							type : 'POST',
 							dataType : "json",
 							data : JSON
@@ -715,55 +714,60 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var myNode = document.getElementById("event-table-detail");
+									var myNode = document
+											.getElementById("event-table-detail");
 									while (myNode.firstChild) {
 										myNode.removeChild(myNode.firstChild);
 									}
-									$("#event-table").hide(200);
-									$.ajax({
-										url : basicurl+"LookUpEvent",
-										type : 'POST',
-										dataType : "json",
-										data : JSON.stringify({
-											plantform : "aads",
-											userid : uid,
-											preferencename : prefs[currentPreference].preference_name
-										}),
-										processData : false,
-										ContentType : 'application/json',
-										dataType : 'json',
-										success : function(result) {
-											var events = result.event;
-											for ( var ke in events) {
-												addEvents(events[ke].address, events[ke].activity_name,
-														(new Date(events[ke].start_time))
-																.toDateString(),
-														events[ke].number_limit_from,
-														events[ke].number_limit_to,
-														events[ke].number_of, events[ke].event_id,
-														events[ke].is_enrolled);
-											}
-										},
-										error : AjaxFailed
-									});
-									$("#event-table").show(500);
+									$
+											.ajax({
+												url : basicurl + "LookUpEvent",
+												type : 'POST',
+												dataType : "json",
+												data : JSON
+														.stringify({
+															plantform : "aads",
+															userid : uid,
+															preferencename : prefs[currentPreference].preference_name
+														}),
+												processData : false,
+												ContentType : 'application/json',
+												dataType : 'json',
+												success : function(result) {
+													var events = result.event;
+													for ( var ke in events) {
+														addEvents(
+																events[ke].address,
+																events[ke].activity_name,
+																(new Date(
+																		events[ke].start_time))
+																		.toDateString(),
+																events[ke].number_limit_from,
+																events[ke].number_limit_to,
+																events[ke].number_of,
+																events[ke].event_id,
+																events[ke].is_enrolled);
+													}
+													document.getElementById("event_loading").className = "";
+												},
+												error :function() {
+													document.getElementById("event_loading").className = "";
+												}
+											});
 								}
 							},
 							error : function() {
-								document.getElementById("1_"
-										+ e.target.id.substring(e.target.id
-												.indexOf("_") + 1)).disabled = false;
+								document.getElementById("event_loading").className = "";
 							}
 						});
 
 			};
 
 			bt2.onclick = function(e) {
-				document.getElementById("2_"
-						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				document.getElementById("event_loading").className = "ui loading segment";
 				$
 						.ajax({
-							url : basicurl+"Leave",
+							url : basicurl + "Leave",
 							type : 'POST',
 							dataType : "json",
 							data : JSON.stringify({
@@ -776,44 +780,50 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var myNode = document.getElementById("event-table-detail");
+									var myNode = document
+											.getElementById("event-table-detail");
 									while (myNode.firstChild) {
 										myNode.removeChild(myNode.firstChild);
 									}
-									$("#event-table").hide(200);
-									$.ajax({
-										url : basicurl+"LookUpEvent",
-										type : 'POST',
-										dataType : "json",
-										data : JSON.stringify({
-											plantform : "aads",
-											userid : uid,
-											preferencename : prefs[currentPreference].preference_name
-										}),
-										processData : false,
-										ContentType : 'application/json',
-										dataType : 'json',
-										success : function(result) {
-											var events = result.event;
-											for ( var ke in events) {
-												addEvents(events[ke].address, events[ke].activity_name,
-														(new Date(events[ke].start_time))
-																.toDateString(),
-														events[ke].number_limit_from,
-														events[ke].number_limit_to,
-														events[ke].number_of, events[ke].event_id,
-														events[ke].is_enrolled);
-											}
-										},
-										error : AjaxFailed
-									});
-									$("#event-table").show(500);
+									$
+											.ajax({
+												url : basicurl + "LookUpEvent",
+												type : 'POST',
+												dataType : "json",
+												data : JSON
+														.stringify({
+															plantform : "aads",
+															userid : uid,
+															preferencename : prefs[currentPreference].preference_name
+														}),
+												processData : false,
+												ContentType : 'application/json',
+												dataType : 'json',
+												success : function(result) {
+													var events = result.event;
+													for ( var ke in events) {
+														addEvents(
+																events[ke].address,
+																events[ke].activity_name,
+																(new Date(
+																		events[ke].start_time))
+																		.toDateString(),
+																events[ke].number_limit_from,
+																events[ke].number_limit_to,
+																events[ke].number_of,
+																events[ke].event_id,
+																events[ke].is_enrolled);
+													}
+													document.getElementById("event_loading").className = "";
+												},
+												error : function(){
+													document.getElementById("event_loading").className = "";
+												}
+											});
 								}
 							},
 							error : function() {
-								document.getElementById("2_"
-										+ e.target.id.substring(e.target.id
-												.indexOf("_") + 1)).disabled = false;
+								document.getElementById("event_loading").className = "";
 							}
 						});
 
