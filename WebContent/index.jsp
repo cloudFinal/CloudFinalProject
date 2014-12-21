@@ -28,6 +28,7 @@
 <script>
 	var basicurl = "http://localhost:8080/CloudFinal/";
 	var uid;
+	var pword;
 	var prefs;
 	var currentPreference;
 
@@ -45,6 +46,7 @@
 
 	function loadXMLDoc() {
 		uid = document.getElementById("username").value;
+		pword = document.getElementById("pword").value;
 		document.getElementById("signin").disabled = true;
 		$.ajax({
 			url : basicurl + "Login",
@@ -94,6 +96,7 @@
 
 	function singup() {
 		uid = document.getElementById("username").value;
+		pword = document.getElementById("pword").value;
 		document.getElementById("signup").disabled = true;
 		$.ajax({
 			url : basicurl + "Register",
@@ -579,7 +582,7 @@
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
 					<div id="event_loading">
-						<div id="event-table" class="panel-body">
+						<div id="event-table" class="panel-body" style="height: 300px">
 							<div class="row" id="event-table-detail"></div>
 						</div>
 					</div>
@@ -642,6 +645,7 @@
 											</tr>
 										</tbody>
 									</table>
+<<<<<<< HEAD
 									<button class="btn btn-default">edit</button>
 								</div>
 							</div>
@@ -696,6 +700,10 @@
 											<span class="sr-only">Next</span>
 										</a>
 									</div>
+=======
+									<button class="btn btn-default" id="edit_profile"
+										onclick="edit_profile()">edit</button>
+>>>>>>> branch 'master' of https://github.com/cloudFinal/CloudFinalProject.git
 								</div>
 							</div>
 						</div>
@@ -1040,6 +1048,39 @@
 		function addUid() {
 			var e = document.getElementById("user_id");
 			e.value = uid;
+		}
+
+		function edit_profile() {
+			var newprofile = {
+				"plantform" : "asd",
+				"user_id" : uid,
+				"password" : pword,
+				"profile" : {
+					"user_id" : uid,
+					"name" : document.getElementById("set_username").value,
+					"date_of_birth" : document.getElementById("set_dob").value,
+					"nationality" : document.getElementById("set_nationality").value
+				}
+			};
+			$.ajax({
+				url : basicurl + "UpdateProfile",
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify(newprofile),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : function(result) {
+					if (result.result) {
+						alert("success");
+					} else {
+						alert("fail");
+					}
+
+				},
+				error : function() {
+				}
+			});
 		}
 	</script>
 </body>
