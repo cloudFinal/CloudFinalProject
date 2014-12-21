@@ -142,15 +142,14 @@ public class Database
 		}
 	}
 	//select queries
-	public Event getEvent(int eventId){
+	public Event getEvent(int eventId,String userId){
 		try{
 			stmt=conn.createStatement();
 			ResultSet rset = stmt.executeQuery("select * from event where event_id="+eventId);
 			if(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1), rset.getInt(2), rset.getString(3), rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
-				e.setLocation(Center.db.getLocation(e.getHeldIn()));
-				e.setNumberOf(Center.db.numberInEvent(e));
+				renewEvent(e,userId);
 				return e;
 			}else{
 				return null;
@@ -271,8 +270,7 @@ public class Database
 			while(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
-				e.setLocation(Center.db.getLocation(e.getHeldIn()));
-				e.setNumberOf(Center.db.numberInEvent(e));
+				renewEvent(e,preference.getUserId());
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
@@ -462,7 +460,7 @@ public class Database
 	}
 	public boolean leaveEvent(String userId,int eventId){
 		Preference preference = Center.db.getPreference(userId, eventId);
-		Event event = Center.db.getEvent(eventId);
+		Event event = Center.db.getEvent(eventId,userId);
 		ArrayList<Preference> list = getRelatedPreference(event);
 		if(list.size()==1){
 			return(deleteParticipatesIn(userId,eventId)&&deleteEvent(eventId));
@@ -520,16 +518,15 @@ public class Database
 		}
 		return true;
 	}
-	public ArrayList<Event> getUserEvents(String user_id){
+	public ArrayList<Event> getUserEvents(String userId){
 		ArrayList<Event> events = new ArrayList<Event>();
 		try{
 			stmt=conn.createStatement();
-			ResultSet rset = stmt.executeQuery("select * from event,participates_in where event.event_id=participates_in.event_id and participates_in.user_id='"+user_id+"'");
+			ResultSet rset = stmt.executeQuery("select * from event,participates_in where event.event_id=participates_in.event_id and participates_in.user_id='"+userId+"'");
 			while(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
-				e.setLocation(Center.db.getLocation(e.getHeldIn()));
-				e.setNumberOf(Center.db.numberInEvent(e));
+				renewEvent(e,userId);
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
@@ -539,5 +536,10 @@ public class Database
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public void renewEvent(Event e, String userId){
+		e.setLocation(Center.db.getLocation(e.getHeldIn()));
+		e.setNumberOf(Center.db.numberInEvent(e));
+		e.setEnrolled(Center.db.isParticipateIn(userId, e.getEventId()));
 	}
 }

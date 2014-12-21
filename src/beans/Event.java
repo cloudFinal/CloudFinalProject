@@ -51,7 +51,6 @@ public class Event implements Serializable, JsonAble,Comparable{
 
 	public Event() {
 	}
-
 	public int getPreferedLocation() {
 		return preferedLocation;
 	}
@@ -153,7 +152,15 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public float getLongitude() {
 		return longitude;
 	}
-
+	public void setAddress(String address){
+		this.address=address;
+	}
+	public void setLatitude(float latitude){
+		this.latitude=latitude;
+	}
+	public void setLongitude(float longitude){
+		this.longitude=longitude;
+	}
 	/**
 	 * setAll allows to set all persistent variables in one method call. This is
 	 * useful, when all data is available and it is needed to set the initial
@@ -183,6 +190,10 @@ public class Event implements Serializable, JsonAble,Comparable{
 		jo.put("number_limit_from", numberLimit);
 		jo.put("number_limit_to", numberLimitTo);
 		jo.put("number_of", numberOf);
+		jo.put("is_enrolled", isEnrolled);
+		jo.put("address", address);
+		jo.put("latitude", latitude);
+		jo.put("longitude", longitude);
 		return jo;
 	}
 
@@ -210,7 +221,6 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public void setNumberOf(int numberOf) {
 		this.numberOf = numberOf;
 	}
-
 	@Override
 	public int compareTo(Object another) {
 		// TODO Auto-generated method stub

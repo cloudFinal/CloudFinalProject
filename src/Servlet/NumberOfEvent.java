@@ -40,7 +40,8 @@ public class NumberOfEvent extends HttpServlet {
 		// TODO Auto-generated method stub
 		JSONObject input = Parse.getJson(request);
 		int eventId = input.getInt("eventid");
-		int number= Center.db.numberInEvent(Center.db.getEvent(eventId));
+		String userId = input.getString("userId");
+		int number= Center.db.numberInEvent(Center.db.getEvent(eventId,userId));
 		JSONObject output = new JSONObject();
 		output.put("number", number);
 		JsonProcess.sendJson(response, output);
