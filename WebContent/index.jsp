@@ -249,7 +249,7 @@
 			document.getElementById("set_numberlimitfrom").innerHTML=prefs[indexi].number_limit_from;
 			document.getElementById("set_numberlimitto").innerHTML=prefs[indexi].number_limit_to;
 			clearEventMarker();
-			addMarker(prefs[indexi].longitude,prefs[indexi].latitude);
+			addMarker(parseFloat(prefs[indexi].latitude),parseFloat(prefs[indexi].longitude));
 			$("#test2").show(400);
 		};
 		elementb.innerHTML=prefname.substring(n+1);
@@ -565,6 +565,8 @@
 				position : new google.maps.LatLng(lat, longi),
 				icon : pinImage
 			});
+			map.setCenter( new google.maps.LatLng(lat, longi));
+			
 		}
 		function clearEventMarker() {
 			for (var i = 0; i < marker.length; i++) {
