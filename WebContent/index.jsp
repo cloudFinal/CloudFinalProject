@@ -399,9 +399,12 @@
 			id="bs-example-navbar-collapse-1">
 			<div class="navbar-form navbar-left">
 				<ul class="nav nav-tabs">
-					<li id="homePage" role="presentation" class="active"><a href="#" onclick="setHomePage()">Home</a></li>
-					<li id="profile" role="presentation"><a href="#" onclick="setProfile()">Profile</a></li>
-					<li id="message" role="presentation"><a href="#" onclick="setMessage()">Messages</a></li>
+					<li id="homePage" role="presentation" class="active"><a
+						href="#" onclick="setHomePage()">Home</a></li>
+					<li id="profile" role="presentation"><a href="#"
+						onclick="setProfile()">Profile</a></li>
+					<li id="message" role="presentation"><a href="#"
+						onclick="setMessage()">Messages</a></li>
 				</ul>
 			</div>
 
@@ -557,8 +560,8 @@
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
 								<div class="col-sm-4 col-md-12">
-									<input type="file" id="uploadFile">
-									<img src="/bootstrap/images/download.png" class="img-thumbnail">
+									<input type="file" id="uploadFile"> <img src=""
+										class="img-thumbnail">
 									<button onclick="loadImageFile()">upload</button>
 								</div>
 							</div>
@@ -620,10 +623,10 @@
 				marker[i].setMap(null);
 			}
 			marker = [];
-			if(tmpMarker!=null){
+			if (tmpMarker != null) {
 				tmpMarker.setMap(null);
 			}
-			tmpMarker=null;
+			tmpMarker = null;
 		}
 		function togglePreference() {
 			$("#preference-table").toggle("slow");
@@ -686,7 +689,7 @@
 			var result = document.createElement(type);
 			return result;
 		}
-		function setHomePage(){
+		function setHomePage() {
 			setActive("homePage");
 			clearActive("profile");
 			clearActive("message");
@@ -696,7 +699,7 @@
 			$("#test3").show(500);
 			$("#profileView").hide(500);
 		}
-		function setProfile(){
+		function setProfile() {
 			setActive("profile");
 			clearActive("homePage");
 			clearActive("message");
@@ -706,38 +709,51 @@
 			$("#test3").hide(500);
 			$("#profileView").show(500);
 		}
-		function setMessage(){
+		function setMessage() {
 			setActive("message");
 			clearActive("profile");
 			clearActive("homePage");
 		}
-		function setActive(elementId){
+		function setActive(elementId) {
 			var e = document.getElementById(elementId);
-			e.setAttribute("class","active");
+			e.setAttribute("class", "active");
 		}
-		function clearActive(elementId){
+		function clearActive(elementId) {
 			var e = document.getElementById(elementId);
-			e.className="";
+			e.className = "";
 		}
-		function loadImageFile()
-		{
-		    var filesSelected = document.getElementById("inputFileToLoad").files;
-		    if (filesSelected.length > 0)
-		    {
-		        var fileToLoad = filesSelected[0];
+		function loadImageFile() {
+			formdata = false;
+			if (window.FormData) {
+				formdata = new FormData();
+			}
+			var filesSelected = document.getElementById("uploadFile").files;
+			if (filesSelected.length > 0) {
+				var fileToLoad = filesSelected[0];
 
-		        if (fileToLoad.type.match("image.*"))
-		        {
-		            var fileReader = new FileReader();
-		            fileReader.onload = function(fileLoadedEvent) 
-		            {
-		                var imageLoaded = document.createElement("img");
-		                imageLoaded.src = fileLoadedEvent.target.result;
-		                document.body.appendChild(imageLoaded);
-		            };
-		            fileReader.readAsDataURL(fileToLoad);
-		        }
-		    }
+				if (fileToLoad.type.match("image.*")) {
+					var fileReader = new FileReader();
+					fileReader.onload = function(fileLoadedEvent) {
+						var imageLoaded = document.createElement("img");
+						imageLoaded.src = fileLoadedEvent.target.result;
+						document.body.appendChild(imageLoaded);
+					};
+					fileReader.readAsDataURL(fileToLoad);
+				}
+				if (formdata) {
+					formdata.append("images[]", file);
+					 $.ajax({
+						    url: "upload",
+						    type: "POST",
+						    data: formdata,
+						    processData: false,
+						    contentType: false,
+						    success: function (res) {
+						      document.getElementById("response").innerHTML = res; 
+						    }
+						  });
+				}
+			}
 		}
 	</script>
 </body>
