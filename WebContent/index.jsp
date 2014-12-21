@@ -23,7 +23,7 @@
     <![endif]-->
 
 <script>
-   var basicurl="http://cloudfinal.elasticbeanstalk.com/";
+   var basicurl="http://localhost:8080/CloudFinal/";
 	var uid;
 	var prefs;
 	var currentPreference;
@@ -715,19 +715,38 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var total = document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML;
-									var first = total.substring(0, total
-											.indexOf("/"));
-									var second = total.substring(total
-											.indexOf("/") + 1);
-									document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML=(parseInt(first)+1)+"/"+second;
-									document.getElementById("2_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).disabled = false;
+									var myNode = document.getElementById("event-table-detail");
+									while (myNode.firstChild) {
+										myNode.removeChild(myNode.firstChild);
+									}
+									$("#event-table").hide(200);
+									$.ajax({
+										url : basicurl+"LookUpEvent",
+										type : 'POST',
+										dataType : "json",
+										data : JSON.stringify({
+											plantform : "aads",
+											userid : uid,
+											preferencename : prefs[currentPreference].preference_name
+										}),
+										processData : false,
+										ContentType : 'application/json',
+										dataType : 'json',
+										success : function(result) {
+											var events = result.event;
+											for ( var ke in events) {
+												addEvents(events[ke].address, events[ke].activity_name,
+														(new Date(events[ke].start_time))
+																.toDateString(),
+														events[ke].number_limit_from,
+														events[ke].number_limit_to,
+														events[ke].number_of, events[ke].event_id,
+														events[ke].is_enrolled);
+											}
+										},
+										error : AjaxFailed
+									});
+									$("#event-table").show(500);
 								}
 							},
 							error : function() {
@@ -757,20 +776,38 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var total = document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML;
-									var first = total.substring(0, total
-											.indexOf("/"));
-									var second = total.substring(total
-											.indexOf("/") + 1);
-									document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_")+1)).innerHTML=(parseInt(first)-1)+"/"+second;
-									document.getElementById("1_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).disabled = false;
-
+									var myNode = document.getElementById("event-table-detail");
+									while (myNode.firstChild) {
+										myNode.removeChild(myNode.firstChild);
+									}
+									$("#event-table").hide(200);
+									$.ajax({
+										url : basicurl+"LookUpEvent",
+										type : 'POST',
+										dataType : "json",
+										data : JSON.stringify({
+											plantform : "aads",
+											userid : uid,
+											preferencename : prefs[currentPreference].preference_name
+										}),
+										processData : false,
+										ContentType : 'application/json',
+										dataType : 'json',
+										success : function(result) {
+											var events = result.event;
+											for ( var ke in events) {
+												addEvents(events[ke].address, events[ke].activity_name,
+														(new Date(events[ke].start_time))
+																.toDateString(),
+														events[ke].number_limit_from,
+														events[ke].number_limit_to,
+														events[ke].number_of, events[ke].event_id,
+														events[ke].is_enrolled);
+											}
+										},
+										error : AjaxFailed
+									});
+									$("#event-table").show(500);
 								}
 							},
 							error : function() {
