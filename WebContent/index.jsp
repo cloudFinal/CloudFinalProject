@@ -444,6 +444,8 @@
 						onclick="setProfile()">Profile</a></li>
 					<li id="message" role="presentation"><a href="#"
 						onclick="setMessage()">Messages</a></li>
+					<li id="events" role="presentation"><a href="#"
+						onclick="setEvents()">Messages</a></li>
 				</ul>
 			</div>
 
@@ -600,8 +602,8 @@
 										class="img-thumbnail">
 									<form method="post" enctype="multipart/form-data"
 										action="Center">
-										<input type="file" name="images" id="images" multiple />
-										<input type="hidden" id="user_id" name="user_id" value=""/>
+										<input type="file" name="images" id="images" multiple /> <input
+											type="hidden" id="user_id" name="user_id" value="" />
 										<button type="submit" id="btn">Upload Files!</button>
 									</form>
 									<div id="response"></div>
@@ -611,7 +613,8 @@
 										<tbody>
 											<tr>
 												<td>Account</td>
-												<td><input type="text" class="form-control" id="set_account"></td>
+												<td><input type="text" class="form-control"
+													id="set_account"></td>
 											</tr>
 											<tr>
 												<td>Password</td>
@@ -619,23 +622,80 @@
 											</tr>
 											<tr>
 												<td>User Name</td>
-												<td><input type="text" class="form-control" id="set_username"></td>
+												<td><input type="text" class="form-control"
+													id="set_username"></td>
 											</tr>
 											<tr>
 												<td>Date of Birth</td>
-												<td><input type="text" class="form-control" id="set_dob"></td>
+												<td><input type="text" class="form-control"
+													id="set_dob"></td>
 											</tr>
 											<tr>
 												<td>Nationality</td>
-												<td><input type="text" class="form-control" id="set_nationality"></td>
+												<td><input type="text" class="form-control"
+													id="set_nationality"></td>
 											</tr>
 											<tr>
 												<td>Location</td>
-												<td><input type="text" class="form-control" id="set_currentlocation"/></td>
+												<td><input type="text" class="form-control"
+													id="set_currentlocation" /></td>
 											</tr>
 										</tbody>
 									</table>
 									<button class="btn btn-default">edit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-12" id="eventsView">
+				<div class="col-sm-12 col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a href="#" onclick="toggleEvent()">Current Event</a>
+						</div>
+						<div id="event-table" class="panel-body">
+							<div class="row" id="event-table-detail">
+								<div class="col-sm-6 col-md-6">
+									<div id="carousel-example-generic" class="carousel slide"
+										data-ride="carousel">
+										<!-- Indicators -->
+										<ol class="carousel-indicators">
+											<li data-target="#carousel-example-generic" data-slide-to="0"
+												class="active"></li>
+											<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+											<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+										</ol>
+
+										<!-- Wrapper for slides -->
+										<div class="carousel-inner" role="listbox">
+											<div class="item active">
+												<img
+													src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
+													alt="...">
+												<div class="carousel-caption">...</div>
+											</div>
+											<div class="item">
+												<img src="..." alt="...">
+												<div class="carousel-caption">...</div>
+											</div>
+											...
+										</div>
+
+										<!-- Controls -->
+										<a class="left carousel-control"
+											href="#carousel-example-generic" role="button"
+											data-slide="prev"> <span
+											class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a> <a class="right carousel-control"
+											href="#carousel-example-generic" role="button"
+											data-slide="next"> <span
+											class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -789,10 +849,12 @@
 																events[ke].event_id,
 																events[ke].is_enrolled);
 													}
-													document.getElementById("event_loading").className = "";
+													document
+															.getElementById("event_loading").className = "";
 												},
-												error :function() {
-													document.getElementById("event_loading").className = "";
+												error : function() {
+													document
+															.getElementById("event_loading").className = "";
 												}
 											});
 								}
@@ -855,10 +917,12 @@
 																events[ke].event_id,
 																events[ke].is_enrolled);
 													}
-													document.getElementById("event_loading").className = "";
+													document
+															.getElementById("event_loading").className = "";
 												},
-												error : function(){
-													document.getElementById("event_loading").className = "";
+												error : function() {
+													document
+															.getElementById("event_loading").className = "";
 												}
 											});
 								}
@@ -922,29 +986,47 @@
 			setActive("homePage");
 			clearActive("profile");
 			clearActive("message");
+			clearActive("events");
 			$("#test1").show(500);
-			$("#test2").hide(500);
 			$("#test0").show(500);
 			$("#test3").show(500);
+			$("#test2").hide(500);
 			$("#profileView").hide(500);
+			$("#eventsView").show(500);
 			$("#nav").show(200);
 		}
 		function setProfile() {
 			setActive("profile");
 			clearActive("homePage");
 			clearActive("message");
+			clearActive("events");
+			$("#profileView").show(500);
 			$("#test1").hide(500);
 			$("#test2").hide(500);
 			$("#test0").hide(500);
 			$("#test3").hide(500);
-			$("#profileView").show(500);
+			$("#eventsView").hide(500);
 			$("#nav").show(200);
 			addUid();
 		}
 		function setMessage() {
 			setActive("message");
+			clearActive("events");
 			clearActive("profile");
 			clearActive("homePage");
+			$("#nav").show(200);
+		}
+		function setEvents() {
+			setActive("events");
+			clearActive("message");
+			clearActive("profile");
+			clearActive("homePage");
+			$("#test1").hide(500);
+			$("#test2").hide(500);
+			$("#test0").hide(500);
+			$("#test3").hide(500);
+			$("#profileView").hide(500);
+			$("#eventsView").show(500);
 			$("#nav").show(200);
 		}
 		function setActive(elementId) {
@@ -955,9 +1037,9 @@
 			var e = document.getElementById(elementId);
 			e.className = "";
 		}
-		function addUid(){
-			var e =document.getElementById("user_id");
-			e.value=uid;
+		function addUid() {
+			var e = document.getElementById("user_id");
+			e.value = uid;
 		}
 	</script>
 </body>
