@@ -150,6 +150,7 @@ public class Database
 				Event e=new Event();
 				e.setAll(rset.getInt(1), rset.getInt(2), rset.getString(3), rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
 				e.setLocation(Center.db.getLocation(e.getHeldIn()));
+				e.setNumberOf(Center.db.numberInEvent(e));
 				return e;
 			}else{
 				return null;
@@ -271,6 +272,7 @@ public class Database
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
 				e.setLocation(Center.db.getLocation(e.getHeldIn()));
+				e.setNumberOf(Center.db.numberInEvent(e));
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
@@ -283,6 +285,7 @@ public class Database
 			if(waitingList.size()==0){
 				Event event = new Event(preference.getLocationId(),preference.getActivityName(),preference.getStartTime(),preference.getEndTime(),preference.getNumberLimitFrom(),preference.getNumberLimitTo());
 				event.setLocation(Center.db.getLocation(event.getHeldIn()));
+				event.setNumberOf(Center.db.numberInEvent(event));
 				waitingList.add(event);
 			}
 			for(Event e:waitingList){
@@ -304,6 +307,7 @@ public class Database
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return -1;
 		}
 		return -1;
 	}
@@ -525,6 +529,7 @@ public class Database
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
 				e.setLocation(Center.db.getLocation(e.getHeldIn()));
+				e.setNumberOf(Center.db.numberInEvent(e));
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
