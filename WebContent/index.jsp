@@ -590,17 +590,20 @@
 		</div>
 	</div>*/
 		function addEvents(location, activityName, startTime,
-				numberLimitFrom, numberLimitTo) {
+				numberLimitFrom, numberLimitTo, currentNumber) {
 		    var bt = createB("join","button");
 		    bt.setAttribute("class","btn btn-primary");
+		    var bt2 = createB("leave","button");
+		    bt2.setAttribute("class","btn btn-primary");
 			var d1 = createElement("div");
 		    d1.setAttribute("class","caption");
 			d1.appendChild(createP("Location: "+location,"p"));
 			d1.appendChild(createP("activityName: "+activityName,"p"));
 			d1.appendChild(createP("startTime: "+startTime,"p"));
 			d1.appendChild(createP("Limit:","p"));
-			d1.appendChild(createP(numberLimitFrom+"~"+numberLimitTo+" people","p"));
+			d1.appendChild(createP(currentNumber+"/"+numberLimitTo,"p"));
 		    d1.appendChild(bt);
+		    d1.appendChild(bt2);
 			var image = createElement("img");
 			image.src="";
 			var d2 = createElement("div");
