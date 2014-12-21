@@ -266,7 +266,7 @@ public class Database
 		try{
 			ArrayList<Event> events = new ArrayList<Event>();
 			stmt=conn.createStatement();
-			ResultSet rset = stmt.executeQuery("select * from event where activity_name='"+preference.getActivityName()+"' and start_time<"+preference.getEndTime()+" and end_time>"+preference.getStartTime()+" and number_limit_from<="+preference.getNumberLimitTo()+" and number_limit_to>="+preference.getNumberLimitFrom());
+			ResultSet rset = stmt.executeQuery("select * from event where activity_name='"+preference.getActivityName()+"' and start_time<="+preference.getEndTime()+" and end_time>="+preference.getStartTime()+" and number_limit_from<="+preference.getNumberLimitTo()+" and number_limit_to>="+preference.getNumberLimitFrom());
 			while(rset.next()){
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
@@ -274,6 +274,8 @@ public class Database
 				events.add(e);
 				//System.out.println("!!!"+e.getActivityName());
 			}
+			System.out.println("!!!!the size is"+events.size());
+			System.out.println("select * from event where activity_name='"+preference.getActivityName()+"' and start_time<="+preference.getEndTime()+" and end_time>="+preference.getStartTime()+" and number_limit_from<="+preference.getNumberLimitTo()+" and number_limit_to>="+preference.getNumberLimitFrom());
 			for(Event event:events){
 				if(SearchForEvent.testPreferenceWithOthers(preference, event)!=null){
 					waitingList.add(event);
@@ -282,8 +284,9 @@ public class Database
 			}
 			if(waitingList.size()==0){
 				Event event = new Event(preference.getLocationId(),preference.getActivityName(),preference.getStartTime(),preference.getEndTime(),preference.getNumberLimitFrom(),preference.getNumberLimitTo());
-				event.setLocation(Center.db.getLocation(event.getHeldIn()));
-				event.setNumberOf(Center.db.numberInEvent(event));
+				renewEvent(event,preference.getUserId());
+				/*event.setLocation(Center.db.getLocation(event.getHeldIn()));
+				event.setNumberOf(Center.db.numberInEvent(event));*/
 				waitingList.add(event);
 			}
 			for(Event e:waitingList){
@@ -418,6 +421,7 @@ public class Database
 			event.setStartTime(Math.max(preference.getStartTime(),event.getStartTime()));
 			event.setNumberLimit((int)Math.max(preference.getNumberLimitFrom(),event.getNumberLimit()));
 			event.setNumberLimitTo((int)Math.min(preference.getNumberLimitTo(),event.getNumberLimitTo()));
+			renewEvent(event,preference.getUserId());
 			if(event.getStartTime()>event.getEndTime()){
 				return false;
 			}

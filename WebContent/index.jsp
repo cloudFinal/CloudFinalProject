@@ -557,7 +557,9 @@
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
 								<div class="col-sm-4 col-md-12">
+									<input type="file" id="uploadFile">
 									<img src="/bootstrap/images/download.png" class="img-thumbnail">
+									<button onclick="loadImageFile()">upload</button>
 								</div>
 							</div>
 						</div>
@@ -716,6 +718,26 @@
 		function clearActive(elementId){
 			var e = document.getElementById(elementId);
 			e.className="";
+		}
+		function loadImageFile()
+		{
+		    var filesSelected = document.getElementById("inputFileToLoad").files;
+		    if (filesSelected.length > 0)
+		    {
+		        var fileToLoad = filesSelected[0];
+
+		        if (fileToLoad.type.match("image.*"))
+		        {
+		            var fileReader = new FileReader();
+		            fileReader.onload = function(fileLoadedEvent) 
+		            {
+		                var imageLoaded = document.createElement("img");
+		                imageLoaded.src = fileLoadedEvent.target.result;
+		                document.body.appendChild(imageLoaded);
+		            };
+		            fileReader.readAsDataURL(fileToLoad);
+		        }
+		    }
 		}
 	</script>
 </body>
