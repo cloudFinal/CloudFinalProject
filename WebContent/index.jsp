@@ -13,7 +13,9 @@
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/semantic.css" rel="stylesheet">
 <script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/semantic.js"></script>
 <script type="text/javascript"
 	src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -574,8 +576,10 @@
 					<div class="panel-heading">
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
-					<div id="event-table" class="panel-body">
-						<div class="row" id="event-table-detail"></div>
+					<div id="event_loading">
+						<div id="event-table" class="panel-body">
+							<div class="row" id="event-table-detail"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -655,7 +659,6 @@
 		$("#test2").hide();
 		$("#test0").hide();
 		$("#logout").hide();
-		$("#test3").hide();
 		$("#profileView").hide();
 	</script>
 	<script type="text/javascript">
@@ -734,8 +737,7 @@
 			bt2.id = "2_" + eventid;
 
 			bt.onclick = function(e) {
-				document.getElementById("1_"
-						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				document.getElementById("event_loading").className = "ui loading segment";
 				$
 						.ajax({
 							url : basicurl + "JoinEvent",
@@ -753,34 +755,57 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var total = document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML;
-									var first = total.substring(0, total
-											.indexOf("/"));
-									var second = total.substring(total
-											.indexOf("/") + 1);
-									document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML = (parseInt(first) + 1)
-											+ "/" + second;
-									document.getElementById("2_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).disabled = false;
+									var myNode = document
+											.getElementById("event-table-detail");
+									while (myNode.firstChild) {
+										myNode.removeChild(myNode.firstChild);
+									}
+									$
+											.ajax({
+												url : basicurl + "LookUpEvent",
+												type : 'POST',
+												dataType : "json",
+												data : JSON
+														.stringify({
+															plantform : "aads",
+															userid : uid,
+															preferencename : prefs[currentPreference].preference_name
+														}),
+												processData : false,
+												ContentType : 'application/json',
+												dataType : 'json',
+												success : function(result) {
+													var events = result.event;
+													for ( var ke in events) {
+														addEvents(
+																events[ke].address,
+																events[ke].activity_name,
+																(new Date(
+																		events[ke].start_time))
+																		.toDateString(),
+																events[ke].number_limit_from,
+																events[ke].number_limit_to,
+																events[ke].number_of,
+																events[ke].event_id,
+																events[ke].is_enrolled);
+													}
+													document.getElementById("event_loading").className = "";
+												},
+												error :function() {
+													document.getElementById("event_loading").className = "";
+												}
+											});
 								}
 							},
 							error : function() {
-								document.getElementById("1_"
-										+ e.target.id.substring(e.target.id
-												.indexOf("_") + 1)).disabled = false;
+								document.getElementById("event_loading").className = "";
 							}
 						});
 
 			};
 
 			bt2.onclick = function(e) {
-				document.getElementById("2_"
-						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				document.getElementById("event_loading").className = "ui loading segment";
 				$
 						.ajax({
 							url : basicurl + "Leave",
@@ -796,27 +821,50 @@
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var total = document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML;
-									var first = total.substring(0, total
-											.indexOf("/"));
-									var second = total.substring(total
-											.indexOf("/") + 1);
-									document.getElementById("3_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).innerHTML = (parseInt(first) - 1)
-											+ "/" + second;
-									document.getElementById("1_"
-											+ e.target.id.substring(e.target.id
-													.indexOf("_") + 1)).disabled = false;
-
+									var myNode = document
+											.getElementById("event-table-detail");
+									while (myNode.firstChild) {
+										myNode.removeChild(myNode.firstChild);
+									}
+									$
+											.ajax({
+												url : basicurl + "LookUpEvent",
+												type : 'POST',
+												dataType : "json",
+												data : JSON
+														.stringify({
+															plantform : "aads",
+															userid : uid,
+															preferencename : prefs[currentPreference].preference_name
+														}),
+												processData : false,
+												ContentType : 'application/json',
+												dataType : 'json',
+												success : function(result) {
+													var events = result.event;
+													for ( var ke in events) {
+														addEvents(
+																events[ke].address,
+																events[ke].activity_name,
+																(new Date(
+																		events[ke].start_time))
+																		.toDateString(),
+																events[ke].number_limit_from,
+																events[ke].number_limit_to,
+																events[ke].number_of,
+																events[ke].event_id,
+																events[ke].is_enrolled);
+													}
+													document.getElementById("event_loading").className = "";
+												},
+												error : function(){
+													document.getElementById("event_loading").className = "";
+												}
+											});
 								}
 							},
 							error : function() {
-								document.getElementById("2_"
-										+ e.target.id.substring(e.target.id
-												.indexOf("_") + 1)).disabled = false;
+								document.getElementById("event_loading").className = "";
 							}
 						});
 
