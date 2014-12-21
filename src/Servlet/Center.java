@@ -22,6 +22,14 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
 import logic.MyTest;
 
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.google.gson.Gson;
 
 import parse.Parse;
@@ -61,12 +69,6 @@ public class Center extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		//System.out.println(MyTest.t());
-		try{
-			File f = new File("http://localhost:8080/CloudFinal/my.jpg");
-			System.out.println(f.exists());
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
 	}
 
 	/**
@@ -75,26 +77,34 @@ public class Center extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		try{
-			File f = new File("sd");
-			if(f.exists()){
-				f.createNewFile();
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
 		// TODO Auto-generated method stub
-		/*if (ServletFileUpload.isMultipartContent(request)) {
+		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(new ServletRequestContext(request));
 				for (FileItem item : multiparts) {
 					if (!item.isFormField()) {
-						String name = new File(item.getName()).getName();
+						/*String name = new File(item.getName()).getName();
 						File a = new File(UPLOAD_DIRECTORY + File.separator+ name);
 						System.out.println(UPLOAD_DIRECTORY + File.separator+ name);
 						a.createNewFile();
-						System.out.println(a.exists());
-						item.write(a);
+						System.out.println(a.exists());*/
+						/*for(int i=0;i<item.get().length;i++){
+							System.out.print(item.get()[i]);
+						}*/
+						ObjectMetadata o = new ObjectMetadata();
+						o.setContentLength(item.getSize());
+						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAIW3BWV6EDYDRSOUQ","0Sr4OKOztpxAk++Ku14nFzcy1/pIwb02bpyi92Ch"));
+						PutObjectRequest pir = new PutObjectRequest("eventplanner",item.getName(), item.getInputStream(), o);
+						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
+						s3Client.putObject(pir);
+						/*System.out.println("Downloading an object");
+			            S3Object s3object = s3Client.getObject(new GetObjectRequest(
+			            		"elasticbeanstalk-us-east-1-668249848517", "output1/output.out"));
+			            System.out.println("Content-Type: "  + 
+			            		s3object.getObjectMetadata().getContentType());*/
+						System.out.println("!!!1");
+					}else{
+						System.out.println(item.getFieldName()+item.getString());
 					}
 				}
 				// File uploaded successfully
@@ -106,6 +116,6 @@ public class Center extends HttpServlet {
 		} else {
 			request.setAttribute("message","Sorry this Servlet only handles file upload request");
 		}
-		request.getRequestDispatcher("/result.jsp").forward(request, response);*/
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 }

@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bootstrap 101 Template</title>
 <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script src="js/upload.js"></script>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
 <!-- Bootstrap -->
@@ -23,8 +24,10 @@
     <![endif]-->
 
 <script>
+	var basicurl = "http://localhost:8080/CloudFinal/";
 	var uid;
 	var prefs;
+	var currentPreference;
 
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -42,7 +45,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signin").disabled = true;
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/Login',
+			url : basicurl + "Login",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -91,7 +94,7 @@
 		uid = document.getElementById("username").value;
 		document.getElementById("signup").disabled = true;
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/Register',
+			url : basicurl + "Register",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -159,51 +162,46 @@
 						.getElementById("number_limit_to").value)
 			}
 		};
-		$
-				.ajax({
-					url : 'http://localhost:8080/CloudFinal/InsertLocation',
-					type : 'POST',
-					dataType : "json",
-					data : JSON
-							.stringify({
-								"plantform" : "haha",
-								"location" : {
-									"location_id" : document
-											.getElementById("maddress").value
-											.hashCode(),
-									"address" : document
-											.getElementById("maddress").value,
-									"longitude" : parseFloat(document
-											.getElementById("xCoordinate").value),
-									"latitude" : parseFloat(document
-											.getElementById("yCoordinate").value)
-								}
-							}),
-					processData : false,
-					ContentType : 'application/json',
-					dataType : 'json',
-					success : function(result) {
-						if (result.result) {
-							$
-									.ajax({
-										url : 'http://localhost:8080/CloudFinal/InsertPreference',
-										type : 'POST',
-										dataType : "json",
-										data : JSON.stringify(array),
-										processData : false,
-										ContentType : 'application/json',
-										dataType : 'json',
-										success : function(result) {
-											getAndCreateAllPreference();
-										},
-										error : AjaxFailed
-									});
-						}
-					},
-					error : AjaxFailed
-				});
+		$.ajax({
+			url : basicurl + "InsertLocation",
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				"plantform" : "haha",
+				"location" : {
+					"location_id" : document.getElementById("maddress").value
+							.hashCode(),
+					"address" : document.getElementById("maddress").value,
+					"longitude" : parseFloat(document
+							.getElementById("xCoordinate").value),
+					"latitude" : parseFloat(document
+							.getElementById("yCoordinate").value)
+				}
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				if (result.result) {
+					$.ajax({
+						url : basicurl + "InsertPreference",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify(array),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							getAndCreateAllPreference();
+						},
+						error : AjaxFailed
+					});
+				}
+			},
+			error : AjaxFailed
+		});
 	}
-
+	//get and create all preference
 	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
 		while (myNode.firstChild) {
@@ -211,7 +209,7 @@
 		}
 
 		$.ajax({
-			url : 'http://localhost:8080/CloudFinal/LookUpPreference',
+			url : basicurl + "LookUpPreference",
 			type : 'POST',
 			dataType : "json",
 			data : JSON.stringify({
@@ -232,11 +230,14 @@
 			error : AjaxFailed
 		});
 	}
+
+	//create a list item
 	function createSublist(prefname, indexi) {
 		var n = prefname.indexOf(":");
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
 		elementb.onclick = function() {
+			currentPreference = indexi;
 			$("#test2").hide(100);
 			$("#test1").hide(200);
 			$("#event-table").hide();
@@ -259,7 +260,7 @@
 			}
 
 			$.ajax({
-				url : 'http://localhost:8080/CloudFinal/LookUpEvent',
+				url : basicurl + "LookUpEvent",
 				type : 'POST',
 				dataType : "json",
 				data : JSON.stringify({
@@ -277,7 +278,9 @@
 								(new Date(events[ke].start_time))
 										.toDateString(),
 								events[ke].number_limit_from,
-								events[ke].number_limit_to);
+								events[ke].number_limit_to,
+								events[ke].number_of, events[ke].event_id,
+								events[ke].is_enrolled);
 					}
 				},
 				error : AjaxFailed
@@ -291,10 +294,44 @@
 		elementa.appendChild(elementb);
 		document.getElementById('motherlist').appendChild(elementa);
 	}
-
+	//this function is called to show addPreference page and hide Preference detail page
 	function addPreference() {
 		$("#test1").show(400);
 		$("#test2").hide(200);
+	}
+	//delete preference
+	function deletePreference() {
+		$
+				.ajax({
+					url : basicurl + "DeletePreference",
+					type : 'POST',
+					dataType : "json",
+					data : JSON
+							.stringify({
+								plantform : "aads",
+								user_id : uid,
+								preference_name : prefs[currentPreference].preference_name
+							}),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						if (result.result) {
+							getAndCreateAllPreference();
+							$("#test2").hide(200);
+							$("#test1").show(400);
+							document.getElementById('maddress').value = "";
+							document.getElementById('xCoordinate').value = "";
+							document.getElementById('yCoordinate').value = "";
+						} else {
+							alert("Sorry guys, but you should leave the event before you delete this preference.");
+						}
+					},
+					error : function() {
+						alert("Sorry guys, an error happens.");
+					}
+				});
+
 	}
 </script>
 <script type="text/javascript"
@@ -398,7 +435,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<div class="navbar-form navbar-left">
-				<ul class="nav nav-tabs">
+				<ul id="nav" class="nav nav-tabs">
 					<li id="homePage" role="presentation" class="active"><a
 						href="#" onclick="setHomePage()">Home</a></li>
 					<li id="profile" role="presentation"><a href="#"
@@ -475,7 +512,7 @@
 							<div class='col-sm-6 col-md-6'>
 								Select an activity <select id="activity_name"
 									class="form-control">
-									<option value="one">Basketball</option>
+									<option value="one">basketball</option>
 								</select> <input id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="maddress"></input><label>address</label> <input
@@ -495,46 +532,40 @@
 			<div class="col-sm-4 col-md-4" id="test2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a href="#" onclick="togglePreference()">Preference Detail</a>
+						<a href="#" onclick="togglePreference()">Preference Detail</a> <a
+							href="#" onclick="deletePreference()" style="float: right">Delete
+							it</a>
 					</div>
 					<div id="preference-table" class="panel-body">
 						<table class="table">
 							<tbody>
 								<tr>
 									<td>Preference Name</td>
-									<td id="set_preferencename">1</td>
+									<td id="set_preferencename"></td>
 								</tr>
 								<tr>
 									<td>Activit</td>
-									<td id="set_activity">1</td>
+									<td id="set_activity"></td>
 								</tr>
 								<tr>
 									<td>Prefered Location</td>
-									<td id="set_location">1</td>
+									<td id="set_location"></td>
 								</tr>
 								<tr>
 									<td>Start Time</td>
-									<td id="set_starttime">1</td>
+									<td id="set_starttime"></td>
 								</tr>
 								<tr>
 									<td>End Time</td>
-									<td id="set_endtime">1</td>
+									<td id="set_endtime"></td>
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
-									<td id="set_numberlimitfrom">1</td>
+									<td id="set_numberlimitfrom"></td>
 								</tr>
 								<td>Number Limit To</td>
-								<td id="set_numberlimitto">1</td>
+								<td id="set_numberlimitto"></td>
 								</tr>
-								<div class="form-group">
-									<button class="btn btn-default" onclick="addMarker(0,0)"
-										id="signup">addMarker</button>
-								</div>
-								<div class="form-group">
-									<button class="btn btn-default" onclick="clearEventMarker()"
-										id="signup">clear</button>
-								</div>
 							</tbody>
 						</table>
 					</div>
@@ -559,10 +590,48 @@
 						</div>
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
-								<div class="col-sm-4 col-md-12">
-									<input type="file" id="uploadFile"> <img src=""
+								<div class="col-sm-4 col-md-4">
+									<img id="userImage"
+										src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
 										class="img-thumbnail">
-									<button onclick="loadImageFile()">upload</button>
+									<form method="post" enctype="multipart/form-data"
+										action="Center">
+										<input type="file" name="images" id="images" multiple />
+										<input type="hidden" id="user_id" name="user_id" value="askjdhkasjdh"/>
+										<button type="submit" id="btn">Upload Files!</button>
+									</form>
+									<div id="response"></div>
+								</div>
+								<div class="col-sm-4 col-md-4">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td>Account</td>
+												<td id="set_account"></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><button class="btn btn-default">Change</button></td>
+											</tr>
+											<tr>
+												<td>User Name</td>
+												<td id="set_username">1</td>
+											</tr>
+											<tr>
+												<td>Date of Birth</td>
+												<td id="set_dob">1</td>
+											</tr>
+											<tr>
+												<td>Nationality</td>
+												<td id="set_nationality">1</td>
+											</tr>
+											<tr>
+												<td>Location</td>
+												<td id="set_currentlocation">1</td>
+											</tr>
+
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -586,6 +655,8 @@
 		$("#test2").hide();
 		$("#test0").hide();
 		$("#logout").hide();
+		$("#test3").hide();
+		$("#profileView").hide();
 	</script>
 	<script type="text/javascript">
 		function addMarker(lat, longi) {
@@ -646,18 +717,121 @@
 		</div>
 		</div>*/
 		function addEvents(location, activityName, startTime, numberLimitFrom,
-				numberLimitTo, currentNumber) {
-			var bt = createB("join", "button");
-			bt.setAttribute("class", "btn btn-primary");
+				numberLimitTo, currentNumber, eventid, is_enrolled) {
+			var bt;
+			if (currentNumber == 0) {
+				bt = createB("Create", "button");
+				bt.setAttribute("class", "btn btn-success");
+			} else {
+				bt = createB("Join", "button");
+				bt.setAttribute("class", "btn btn-primary");
+			}
+			bt.setAttribute("id", "btn btn-primary");
+			bt.id = "1_" + eventid;
+
 			var bt2 = createB("leave", "button");
-			bt2.setAttribute("class", "btn btn-primary");
+			bt2.setAttribute("class", "btn btn-danger");
+			bt2.id = "2_" + eventid;
+
+			bt.onclick = function(e) {
+				document.getElementById("1_"
+						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				$
+						.ajax({
+							url : basicurl + "JoinEvent",
+							type : 'POST',
+							dataType : "json",
+							data : JSON
+									.stringify({
+										plantform : "aads",
+										userid : uid,
+										eventid : eventid,
+										preferencename : prefs[currentPreference].preference_name
+									}),
+							processData : false,
+							ContentType : 'application/json',
+							dataType : 'json',
+							success : function(result) {
+								if (result.result) {
+									var total = document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML;
+									var first = total.substring(0, total
+											.indexOf("/"));
+									var second = total.substring(total
+											.indexOf("/") + 1);
+									document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML = (parseInt(first) + 1)
+											+ "/" + second;
+									document.getElementById("2_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).disabled = false;
+								}
+							},
+							error : function() {
+								document.getElementById("1_"
+										+ e.target.id.substring(e.target.id
+												.indexOf("_") + 1)).disabled = false;
+							}
+						});
+
+			};
+
+			bt2.onclick = function(e) {
+				document.getElementById("2_"
+						+ e.target.id.substring(e.target.id.indexOf("_") + 1)).disabled = true;
+				$
+						.ajax({
+							url : basicurl + "Leave",
+							type : 'POST',
+							dataType : "json",
+							data : JSON.stringify({
+								plantform : "aads",
+								userid : uid,
+								eventid : eventid
+							}),
+							processData : false,
+							ContentType : 'application/json',
+							dataType : 'json',
+							success : function(result) {
+								if (result.result) {
+									var total = document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML;
+									var first = total.substring(0, total
+											.indexOf("/"));
+									var second = total.substring(total
+											.indexOf("/") + 1);
+									document.getElementById("3_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).innerHTML = (parseInt(first) - 1)
+											+ "/" + second;
+									document.getElementById("1_"
+											+ e.target.id.substring(e.target.id
+													.indexOf("_") + 1)).disabled = false;
+
+								}
+							},
+							error : function() {
+								document.getElementById("2_"
+										+ e.target.id.substring(e.target.id
+												.indexOf("_") + 1)).disabled = false;
+							}
+						});
+
+			}
+
 			var d1 = createElement("div");
 			d1.setAttribute("class", "caption");
 			d1.appendChild(createP("Location: " + location, "p"));
 			d1.appendChild(createP("activityName: " + activityName, "p"));
 			d1.appendChild(createP("startTime: " + startTime, "p"));
 			d1.appendChild(createP("Limit:", "p"));
-			d1.appendChild(createP(currentNumber + "/" + numberLimitTo, "p"));
+			var currentonline = createP(currentNumber + "/" + numberLimitTo,
+					"p")
+			currentonline.id = "3_" + eventid;
+			d1.appendChild(currentonline);
 			d1.appendChild(bt);
 			d1.appendChild(bt2);
 			var image = createElement("img");
@@ -671,6 +845,13 @@
 			d3.appendChild(d2);
 			var outer = document.getElementById("event-table-detail");
 			outer.appendChild(d3);
+			if (is_enrolled) {
+				document.getElementById("1_" + eventid).disabled = true;
+				document.getElementById("2_" + eventid).disabled = false;
+			} else {
+				document.getElementById("1_" + eventid).disabled = false;
+				document.getElementById("2_" + eventid).disabled = true;
+			}
 		}
 		function createP(str, type) {
 			var result = document.createElement(type);
@@ -698,6 +879,7 @@
 			$("#test0").show(500);
 			$("#test3").show(500);
 			$("#profileView").hide(500);
+			$("#nav").show(200);
 		}
 		function setProfile() {
 			setActive("profile");
@@ -708,11 +890,14 @@
 			$("#test0").hide(500);
 			$("#test3").hide(500);
 			$("#profileView").show(500);
+			$("#nav").show(200);
+			addUid();
 		}
 		function setMessage() {
 			setActive("message");
 			clearActive("profile");
 			clearActive("homePage");
+			$("#nav").show(200);
 		}
 		function setActive(elementId) {
 			var e = document.getElementById(elementId);
@@ -722,38 +907,9 @@
 			var e = document.getElementById(elementId);
 			e.className = "";
 		}
-		function loadImageFile() {
-			formdata = false;
-			if (window.FormData) {
-				formdata = new FormData();
-			}
-			var filesSelected = document.getElementById("uploadFile").files;
-			if (filesSelected.length > 0) {
-				var fileToLoad = filesSelected[0];
-
-				if (fileToLoad.type.match("image.*")) {
-					var fileReader = new FileReader();
-					fileReader.onload = function(fileLoadedEvent) {
-						var imageLoaded = document.createElement("img");
-						imageLoaded.src = fileLoadedEvent.target.result;
-						document.body.appendChild(imageLoaded);
-					};
-					fileReader.readAsDataURL(fileToLoad);
-				}
-				if (formdata) {
-					formdata.append("images[]", file);
-					 $.ajax({
-						    url: "upload",
-						    type: "POST",
-						    data: formdata,
-						    processData: false,
-						    contentType: false,
-						    success: function (res) {
-						      document.getElementById("response").innerHTML = res; 
-						    }
-						  });
-				}
-			}
+		function addUid(){
+			var e =document.getElementById("user_id");
+			e.setAttribute("user_id", "zhang");
 		}
 	</script>
 </body>
