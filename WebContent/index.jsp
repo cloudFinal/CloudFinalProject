@@ -59,7 +59,7 @@
 
 	function AjaxSucceeded(result) {
 		if (result.result) {
-			document.getElementById("welcome").innerHTML = "EventList";
+			//document.getElementById("welcome").innerHTML = "EventList";
 			var a = document.getElementById("signin");
 			document.getElementById("signin").parentElement
 					.removeChild(document.getElementById("signin"));
@@ -223,24 +223,37 @@
 			ContentType : 'application/json',
 			dataType : 'json',
 			success : function(result) {
-				prefs = result.preference;
-				for ( var ke in prefs) {
-					createSublist(prefs[ke].preference_name);
+				prefs=result.preference;
+				var indexforpresu=0;
+				for (var ke in prefs){
+					createSublist(prefs[ke].preference_name,indexforpresu);
+					indexforpresu=indexforpresu+1;
 				}
 			},
 			error : AjaxFailed
 		});
 	}
-
-	function createSublist(prefname) {
+	function createSublist(prefname,indexi){
+		var n = prefname.indexOf(":");
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
-		elementb.onclick = function() {
-			$("#test2").show(400);
+		elementb.onclick=function (){
+			$("#test2").hide(100);
 			$("#test1").hide(200);
+			$("#event-table").hide();
+			$("#preference-table").show(600);
+			document.getElementById("set_preferencename").innerHTML=prefs[indexi].preference_name.substring(n+1);
+			document.getElementById("set_activity").innerHTML=prefs[indexi].activity_name;
+			document.getElementById("set_location").innerHTML=prefs[indexi].address.substring(0,prefs[indexi].address.indexOf(","));
+			document.getElementById("set_starttime").innerHTML=(new Date(prefs[indexi].start_time)).toDateString();
+			document.getElementById("set_endtime").innerHTML=(new Date(prefs[indexi].end_time)).toDateString();
+			document.getElementById("set_numberlimitfrom").innerHTML=prefs[indexi].number_limit_from;
+			document.getElementById("set_numberlimitto").innerHTML=prefs[indexi].number_limit_to;
+			clearEventMarker();
+			addMarker(prefs[indexi].longitude,prefs[indexi].latitude);
+			$("#test2").show(400);
 		};
-		var n = prefname.indexOf(":");
-		elementb.innerHTML = prefname.substring(n + 1);
+		elementb.innerHTML=prefname.substring(n+1);
 		elementa.appendChild(elementb);
 		document.getElementById('motherlist').appendChild(elementa);
 	}
@@ -446,30 +459,30 @@
 							<tbody>
 								<tr>
 									<td>Preference Name</td>
-									<td id="welcome">1</td>
+									<td id="set_preferencename">1</td>
 								</tr>
 								<tr>
 									<td>Activit</td>
-									<td>1</td>
+									<td id="set_activity">1</td>
 								</tr>
 								<tr>
 									<td>Prefered Location</td>
-									<td>1</td>
+									<td id="set_location">1</td>
 								</tr>
 								<tr>
 									<td>Start Time</td>
-									<td>1</td>
+									<td id="set_starttime">1</td>
 								</tr>
 								<tr>
 									<td>End Time</td>
-									<td>1</td>
+									<td id="set_endtime">1</td>
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
-									<td>1</td>
+									<td id="set_numberlimitfrom">1</td>
 								</tr>
 								<td>Number Limit To</td>
-								<td>1</td>
+								<td id="set_numberlimitto">1</td>
 								</tr>
 								<div class="form-group">
 									<button class="btn btn-default" onclick="addMarker(0,0)"
@@ -526,8 +539,7 @@
 		$("#logout").hide();
 	</script>
 	<script type="text/javascript">
-		function addMarker(lat, longi, address, activityName, startTime,
-				numberLimitFrom, numberLimitTo) {
+		function addMarker(lat, longi) {
 			marker[marker.length] = new google.maps.Marker({
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
@@ -548,8 +560,7 @@
 		}
 	</script>
 	<script type="text/javascript">
-		function addMarker(lat, longi, address, activityName, startTime,
-				numberLimitFrom, numberLimitTo) {
+		function addMarker(lat, longi) {
 			marker[marker.length] = new google.maps.Marker({
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
