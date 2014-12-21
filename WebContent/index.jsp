@@ -576,7 +576,7 @@
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
 					<div id="event_loading">
-						<div id="event-table" class="panel-body">
+						<div id="event-table" class="panel-body" style="height:300px">
 							<div class="row" id="event-table-detail"></div>
 						</div>
 					</div>
