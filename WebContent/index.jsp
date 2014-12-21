@@ -222,37 +222,72 @@
 			ContentType : 'application/json',
 			dataType : 'json',
 			success : function(result) {
-				prefs=result.preference;
-				var indexforpresu=0;
-				for (var ke in prefs){
-					createSublist(prefs[ke].preference_name,indexforpresu);
-					indexforpresu=indexforpresu+1;
+				prefs = result.preference;
+				var indexforpresu = 0;
+				for ( var ke in prefs) {
+					createSublist(prefs[ke].preference_name, indexforpresu);
+					indexforpresu = indexforpresu + 1;
 				}
 			},
 			error : AjaxFailed
 		});
 	}
-	function createSublist(prefname,indexi){
+	function createSublist(prefname, indexi) {
 		var n = prefname.indexOf(":");
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
-		elementb.onclick=function (){
+		elementb.onclick = function() {
 			$("#test2").hide(100);
 			$("#test1").hide(200);
 			$("#event-table").hide();
 			$("#preference-table").show(600);
-			document.getElementById("set_preferencename").innerHTML=prefs[indexi].preference_name.substring(n+1);
-			document.getElementById("set_activity").innerHTML=prefs[indexi].activity_name;
-			document.getElementById("set_location").innerHTML=prefs[indexi].address.substring(0,prefs[indexi].address.indexOf(","));
-			document.getElementById("set_starttime").innerHTML=(new Date(prefs[indexi].start_time)).toDateString();
-			document.getElementById("set_endtime").innerHTML=(new Date(prefs[indexi].end_time)).toDateString();
-			document.getElementById("set_numberlimitfrom").innerHTML=prefs[indexi].number_limit_from;
-			document.getElementById("set_numberlimitto").innerHTML=prefs[indexi].number_limit_to;
+			document.getElementById("set_preferencename").innerHTML = prefs[indexi].preference_name
+					.substring(n + 1);
+			document.getElementById("set_activity").innerHTML = prefs[indexi].activity_name;
+			document.getElementById("set_location").innerHTML = prefs[indexi].address
+					.substring(0, prefs[indexi].address.indexOf(","));
+			document.getElementById("set_starttime").innerHTML = (new Date(
+					prefs[indexi].start_time)).toDateString();
+			document.getElementById("set_endtime").innerHTML = (new Date(
+					prefs[indexi].end_time)).toDateString();
+			document.getElementById("set_numberlimitfrom").innerHTML = prefs[indexi].number_limit_from;
+			document.getElementById("set_numberlimitto").innerHTML = prefs[indexi].number_limit_to;
+
+			var myNode = document.getElementById("event-table-detail");
+			while (myNode.firstChild) {
+				myNode.removeChild(myNode.firstChild);
+			}
+
+			$.ajax({
+				url : 'http://localhost:8080/CloudFinal/LookUpEvent',
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify({
+					plantform : "aads",
+					userid : uid,
+					preferencename : prefs[indexi].preference_name
+				}),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : function(result) {
+					var events = result.event;
+					for ( var ke in events) {
+						addEvents(events[ke].address, events[ke].activity_name,
+								(new Date(events[ke].start_time))
+										.toDateString(),
+								events[ke].number_limit_from,
+								events[ke].number_limit_to);
+					}
+				},
+				error : AjaxFailed
+			});
 			clearEventMarker();
-			addMarker(parseFloat(prefs[indexi].latitude),parseFloat(prefs[indexi].longitude));
+			addMarker(parseFloat(prefs[indexi].latitude),
+					parseFloat(prefs[indexi].longitude));
 			$("#test2").show(400);
 		};
-		elementb.innerHTML=prefname.substring(n+1);
+		elementb.innerHTML = prefname.substring(n + 1);
 		elementa.appendChild(elementb);
 		document.getElementById('motherlist').appendChild(elementa);
 	}
@@ -500,17 +535,7 @@
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
 					<div id="event-table" class="panel-body">
-						<div class="row" id="event-table-detail">
-							<div class="col-sm-6 col-md-4">
-								<div class="thumbnail">
-									<img data-src="" alt="">
-									<div class="caption">
-										<p>number:14</p>
-										<button class="btn btn-primary">Join</button>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div class="row" id="event-table-detail"></div>
 					</div>
 				</div>
 			</div>
@@ -565,8 +590,8 @@
 				position : new google.maps.LatLng(lat, longi),
 				icon : pinImage
 			});
-			map.setCenter( new google.maps.LatLng(lat, longi));
-			
+			map.setCenter(new google.maps.LatLng(lat, longi));
+
 		}
 		function clearEventMarker() {
 			for (var i = 0; i < marker.length; i++) {
@@ -576,9 +601,11 @@
 		}
 		function togglePreference() {
 			$("#preference-table").toggle("slow");
+			$("#event-table").hide(200);
 		}
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
+			$("#preference-table").hide(200);
 		}
 		/*element.appendChild(para);
 		event-table-detail
@@ -605,31 +632,31 @@
 		    d1.appendChild(bt);
 		    d1.appendChild(bt2);
 			var image = createElement("img");
-			image.src="";
+			image.src = "";
 			var d2 = createElement("div");
-			d2.setAttribute("class","thumbnail");
+			d2.setAttribute("class", "thumbnail");
 			d2.appendChild(image);
 			d2.appendChild(d1);
 			var d3 = createElement("div");
-			d3.setAttribute("class","col-sm-6 col-md-4");
+			d3.setAttribute("class", "col-sm-6 col-md-4");
 			d3.appendChild(d2);
 			var outer = document.getElementById("event-table-detail");
 			outer.appendChild(d3);
 		}
-		function createP(str,type){
+		function createP(str, type) {
 			var result = document.createElement(type);
 			var node = document.createTextNode(str);
-			result.setAttribute("style","font-size:10px");
+			result.setAttribute("style", "font-size:10px");
 			result.appendChild(node);
 			return result;
 		}
-		function createB(str,type){
+		function createB(str, type) {
 			var result = document.createElement(type);
 			var node = document.createTextNode(str);
 			result.appendChild(node);
 			return result;
 		}
-		function createElement(type){
+		function createElement(type) {
 			var result = document.createElement(type);
 			return result;
 		}
