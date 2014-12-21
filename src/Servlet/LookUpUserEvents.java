@@ -52,7 +52,12 @@ public class LookUpUserEvents extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("username");
 		if(Parse.plantForm(input)==null){
-			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(Center.db.getUserEvents(userId)).getObject());
+			ArrayList<Event> result = Center.db.getUserEvents(userId);
+			System.out.println("--------------");
+			for(Event e:result){
+				System.out.println(e.getEventId());
+			}
+			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
 		}else{
 			ArrayList<Event> result = Center.db.getUserEvents(userId);
 			JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("event",result));

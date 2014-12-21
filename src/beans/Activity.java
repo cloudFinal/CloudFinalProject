@@ -1,3 +1,5 @@
+package beans;
+
 import java.io.Serializable;
 
 import org.json.JSONException;

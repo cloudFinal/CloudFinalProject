@@ -361,9 +361,7 @@
 							e.latLng.lng());
 					x = e.latLng.lng();
 					y = e.latLng.lat();
-					if (tmpMarker != null) {
-						tmpMarker.setMap(null);
-					}
+					clearEventMarker();
 					tmpMarker = new google.maps.Marker({
 						map : map,
 						position : new google.maps.LatLng(y, x),
@@ -383,7 +381,7 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -399,6 +397,14 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
+			<div class="navbar-form navbar-left">
+				<ul class="nav nav-tabs">
+					<li id="homePage" role="presentation" class="active"><a href="#" onclick="setHomePage()">Home</a></li>
+					<li id="profile" role="presentation"><a href="#" onclick="setProfile()">Profile</a></li>
+					<li id="message" role="presentation"><a href="#" onclick="setMessage()">Messages</a></li>
+				</ul>
+			</div>
+
 			<div class="navbar-form navbar-right">
 				<div class="form-group" id="undiv">
 					<input type="text" class="form-control" id="username"
@@ -539,10 +545,24 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="col-sm-6 col-md-6" style="float: right" id="test3">
 				<div id="dvMap" style="height: 400px"></div>
-
+			</div>
+			<div class="col-sm-12 col-md-12" id="profileView">
+				<div class="col-sm-12 col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a href="#" onclick="toggleEvent()">Current Event</a>
+						</div>
+						<div id="event-table" class="panel-body">
+							<div class="row" id="event-table-detail">
+								<div class="col-sm-4 col-md-12">
+									<img src="/bootstrap/images/download.png" class="img-thumbnail">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -598,6 +618,10 @@
 				marker[i].setMap(null);
 			}
 			marker = [];
+			if(tmpMarker!=null){
+				tmpMarker.setMap(null);
+			}
+			tmpMarker=null;
 		}
 		function togglePreference() {
 			$("#preference-table").toggle("slow");
@@ -615,22 +639,22 @@
 			<p>number:14</p>
 			<button class="btn btn-primary">Join</button>
 		</div>
-	</div>*/
-		function addEvents(location, activityName, startTime,
-				numberLimitFrom, numberLimitTo, currentNumber) {
-		    var bt = createB("join","button");
-		    bt.setAttribute("class","btn btn-primary");
-		    var bt2 = createB("leave","button");
-		    bt2.setAttribute("class","btn btn-primary");
+		</div>*/
+		function addEvents(location, activityName, startTime, numberLimitFrom,
+				numberLimitTo, currentNumber) {
+			var bt = createB("join", "button");
+			bt.setAttribute("class", "btn btn-primary");
+			var bt2 = createB("leave", "button");
+			bt2.setAttribute("class", "btn btn-primary");
 			var d1 = createElement("div");
-		    d1.setAttribute("class","caption");
-			d1.appendChild(createP("Location: "+location,"p"));
-			d1.appendChild(createP("activityName: "+activityName,"p"));
-			d1.appendChild(createP("startTime: "+startTime,"p"));
-			d1.appendChild(createP("Limit:","p"));
-			d1.appendChild(createP(currentNumber+"/"+numberLimitTo,"p"));
-		    d1.appendChild(bt);
-		    d1.appendChild(bt2);
+			d1.setAttribute("class", "caption");
+			d1.appendChild(createP("Location: " + location, "p"));
+			d1.appendChild(createP("activityName: " + activityName, "p"));
+			d1.appendChild(createP("startTime: " + startTime, "p"));
+			d1.appendChild(createP("Limit:", "p"));
+			d1.appendChild(createP(currentNumber + "/" + numberLimitTo, "p"));
+			d1.appendChild(bt);
+			d1.appendChild(bt2);
 			var image = createElement("img");
 			image.src = "";
 			var d2 = createElement("div");
@@ -659,6 +683,39 @@
 		function createElement(type) {
 			var result = document.createElement(type);
 			return result;
+		}
+		function setHomePage(){
+			setActive("homePage");
+			clearActive("profile");
+			clearActive("message");
+			$("#test1").show(500);
+			$("#test2").hide(500);
+			$("#test0").show(500);
+			$("#test3").show(500);
+			$("#profileView").hide(500);
+		}
+		function setProfile(){
+			setActive("profile");
+			clearActive("homePage");
+			clearActive("message");
+			$("#test1").hide(500);
+			$("#test2").hide(500);
+			$("#test0").hide(500);
+			$("#test3").hide(500);
+			$("#profileView").show(500);
+		}
+		function setMessage(){
+			setActive("message");
+			clearActive("profile");
+			clearActive("homePage");
+		}
+		function setActive(elementId){
+			var e = document.getElementById(elementId);
+			e.setAttribute("class","active");
+		}
+		function clearActive(elementId){
+			var e = document.getElementById(elementId);
+			e.className="";
 		}
 	</script>
 </body>
