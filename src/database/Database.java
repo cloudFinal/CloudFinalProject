@@ -180,14 +180,14 @@ public class Database
 			stmt=conn.createStatement();
 			ResultSet rset = stmt.executeQuery("select * from participates_in where user_id='"+userId+"' and event_id="+eventId);
 			if(rset.next()){
-				return false;
+				return true;
 			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+		return false;
 	}
 	public Preference getPreference(String userId,String preferenceName){
 		try{
