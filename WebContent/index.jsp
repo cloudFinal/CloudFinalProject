@@ -277,7 +277,10 @@
 								(new Date(events[ke].start_time))
 										.toDateString(),
 								events[ke].number_limit_from,
-								events[ke].number_limit_to);
+								events[ke].number_limit_to,
+								events[ke].number_of,
+								events[ke].event_id
+								);
 					}
 				},
 				error : AjaxFailed
@@ -518,14 +521,6 @@
 								<td>Number Limit To</td>
 								<td id="set_numberlimitto">1</td>
 								</tr>
-								<div class="form-group">
-									<button class="btn btn-default" onclick="addMarker(0,0)"
-										id="signup">addMarker</button>
-								</div>
-								<div class="form-group">
-									<button class="btn btn-default" onclick="clearEventMarker()"
-										id="signup">clear</button>
-								</div>
 							</tbody>
 						</table>
 					</div>
@@ -617,11 +612,41 @@
 		</div>
 	</div>*/
 		function addEvents(location, activityName, startTime,
-				numberLimitFrom, numberLimitTo, currentNumber) {
+				numberLimitFrom, numberLimitTo, currentNumber,eventid) {
 		    var bt = createB("join","button");
 		    bt.setAttribute("class","btn btn-primary");
+		    bt.setAttribute("id","btn btn-primary");
+		    bt.onclick=function(){
+		    	
+		    	$.ajax({
+					url : 'http://localhost:8080/CloudFinal/JoinEvent',
+					type : 'POST',
+					dataType : "json",
+					data : JSON.stringify({
+						plantform : "aads",
+						userid : uid,
+						eventid : eventid
+					}),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						if(result.result){
+							
+						}	
+					},
+					error : AjaxFailed
+				});
+		    	
+		    };
+		    
+		    
+		    
 		    var bt2 = createB("leave","button");
 		    bt2.setAttribute("class","btn btn-primary");
+		    bt2.inclick=function(){
+		    	
+		    }
 			var d1 = createElement("div");
 		    d1.setAttribute("class","caption");
 			d1.appendChild(createP("Location: "+location,"p"));
