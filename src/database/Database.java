@@ -438,7 +438,7 @@ public class Database
 	public boolean updateProfile(Profile profile){
 		try {
 			stmt=conn.createStatement();
-			stmt.execute(QueryGenerator.updateQ("users","password","String",profile.getPassword(),"name","String",profile.getName(),"date_of_birth","Integer",String.valueOf(profile.getDateOfBirth()),"nationality","String",profile.getNationality(),"gender","String",profile.getGender(),"location_id","Integer",String.valueOf(profile.getLocationId()),"image","String",profile.getImage())+" where user_id='"+profile.getUserid()+"'");
+			stmt.execute(QueryGenerator.updateQ("users","name","String",profile.getName(),"date_of_birth","Integer",String.valueOf(profile.getDateOfBirth()),"nationality","String",profile.getNationality(),"gender","String",profile.getGender())+" where user_id='"+profile.getUserid()+"'");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
