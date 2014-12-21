@@ -25,7 +25,7 @@
 <script>
 	var uid;
 	var prefs;
-	
+
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
 		if (this.length == 0)
@@ -137,23 +137,27 @@
 		element.
 
 		uid = document.getElementById("addPref").value;
-		var selectop=document.getElementById("activity_name");
+		var selectop = document.getElementById("activity_name");
 		var array = {
 			"plantform" : "haha",
 			"preference" : {
 				"user_id" : uid,
-				"preference_name" : (new Date()).getTime()+":"+document.getElementById("preference_name").value,
+				"preference_name" : (new Date()).getTime() + ":"
+						+ document.getElementById("preference_name").value,
 				"location_id" : document.getElementById("maddress").value
 						.hashCode(),
 				"distance_to_tolerance" : parseFloat(document
 						.getElementById("distance_to_tolerance").value),
-				"start_time" : parseInt(Date.parse(document.getElementById("start_time").value)),
-				"end_time" : parseInt(Date.parse(document.getElementById("end_time").value)),
+				"start_time" : parseInt(Date.parse(document
+						.getElementById("start_time").value)),
+				"end_time" : parseInt(Date.parse(document
+						.getElementById("end_time").value)),
 				"key_word" : "Hello",
 				"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
 				"number_limit_from" : parseInt(document
 						.getElementById("number_limit_from").value),
-				"number_limit_to" : parseInt(document.getElementById("number_limit_to").value)
+				"number_limit_to" : parseInt(document
+						.getElementById("number_limit_to").value)
 			}
 		};
 		$
@@ -200,14 +204,13 @@
 					error : AjaxFailed
 				});
 	}
-	
-	
-	function getAndCreateAllPreference(){
+
+	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
 		while (myNode.firstChild) {
-		    myNode.removeChild(myNode.firstChild);
+			myNode.removeChild(myNode.firstChild);
 		}
-		
+
 		$.ajax({
 			url : 'http://localhost:8080/CloudFinal/LookUpPreference',
 			type : 'POST',
@@ -220,35 +223,32 @@
 			ContentType : 'application/json',
 			dataType : 'json',
 			success : function(result) {
-				prefs=result.preference;
-				for (var ke in prefs){
+				prefs = result.preference;
+				for ( var ke in prefs) {
 					createSublist(prefs[ke].preference_name);
 				}
 			},
 			error : AjaxFailed
 		});
 	}
-	
-	function createSublist(prefname){
+
+	function createSublist(prefname) {
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
-		elementb.onclick=function (){
+		elementb.onclick = function() {
 			$("#test2").show(400);
 			$("#test1").hide(200);
 		};
 		var n = prefname.indexOf(":");
-		elementb.innerHTML=prefname.substring(n+1);
+		elementb.innerHTML = prefname.substring(n + 1);
 		elementa.appendChild(elementb);
 		document.getElementById('motherlist').appendChild(elementa);
 	}
-	
-	function addPreference(){
+
+	function addPreference() {
 		$("#test1").show(400);
 		$("#test2").hide(200);
 	}
-	
-	
-	
 </script>
 <script type="text/javascript"
 	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -381,9 +381,7 @@
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar" id="test0">
 				<ul class="nav nav-sidebar">
-					<li><a href="#"
-						onclick="addPreference()">New
-							Preference</a></li>
+					<li><a href="#" onclick="addPreference()">New Preference</a></li>
 				</ul>
 				<ul class="nav nav-sidebar" id="motherlist">
 				</ul>
@@ -491,6 +489,15 @@
 					</div>
 					<div id="event-table" class="panel-body">
 						<div class="row" id="event-table-detail">
+							<div class="col-sm-6 col-md-4">
+								<div class="thumbnail">
+									<img data-src="" alt="">
+									<div class="caption">
+										<p>number:14</p>
+										<button class="btn btn-primary">Join</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -561,8 +568,55 @@
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
 		}
-		function addEvents(location,activityName,startTime,endTime,numberLimitFrom,number){
-			
+		/*element.appendChild(para);
+		event-table-detail
+		<div class="thumbnail">
+		<img src="" alt="">
+		<div class="caption">
+			<p>number:14</p>
+			<button class="btn btn-primary">Join</button>
+		</div>
+	</div>*/
+		function addEvents(location, activityName, startTime,
+				numberLimitFrom, numberLimitTo) {
+		    var bt = createB("join","button");
+		    bt.setAttribute("class","btn btn-primary");
+			var d1 = createElement("div");
+		    d1.setAttribute("class","caption");
+			d1.appendChild(createP("Location: "+location,"p"));
+			d1.appendChild(createP("activityName: "+activityName,"p"));
+			d1.appendChild(createP("startTime: "+startTime,"p"));
+			d1.appendChild(createP("Limit:","p"));
+			d1.appendChild(createP(numberLimitFrom+"~"+numberLimitTo+" people","p"));
+		    d1.appendChild(bt);
+			var image = createElement("img");
+			image.src="";
+			var d2 = createElement("div");
+			d2.setAttribute("class","thumbnail");
+			d2.appendChild(image);
+			d2.appendChild(d1);
+			var d3 = createElement("div");
+			d3.setAttribute("class","col-sm-6 col-md-4");
+			d3.appendChild(d2);
+			var outer = document.getElementById("event-table-detail");
+			outer.appendChild(d3);
+		}
+		function createP(str,type){
+			var result = document.createElement(type);
+			var node = document.createTextNode(str);
+			result.setAttribute("style","font-size:10px");
+			result.appendChild(node);
+			return result;
+		}
+		function createB(str,type){
+			var result = document.createElement(type);
+			var node = document.createTextNode(str);
+			result.appendChild(node);
+			return result;
+		}
+		function createElement(type){
+			var result = document.createElement(type);
+			return result;
 		}
 	</script>
 </body>
