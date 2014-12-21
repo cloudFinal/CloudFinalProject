@@ -601,7 +601,7 @@
 									<form method="post" enctype="multipart/form-data"
 										action="Center">
 										<input type="file" name="images" id="images" multiple />
-										<input type="hidden" id="user_id" name="user_id" value="askjdhkasjdh"/>
+										<input type="hidden" id="user_id" name="user_id" value=""/>
 										<button type="submit" id="btn">Upload Files!</button>
 									</form>
 									<div id="response"></div>
@@ -611,7 +611,7 @@
 										<tbody>
 											<tr>
 												<td>Account</td>
-												<td id="set_account"></td>
+												<td><input type="text" class="form-control" id="set_account"></td>
 											</tr>
 											<tr>
 												<td>Password</td>
@@ -619,23 +619,23 @@
 											</tr>
 											<tr>
 												<td>User Name</td>
-												<td id="set_username">1</td>
+												<td><input type="text" class="form-control" id="set_username"></td>
 											</tr>
 											<tr>
 												<td>Date of Birth</td>
-												<td id="set_dob">1</td>
+												<td><input type="text" class="form-control" id="set_dob"></td>
 											</tr>
 											<tr>
 												<td>Nationality</td>
-												<td id="set_nationality">1</td>
+												<td><input type="text" class="form-control" id="set_nationality"></td>
 											</tr>
 											<tr>
 												<td>Location</td>
-												<td id="set_currentlocation">1</td>
+												<td><input type="text" class="form-control" id="set_currentlocation"/></td>
 											</tr>
-
 										</tbody>
 									</table>
+									<button class="btn btn-default">edit</button>
 								</div>
 							</div>
 						</div>
@@ -957,7 +957,7 @@
 		}
 		function addUid(){
 			var e =document.getElementById("user_id");
-			e.setAttribute("user_id", "zhang");
+			e.value=uid;
 		}
 	</script>
 </body>

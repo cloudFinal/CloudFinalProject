@@ -80,7 +80,15 @@ public class Center extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
+				String userId=null;
 				List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(new ServletRequestContext(request));
+				for(FileItem item:multiparts){
+					if(item.isFormField()){
+						if(item.getFieldName().equals("user_id")){
+							userId=item.getString();
+						}
+					}
+				}
 				for (FileItem item : multiparts) {
 					if (!item.isFormField()) {
 						/*String name = new File(item.getName()).getName();
@@ -91,20 +99,20 @@ public class Center extends HttpServlet {
 						/*for(int i=0;i<item.get().length;i++){
 							System.out.print(item.get()[i]);
 						}*/
+						String identifier = (userId+"-"+item.getName());
 						ObjectMetadata o = new ObjectMetadata();
 						o.setContentLength(item.getSize());
 						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAIW3BWV6EDYDRSOUQ","0Sr4OKOztpxAk++Ku14nFzcy1/pIwb02bpyi92Ch"));
-						PutObjectRequest pir = new PutObjectRequest("eventplanner",item.getName(), item.getInputStream(), o);
+						PutObjectRequest pir = new PutObjectRequest("eventplanner",identifier, item.getInputStream(), o);
 						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
 						s3Client.putObject(pir);
+						System.out.println(identifier);
+						Center.db.insertUserImage(userId, "https://s3-us-west-2.amazonaws.com/eventplanner/"+identifier);
 						/*System.out.println("Downloading an object");
 			            S3Object s3object = s3Client.getObject(new GetObjectRequest(
 			            		"elasticbeanstalk-us-east-1-668249848517", "output1/output.out"));
 			            System.out.println("Content-Type: "  + 
 			            		s3object.getObjectMetadata().getContentType());*/
-						System.out.println("!!!1");
-					}else{
-						System.out.println(item.getFieldName()+item.getString());
 					}
 				}
 				// File uploaded successfully
