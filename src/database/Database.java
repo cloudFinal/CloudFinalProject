@@ -516,4 +516,23 @@ public class Database
 		}
 		return true;
 	}
+	public ArrayList<Event> getUserEvents(String user_id){
+		ArrayList<Event> events = new ArrayList<Event>();
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select * from event,participates_in where event.event_id=participates_in.event_id and participates_in.user_id='"+user_id+"'");
+			while(rset.next()){
+				Event e=new Event();
+				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
+				e.setLocation(Center.db.getLocation(e.getHeldIn()));
+				events.add(e);
+				//System.out.println("!!!"+e.getActivityName());
+			}
+			return events;
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

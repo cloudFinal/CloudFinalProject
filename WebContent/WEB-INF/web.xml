@@ -179,4 +179,14 @@
     <servlet-name>IsParticipatesIn</servlet-name>
     <url-pattern>/IsParticipatesIn</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LookUpUserEvents</display-name>
+    <servlet-name>LookUpUserEvents</servlet-name>
+    <servlet-class>Servlet.LookUpUserEvents</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LookUpUserEvents</servlet-name>
+    <url-pattern>/LookUpUserEvents</url-pattern>
+  </servlet-mapping>
 </web-app>
