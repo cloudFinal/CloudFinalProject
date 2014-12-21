@@ -522,6 +522,17 @@ public class Database
 		}
 		return true;
 	}
+	public boolean insertUserImage(String userId, String url){
+		try{
+			stmt=conn.createStatement();
+			stmt.execute("update users set image='"+url+"' where user_id='"+userId+"'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public ArrayList<Event> getUserEvents(String userId){
 		ArrayList<Event> events = new ArrayList<Event>();
 		try{
