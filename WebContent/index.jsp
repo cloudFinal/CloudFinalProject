@@ -248,7 +248,7 @@
 			document.getElementById("set_numberlimitfrom").innerHTML=prefs[indexi].number_limit_from;
 			document.getElementById("set_numberlimitto").innerHTML=prefs[indexi].number_limit_to;
 			clearEventMarker();
-			addMarker(parseFloat(prefs[indexi].latitude),parseFloat(prefs[indexi].latitude));
+			addMarker(parseFloat(prefs[indexi].longitude),parseFloat(prefs[indexi].latitude));
 			$("#test2").show(400);
 		};
 		elementb.innerHTML=prefname.substring(n+1);
