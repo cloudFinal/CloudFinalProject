@@ -46,7 +46,7 @@
 
 	function loadXMLDoc() {
 		uid = document.getElementById("username").value;
-		pword = document.getElementById("pword").value;
+		pword = document.getElementById("password").value;
 		document.getElementById("signin").disabled = true;
 		$.ajax({
 			url : basicurl + "Login",
@@ -64,6 +64,30 @@
 		});
 	}
 
+	function getProfile(){
+		$.ajax({
+			url : basicurl + "GetProfile",
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				user_id : uid,
+				plantform : ""
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result){
+				if(result.result){
+					var tmp=result.profile;
+					document.getElementById("set_username").value=tmp.u,
+					document.getElementById("set_dob").value="";
+					document.getElementById("").value="";
+				}
+			},
+			error : AjaxFailed
+		});
+	}
+	
 	function AjaxSucceeded(result) {
 		if (result.result) {
 			//document.getElementById("welcome").innerHTML = "EventList";
@@ -96,7 +120,7 @@
 
 	function singup() {
 		uid = document.getElementById("username").value;
-		pword = document.getElementById("pword").value;
+		pword = document.getElementById("password").value;
 		document.getElementById("signup").disabled = true;
 		$.ajax({
 			url : basicurl + "Register",
@@ -639,14 +663,14 @@
 													id="set_nationality"></td>
 											</tr>
 											<tr>
-												<td>Location</td>
+												<td>Gender</td>
 												<td><input type="text" class="form-control"
-													id="set_currentlocation" /></td>
+													id="gender" /></td>
 											</tr>
 										</tbody>
 									</table>
-<<<<<<< HEAD
-									<button class="btn btn-default">edit</button>
+									<button class="btn btn-default" id="edit_profile"
+										onclick="edit_profile()">edit</button>
 								</div>
 							</div>
 						</div>
@@ -700,10 +724,6 @@
 											<span class="sr-only">Next</span>
 										</a>
 									</div>
-=======
-									<button class="btn btn-default" id="edit_profile"
-										onclick="edit_profile()">edit</button>
->>>>>>> branch 'master' of https://github.com/cloudFinal/CloudFinalProject.git
 								</div>
 							</div>
 						</div>
@@ -1057,9 +1077,14 @@
 				"password" : pword,
 				"profile" : {
 					"user_id" : uid,
+					"password":"",
 					"name" : document.getElementById("set_username").value,
 					"date_of_birth" : document.getElementById("set_dob").value,
-					"nationality" : document.getElementById("set_nationality").value
+					"nationality" : document.getElementById("set_nationality").value,
+					"gender":  document.getElementById("gender").value,
+					"location_id":0,
+					"image":"",
+					"online":""
 				}
 			};
 			$.ajax({
