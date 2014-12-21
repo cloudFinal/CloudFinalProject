@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bootstrap 101 Template</title>
 <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
+<script src="js/upload.js"></script>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
 <!-- Bootstrap -->
@@ -436,7 +437,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<div class="navbar-form navbar-left">
-				<ul class="nav nav-tabs">
+				<ul id="nav" class="nav nav-tabs">
 					<li id="homePage" role="presentation" class="active"><a
 						href="#" onclick="setHomePage()">Home</a></li>
 					<li id="profile" role="presentation"><a href="#"
@@ -542,30 +543,30 @@
 							<tbody>
 								<tr>
 									<td>Preference Name</td>
-									<td id="set_preferencename">1</td>
+									<td id="set_preferencename"></td>
 								</tr>
 								<tr>
 									<td>Activit</td>
-									<td id="set_activity">1</td>
+									<td id="set_activity"></td>
 								</tr>
 								<tr>
 									<td>Prefered Location</td>
-									<td id="set_location">1</td>
+									<td id="set_location"></td>
 								</tr>
 								<tr>
 									<td>Start Time</td>
-									<td id="set_starttime">1</td>
+									<td id="set_starttime"></td>
 								</tr>
 								<tr>
 									<td>End Time</td>
-									<td id="set_endtime">1</td>
+									<td id="set_endtime"></td>
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
-									<td id="set_numberlimitfrom">1</td>
+									<td id="set_numberlimitfrom"></td>
 								</tr>
 								<td>Number Limit To</td>
-								<td id="set_numberlimitto">1</td>
+								<td id="set_numberlimitto"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -593,10 +594,48 @@
 						</div>
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
-								<div class="col-sm-4 col-md-12">
-									<input type="file" id="uploadFile"> <img
-										src="/bootstrap/images/download.png" class="img-thumbnail">
-									<button onclick="loadImageFile()">upload</button>
+								<div class="col-sm-4 col-md-4">
+									<img id="userImage"
+										src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
+										class="img-thumbnail">
+									<form method="post" enctype="multipart/form-data"
+										action="Center">
+										<input type="file" name="images" id="images" multiple />
+										<input type="hidden" id="user_id" name="user_id" value="askjdhkasjdh"/>
+										<button type="submit" id="btn">Upload Files!</button>
+									</form>
+									<div id="response"></div>
+								</div>
+								<div class="col-sm-4 col-md-4">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td>Account</td>
+												<td id="set_account"></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td><button class="btn btn-default">Change</button></td>
+											</tr>
+											<tr>
+												<td>User Name</td>
+												<td id="set_username">1</td>
+											</tr>
+											<tr>
+												<td>Date of Birth</td>
+												<td id="set_dob">1</td>
+											</tr>
+											<tr>
+												<td>Nationality</td>
+												<td id="set_nationality">1</td>
+											</tr>
+											<tr>
+												<td>Location</td>
+												<td id="set_currentlocation">1</td>
+											</tr>
+
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -620,6 +659,7 @@
 		$("#test2").hide();
 		$("#test0").hide();
 		$("#logout").hide();
+		$("#profileView").hide();
 	</script>
 	<script type="text/javascript">
 		function addMarker(lat, longi) {
@@ -684,15 +724,16 @@
 			var bt;
 			if (currentNumber == 0) {
 				bt = createB("Create", "button");
+				bt.setAttribute("class", "btn btn-success");
 			} else {
 				bt = createB("Join", "button");
+				bt.setAttribute("class", "btn btn-primary");
 			}
-			bt.setAttribute("class", "btn btn-primary");
 			bt.setAttribute("id", "btn btn-primary");
 			bt.id = "1_" + eventid;
 
 			var bt2 = createB("leave", "button");
-			bt2.setAttribute("class", "btn btn-primary");
+			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
 
 			bt.onclick = function(e) {
@@ -886,6 +927,7 @@
 			$("#test0").show(500);
 			$("#test3").show(500);
 			$("#profileView").hide(500);
+			$("#nav").show(200);
 		}
 		function setProfile() {
 			setActive("profile");
@@ -896,11 +938,14 @@
 			$("#test0").hide(500);
 			$("#test3").hide(500);
 			$("#profileView").show(500);
+			$("#nav").show(200);
+			addUid();
 		}
 		function setMessage() {
 			setActive("message");
 			clearActive("profile");
 			clearActive("homePage");
+			$("#nav").show(200);
 		}
 		function setActive(elementId) {
 			var e = document.getElementById(elementId);
@@ -910,21 +955,9 @@
 			var e = document.getElementById(elementId);
 			e.className = "";
 		}
-		function loadImageFile() {
-			var filesSelected = document.getElementById("inputFileToLoad").files;
-			if (filesSelected.length > 0) {
-				var fileToLoad = filesSelected[0];
-
-				if (fileToLoad.type.match("image.*")) {
-					var fileReader = new FileReader();
-					fileReader.onload = function(fileLoadedEvent) {
-						var imageLoaded = document.createElement("img");
-						imageLoaded.src = fileLoadedEvent.target.result;
-						document.body.appendChild(imageLoaded);
-					};
-					fileReader.readAsDataURL(fileToLoad);
-				}
-			}
+		function addUid(){
+			var e =document.getElementById("user_id");
+			e.setAttribute("user_id", "zhang");
 		}
 	</script>
 </body>
