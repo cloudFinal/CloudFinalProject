@@ -577,7 +577,7 @@
 						<a href="#" onclick="toggleEvent()">Current Event</a>
 					</div>
 					<div id="event_loading">
-						<div id="event-table" class="panel-body" style="height:300px">
+						<div id="event-table" class="panel-body" style="height: 300px">
 							<div class="row" id="event-table-detail"></div>
 						</div>
 					</div>
@@ -600,8 +600,9 @@
 										class="img-thumbnail">
 									<form method="post" enctype="multipart/form-data"
 										action="Center">
-										<input type="file" name="images" id="images" multiple />
-										<input type="hidden" id="user_id" name="user_id" value="askjdhkasjdh"/>
+										<input type="file" name="images" id="images" multiple /> <input
+											type="hidden" id="user_id" name="user_id"
+											value="askjdhkasjdh" />
 										<button type="submit" id="btn">Upload Files!</button>
 									</form>
 									<div id="response"></div>
@@ -789,10 +790,12 @@
 																events[ke].event_id,
 																events[ke].is_enrolled);
 													}
-													document.getElementById("event_loading").className = "";
+													document
+															.getElementById("event_loading").className = "";
 												},
-												error :function() {
-													document.getElementById("event_loading").className = "";
+												error : function() {
+													document
+															.getElementById("event_loading").className = "";
 												}
 											});
 								}
@@ -855,10 +858,12 @@
 																events[ke].event_id,
 																events[ke].is_enrolled);
 													}
-													document.getElementById("event_loading").className = "";
+													document
+															.getElementById("event_loading").className = "";
 												},
-												error : function(){
-													document.getElementById("event_loading").className = "";
+												error : function() {
+													document
+															.getElementById("event_loading").className = "";
 												}
 											});
 								}
@@ -955,8 +960,8 @@
 			var e = document.getElementById(elementId);
 			e.className = "";
 		}
-		function addUid(){
-			var e =document.getElementById("user_id");
+		function addUid() {
+			var e = document.getElementById("user_id");
 			e.setAttribute("user_id", "zhang");
 		}
 	</script>
