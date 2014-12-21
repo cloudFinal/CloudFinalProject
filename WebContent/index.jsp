@@ -25,6 +25,7 @@
 <script>
 	var uid;
 	var prefs;
+	var currentPreference;
 
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -203,7 +204,7 @@
 					error : AjaxFailed
 				});
 	}
-
+	//get and create all preference
 	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
 		while (myNode.firstChild) {
@@ -232,11 +233,14 @@
 			error : AjaxFailed
 		});
 	}
+
+	//create a list item
 	function createSublist(prefname, indexi) {
 		var n = prefname.indexOf(":");
 		var elementa = document.createElement("li");
 		var elementb = document.createElement("a");
 		elementb.onclick = function() {
+			currentPreference = indexi;
 			$("#test2").hide(100);
 			$("#test1").hide(200);
 			$("#event-table").hide();
@@ -278,9 +282,8 @@
 										.toDateString(),
 								events[ke].number_limit_from,
 								events[ke].number_limit_to,
-								events[ke].number_of,
-								events[ke].event_id
-								);
+								events[ke].number_of, events[ke].event_id,
+								events[ke].is_enrolled);
 					}
 				},
 				error : AjaxFailed
@@ -294,10 +297,40 @@
 		elementa.appendChild(elementb);
 		document.getElementById('motherlist').appendChild(elementa);
 	}
-
+	//this function is called to show addPreference page and hide Preference detail page
 	function addPreference() {
 		$("#test1").show(400);
 		$("#test2").hide(200);
+	}
+	//delete preference
+	function deletePreference() {
+		$.ajax({
+			url : 'http://localhost:8080/CloudFinal/DeletePreference',
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				plantform : "aads",
+				user_id : uid,
+				preference_name : prefs[currentPreference].preference_name
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				var events = result.event;
+				for ( var ke in events) {
+					if (result.result) {
+						getAndCreateAllPreference();
+						$("#test2").hide(200);
+						$("#test1").show(400);
+					} else {
+
+					}
+				}
+			},
+			error : AjaxFailed
+		});
+
 	}
 </script>
 <script type="text/javascript"
@@ -364,9 +397,7 @@
 							e.latLng.lng());
 					x = e.latLng.lng();
 					y = e.latLng.lat();
-					if (tmpMarker != null) {
-						tmpMarker.setMap(null);
-					}
+					clearEventMarker();
 					tmpMarker = new google.maps.Marker({
 						map : map,
 						position : new google.maps.LatLng(y, x),
@@ -386,7 +417,7 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -402,6 +433,17 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
+			<div class="navbar-form navbar-left">
+				<ul class="nav nav-tabs">
+					<li id="homePage" role="presentation" class="active"><a
+						href="#" onclick="setHomePage()">Home</a></li>
+					<li id="profile" role="presentation"><a href="#"
+						onclick="setProfile()">Profile</a></li>
+					<li id="message" role="presentation"><a href="#"
+						onclick="setMessage()">Messages</a></li>
+				</ul>
+			</div>
+
 			<div class="navbar-form navbar-right">
 				<div class="form-group" id="undiv">
 					<input type="text" class="form-control" id="username"
@@ -489,7 +531,9 @@
 			<div class="col-sm-4 col-md-4" id="test2">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a href="#" onclick="togglePreference()">Preference Detail</a>
+						<a href="#" onclick="togglePreference()">Preference Detail</a> <a
+							href="#" onclick="deletePreference()" style="float: right">Delete
+							it</a>
 					</div>
 					<div id="preference-table" class="panel-body">
 						<table class="table">
@@ -534,10 +578,24 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="col-sm-6 col-md-6" style="float: right" id="test3">
 				<div id="dvMap" style="height: 400px"></div>
-
+			</div>
+			<div class="col-sm-12 col-md-12" id="profileView">
+				<div class="col-sm-12 col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a href="#" onclick="toggleEvent()">Current Event</a>
+						</div>
+						<div id="event-table" class="panel-body">
+							<div class="row" id="event-table-detail">
+								<div class="col-sm-4 col-md-12">
+									<img src="/bootstrap/images/download.png" class="img-thumbnail">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -593,6 +651,10 @@
 				marker[i].setMap(null);
 			}
 			marker = [];
+			if (tmpMarker != null) {
+				tmpMarker.setMap(null);
+			}
+			tmpMarker = null;
 		}
 		function togglePreference() {
 			$("#preference-table").toggle("slow");
@@ -610,52 +672,76 @@
 			<p>number:14</p>
 			<button class="btn btn-primary">Join</button>
 		</div>
-	</div>*/
-		function addEvents(location, activityName, startTime,
-				numberLimitFrom, numberLimitTo, currentNumber,eventid) {
-		    var bt = createB("join","button");
-		    bt.setAttribute("class","btn btn-primary");
-		    bt.setAttribute("id","btn btn-primary");
-		    bt.onclick=function(){
-		    	
-		    	$.ajax({
-					url : 'http://localhost:8080/CloudFinal/JoinEvent',
-					type : 'POST',
-					dataType : "json",
-					data : JSON.stringify({
-						plantform : "aads",
-						userid : uid,
-						eventid : eventid
-					}),
-					processData : false,
-					ContentType : 'application/json',
-					dataType : 'json',
-					success : function(result) {
-						if(result.result){
-							
-						}	
-					},
-					error : AjaxFailed
-				});
-		    	
-		    };
-		    
-		    
-		    
-		    var bt2 = createB("leave","button");
-		    bt2.setAttribute("class","btn btn-primary");
-		    bt2.inclick=function(){
-		    	
-		    }
+		</div>*/
+		function addEvents(location, activityName, startTime, numberLimitFrom,
+				numberLimitTo, currentNumber, eventid, is_enrolled) {
+			var bt = createB("join", "button");
+			bt.setAttribute("class", "btn btn-primary");
+			bt.setAttribute("id", "btn btn-primary");
+			bt.id = "1" + eventid;
+			bt.onclick = function() {
+
+				$
+						.ajax({
+							url : 'http://localhost:8080/CloudFinal/JoinEvent',
+							type : 'POST',
+							dataType : "json",
+							data : JSON.stringify({
+								plantform : "aads",
+								userid : uid,
+								eventid : eventid
+							}),
+							processData : false,
+							ContentType : 'application/json',
+							dataType : 'json',
+							success : function(result) {
+								if (result.result) {
+									document.getElementById("1" + eventid).disabled = false;
+									document.getElementById("2" + eventid).disabled = true;
+								}
+							},
+							error : AjaxFailed
+						});
+
+			};
+
+			var bt2 = createB("leave", "button");
+			bt2.setAttribute("class", "btn btn-primary");
+			bt2.inclick = function() {
+				$
+						.ajax({
+							url : 'http://localhost:8080/CloudFinal/Leave',
+							type : 'POST',
+							dataType : "json",
+							data : JSON.stringify({
+								plantform : "aads",
+								userid : uid,
+								eventid : eventid
+							}),
+							processData : false,
+							ContentType : 'application/json',
+							dataType : 'json',
+							success : function(result) {
+								if (result.result) {
+									document.getElementById("1" + eventid).disabled = true;
+									document.getElementById("2" + eventid).disabled = false;
+								}
+							},
+							error : AjaxFailed
+						});
+
+			}
+			bt2.id = "2" + eventid;
+
 			var d1 = createElement("div");
-		    d1.setAttribute("class","caption");
-			d1.appendChild(createP("Location: "+location,"p"));
-			d1.appendChild(createP("activityName: "+activityName,"p"));
-			d1.appendChild(createP("startTime: "+startTime,"p"));
-			d1.appendChild(createP("Limit:","p"));
-			d1.appendChild(createP(currentNumber+"/"+numberLimitTo,"p"));
-		    d1.appendChild(bt);
-		    d1.appendChild(bt2);
+			d1.setAttribute("class", "caption");
+			d1.appendChild(createP("Location: " + location, "p"));
+			d1.appendChild(createP("activityName: " + activityName, "p"));
+			d1.appendChild(createP("startTime: " + startTime, "p"));
+			d1.appendChild(createP("Limit:", "p"));
+			d1.appendChild(createP(currentNumber + "/" + numberLimitTo, "p"));
+			d1.appendChild(bt);
+			d1.appendChild(bt2);
 			var image = createElement("img");
 			image.src = "";
 			var d2 = createElement("div");
@@ -667,6 +753,13 @@
 			d3.appendChild(d2);
 			var outer = document.getElementById("event-table-detail");
 			outer.appendChild(d3);
+			if (is_enrolled) {
+				document.getElementById("1" + eventid).disabled = true;
+				document.getElementById("2" + eventid).disabled = false;
+			} else {
+				document.getElementById("1" + eventid).disabled = false;
+				document.getElementById("2" + eventid).disabled = true;
+			}
 		}
 		function createP(str, type) {
 			var result = document.createElement(type);
@@ -684,6 +777,39 @@
 		function createElement(type) {
 			var result = document.createElement(type);
 			return result;
+		}
+		function setHomePage() {
+			setActive("homePage");
+			clearActive("profile");
+			clearActive("message");
+			$("#test1").show(500);
+			$("#test2").hide(500);
+			$("#test0").show(500);
+			$("#test3").show(500);
+			$("#profileView").hide(500);
+		}
+		function setProfile() {
+			setActive("profile");
+			clearActive("homePage");
+			clearActive("message");
+			$("#test1").hide(500);
+			$("#test2").hide(500);
+			$("#test0").hide(500);
+			$("#test3").hide(500);
+			$("#profileView").show(500);
+		}
+		function setMessage() {
+			setActive("message");
+			clearActive("profile");
+			clearActive("homePage");
+		}
+		function setActive(elementId) {
+			var e = document.getElementById(elementId);
+			e.setAttribute("class", "active");
+		}
+		function clearActive(elementId) {
+			var e = document.getElementById(elementId);
+			e.className = "";
 		}
 	</script>
 </body>

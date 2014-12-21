@@ -62,6 +62,10 @@ public class LookUpEvent extends HttpServlet {
 			Gson gson = new Gson();
 			preference = gson.fromJson(obj, Preference.class);
 			ArrayList<Event> result = Center.db.getEventAtPrefer(preference);
+			System.out.println("this is Event list!");
+			for(Event e:result){
+				System.out.print(e.getEventId()+" "+e.isEnrolled());
+			}
 			JsonProcess.sendJson(response,new JsonArrayListGenerator<Event>(result).getObject());
 		}else{
 			String userId=input.getString("userid");
