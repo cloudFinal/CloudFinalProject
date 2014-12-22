@@ -24,8 +24,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
-	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
+	var basicurl = "http://localhost:8080/CloudFinal/";
+	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	var uid;
 	var pword;
 	var prefs;
@@ -36,8 +36,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	var basicurl = "http://localhost:8080/CloudFinal/";
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	//var basicurl = "http://localhost:8080/CloudFinal/";
+	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -202,71 +202,89 @@
 	}
 
 	function addPref() {
-		var element = document.createElement("li");
-		element.
-
-		uid = document.getElementById("addPref").value;
-		var selectop = document.getElementById("activity_name");
-		var array = {
-			"plantform" : "haha",
-			"preference" : {
-				"user_id" : uid,
-				"preference_name" : (new Date()).getTime() + ":"
-						+ document.getElementById("preference_name").value,
-				"location_id" : document.getElementById("maddress").value
-						.hashCode(),
-				"distance_to_tolerance" : parseFloat(document
-						.getElementById("distance_to_tolerance").value),
-				"start_time" : parseInt(Date.parse(document
-						.getElementById("start_time").value)),
-				"end_time" : parseInt(Date.parse(document
-						.getElementById("end_time").value)),
-				"key_word" : "Hello",
-				"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
-				"number_limit_from" : parseInt(document
-						.getElementById("number_limit_from").value),
-				"number_limit_to" : parseInt(document
+		if (document.getElementById("preference_name").value == ""
+				|| parseInt(Date
+						.parse(document.getElementById("start_time").value)) > parseInt(Date
+						.parse(document.getElementById("end_time").value))
+				|| parseInt(document.getElementById("number_limit_from").value) > parseInt(document
 						.getElementById("number_limit_to").value)
-			}
-		};
-		$.ajax({
-			url : basicurl + "InsertLocation",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
+				|| document.getElementById("maddress").value == ""
+				|| document.getElementById("start_time").value == ""
+				|| document.getElementById("end_time").value == ""
+				|| document.getElementById("number_limit_from").value == ""
+				|| document.getElementById("number_limit_to").value == ""
+				|| isNaN(document.getElementById("distance_to_tolerance").value)) {
+
+		} else {
+
+			var element = document.createElement("li");
+			element.
+
+			uid = document.getElementById("addPref").value;
+			var selectop = document.getElementById("activity_name");
+			var array = {
 				"plantform" : "haha",
-				"location" : {
+				"preference" : {
+					"user_id" : uid,
+					"preference_name" : (new Date()).getTime() + ":"
+							+ document.getElementById("preference_name").value,
 					"location_id" : document.getElementById("maddress").value
 							.hashCode(),
-					"address" : document.getElementById("maddress").value,
-					"longitude" : parseFloat(document
-							.getElementById("xCoordinate").value),
-					"latitude" : parseFloat(document
-							.getElementById("yCoordinate").value)
+					"distance_to_tolerance" : parseFloat(document
+							.getElementById("distance_to_tolerance").value),
+					"start_time" : parseInt(Date.parse(document
+							.getElementById("start_time").value)),
+					"end_time" : parseInt(Date.parse(document
+							.getElementById("end_time").value)),
+					"key_word" : "Hello",
+					"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
+					"number_limit_from" : parseInt(document
+							.getElementById("number_limit_from").value),
+					"number_limit_to" : parseInt(document
+							.getElementById("number_limit_to").value)
 				}
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : function(result) {
-				if (result.result) {
-					$.ajax({
-						url : basicurl + "InsertPreference",
+			};
+			$
+					.ajax({
+						url : basicurl + "InsertLocation",
 						type : 'POST',
 						dataType : "json",
-						data : JSON.stringify(array),
+						data : JSON
+								.stringify({
+									"plantform" : "haha",
+									"location" : {
+										"location_id" : document
+												.getElementById("maddress").value
+												.hashCode(),
+										"address" : document
+												.getElementById("maddress").value,
+										"longitude" : parseFloat(document
+												.getElementById("xCoordinate").value),
+										"latitude" : parseFloat(document
+												.getElementById("yCoordinate").value)
+									}
+								}),
 						processData : false,
 						ContentType : 'application/json',
 						dataType : 'json',
 						success : function(result) {
-							getAndCreateAllPreference();
+							$.ajax({
+								url : basicurl + "InsertPreference",
+								type : 'POST',
+								dataType : "json",
+								data : JSON.stringify(array),
+								processData : false,
+								ContentType : 'application/json',
+								dataType : 'json',
+								success : function(result) {
+									getAndCreateAllPreference();
+								},
+								error : AjaxFailed
+							});
 						},
 						error : AjaxFailed
 					});
-				}
-			},
-			error : AjaxFailed
-		});
+		}
 	}
 	//get and create all preference
 	function getAndCreateAllPreference() {
@@ -798,7 +816,6 @@
 										onclick="edit_profile()">Edit</button>
 								</div>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -876,7 +893,9 @@
 			function toggleEvent() {
 				$("#event-table").toggle("slow");
 			}
-
+			function toggleMember() {
+				$("#member-table").toggle("slow");
+			}
 			function addEventMarker(lat, longi) {
 				marker[marker.length] = new google.maps.Marker({
 					map : map,
@@ -1388,7 +1407,6 @@
 				var form = generateElement("form", [ [ "method", "post" ],
 						[ "enctype", "multipart/form-data" ],
 						[ "action", "EventImageUpload" ] ], null, null);
-
 				form.appendChild(input);
 				form.appendChild(inputAttribute);
 				form.appendChild(uploadButton);

@@ -563,6 +563,20 @@ public class Database
 			return false;
 		}
 	}
+	public String getUserUrl(String user_id){
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select image from users where user_id='"+user_id+"'");
+			if(rset.next()){
+				return rset.getString(1);
+			}else{
+				return null;
+			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+	}
 	public boolean deletePreference(String user_id,String preferenceName){
 		try {
 			stmt=conn.createStatement();
