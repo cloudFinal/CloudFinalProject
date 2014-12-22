@@ -82,7 +82,7 @@
 			wsocket.close();
 			$chatWindow.empty();
 			$('.chat-wrapper').hide();
-			wsocket=null;
+			wsocket = null;
 		}
 	}
 
@@ -544,51 +544,69 @@
 				</ul>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test1">
-				<div class="jumbotron">
-					<div class="container">
-						<div class="row" id="divt">
-							<div class='col-sm-12 col-md-12'>
-								<input type="text" class="form-control" id="preference_name"
-									placeholder="Enter Your Preference Name">
-							</div>
-							<div class='col-sm-12 col-md-12'>
-								<input id="distance_to_tolerance" type="text"
-									class="form-control" placeholder="I prefer within">
-							</div>
-						</div>
-						<div class="row" id="divt">
-							<div class='col-sm-12 col-md-12'>
-								<div class='input-group date' id='datetimepicker1'>
-									<input id="start_time" type='text' class="form-control"
-										placeholder="Start Time To" /> <span
-										class="input-group-addon"><span
-										class="glyphicon glyphicon-calendar"></span></span>
-								</div>
-							</div>
-							<div class='col-sm-12 col-md-12'>
-								<div class='input-group date' id='datetimepicker2'>
-									<input id="end_time" type='text' class="form-control"
-										placeholder="Start Time To" /> <span
-										class="input-group-addon"><span
-										class="glyphicon glyphicon-calendar"></span> </span>
-								</div>
-							</div>
-							<div class='col-sm-6 col-md-6'>
-								Select an activity <select id="activity_name"
-									class="form-control">
-									<option value="one">basketball</option>
-								</select> <input id="number_limit_from"></input><label>number_limit_from</label>
-								<input id="number_limit_to"></input><label>number_limit_to</label>
-								<input id="maddress"></input><label>address</label> <input
-									id="xCoordinate"></input><label>longitude</label> <input
-									id="yCoordinate"></input><label>latitude</label>
-							</div>
-						</div>
-						<div class="row" id="divt">
-							<div class="col-sm-6 col-md-6 col-lg-6">
-								<button type="button" class="btn btn-primary btn-block"
-									id="addPref" onclick="addPref()">AddPref</button>
-							</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="togglePreference()">New Preference</a> <a
+							href="#" onclick="deletePreference()" style="float: right">Delete
+							it</a>
+					</div>
+					<div id="preference-table" class="panel-body">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>Preference Name</td>
+									<td><input type="text" class="form-control"
+										id="preference_name" placeholder="Enter Your Preference Name"></td>
+								</tr>
+								<tr>
+									<td>Activity</td>
+									<td><select id="activity_name" class="form-control">
+											<option value="one">basketball</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td>Within</td>
+									<td><input id="distance_to_tolerance" type="text"
+										class="form-control" placeholder="Miles"></td>
+								</tr>
+								<tr>
+									<td>Start From</td>
+									<td><div class='input-group date' id='datetimepicker1'>
+											<input id="start_time" type='text' class="form-control"
+												placeholder="Early Start Time" /> <span
+												class="input-group-addon"><span
+												class="glyphicon glyphicon-calendar"></span></span>
+										</div></td>
+								</tr>
+								<tr>
+									<td>To</td>
+									<td><div class='input-group date' id='datetimepicker2'>
+											<input id="end_time" type='text' class="form-control"
+												placeholder="Late Start Time" /> <span
+												class="input-group-addon"><span
+												class="glyphicon glyphicon-calendar"></span> </span>
+										</div></td>
+								</tr>
+								<tr>
+									<td>Number Limit From</td>
+									<td><input id="number_limit_from" type='text'
+										class="form-control" placeholder="Minimal Anticipation" /></td>
+								</tr>
+								<tr>
+									<td>Number Limit To</td>
+									<td><input id="number_limit_to" type='text'
+										class="form-control" placeholder="Minimal Anticipation" /></td>
+								</tr>
+								<tr>
+									<td>Prefer At</td>
+									<td><input id="maddress" type='text' class="form-control"
+										placeholder="Address"></input></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<button type="button" class="btn btn-primary btn-block"
+								id="addPref" onclick="addPref()">AddPref</button>
 						</div>
 					</div>
 				</div>
@@ -608,7 +626,7 @@
 									<td id="set_preferencename"></td>
 								</tr>
 								<tr>
-									<td>Activit</td>
+									<td>Activity</td>
 									<td id="set_activity"></td>
 								</tr>
 								<tr>
@@ -616,18 +634,18 @@
 									<td id="set_location"></td>
 								</tr>
 								<tr>
-									<td>Start Time</td>
+									<td>Start From</td>
 									<td id="set_starttime"></td>
 								</tr>
 								<tr>
-									<td>End Time</td>
+									<td>To</td>
 									<td id="set_endtime"></td>
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
 									<td id="set_numberlimitfrom"></td>
 								</tr>
-								<td>Number Limit To</td>
+								<td>To</td>
 								<td id="set_numberlimitto"></td>
 								</tr>
 							</tbody>
