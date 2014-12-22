@@ -1529,9 +1529,23 @@
 				newElement.innerHTML = innerHTML;
 			return newElement;
 		}
+		////logout
 		function logout(){
-			
+			$
+			.ajax({
+				url : basicurl + "Logout",
+				type : 'POST',
+				data : JSON.stringify({
+				}),
+				processData : false,
+				success : function(result) {
+					location.reload();
+				},
+				error : AjaxFailed
+			});
 		}
+		
+		
 		function learnRegExp(s) {
 			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 			return regexp.test(s);
@@ -1569,12 +1583,42 @@
 		}
 	</script>
 	<script type="text/javascript">
-		$("#test1").hide();
+	<%
+	HttpSession se = request.getSession();
+	if(se.getAttribute("userid")!=null){
+		%>
+			uid=<%="\""+se.getAttribute("userid")+"\""%>;
+			pword=<%="\""+se.getAttribute("password")+"\""%>;
+			var a = document.getElementById("signin");
+			document.getElementById("signin").parentElement
+					.removeChild(document.getElementById("signin"));
+			var b = document.getElementById("signup");
+			document.getElementById("signup").parentElement
+					.removeChild(document.getElementById("signup"));
+			var c = document.getElementById("username");
+			document.getElementById("username").parentElement
+					.removeChild(document.getElementById("username"));
+			var d = document.getElementById("password");
+			document.getElementById("password").parentElement
+					.removeChild(document.getElementById("password"));
+			getAndCreateAllPreference();
+			getProfile();
+		<%
+	}else{
+	%>
+	$("#test1").hide();
+	$("#test0").hide();
+	$("#test3").hide();
+	$("#logout").hide();
+	$("#nav").hide();
+	<%}%>
+	
+	
+	
+	
+	
+	
 		$("#test2").hide();
-		$("#test0").hide();
-		$("#test3").hide();
-		$("#logout").hide();
-		$("#nav").hide();
 		$("#eventsView").hide();
 		$("#profileView").hide();
 		$(".chat-wrapper").hide();
@@ -1588,35 +1632,6 @@
 			leaveRoom();
 			setEvents();
 		});
-		<%
-		HttpSession se = request.getSession();
-		if(se.getAttribute("userid")!=null){
-			%>
-				uid=<%="\""+se.getAttribute("userid")+"\""%>;
-				pword=<%="\""+se.getAttribute("password")+"\""%>;
-				var a = document.getElementById("signin");
-				document.getElementById("signin").parentElement
-						.removeChild(document.getElementById("signin"));
-				var b = document.getElementById("signup");
-				document.getElementById("signup").parentElement
-						.removeChild(document.getElementById("signup"));
-				var c = document.getElementById("username");
-				document.getElementById("username").parentElement
-						.removeChild(document.getElementById("username"));
-				var d = document.getElementById("password");
-				document.getElementById("password").parentElement
-						.removeChild(document.getElementById("password"));
-				$("#test0").show(1000);
-				$("#test1").show(1000);
-				$("#nav").show(1000);
-				$("#test3").show();
-				//google.maps.event.trigger(map, 'resize');
-				$("#logout").show(100);
-				getAndCreateAllPreference();
-				getProfile();
-			<%
-		}
-		%>
 		$.ajax({
 			url : basicurl + "ActivityReply",
 			type : 'POST',
