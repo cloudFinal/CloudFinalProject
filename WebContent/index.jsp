@@ -1042,6 +1042,7 @@
 			$("#profileView").hide(500);
 			$("#eventsView").hide(500);
 			$("#nav").show(200);
+			$(".chat-wrapper").hide(500);
 			google.maps.event.trigger(map, 'resize');
 		}
 		function setProfile() {
