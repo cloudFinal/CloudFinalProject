@@ -70,9 +70,11 @@
 	}
 
 	function connectToChatserver(roomname) {
-		room = roomname;
-		wsocket = new WebSocket(serviceLocation + room);
-		wsocket.onmessage = onMessageReceived;
+		if (wsocket == null) {
+			room = roomname;
+			wsocket = new WebSocket(serviceLocation + room);
+			wsocket.onmessage = onMessageReceived;
+		}
 	}
 
 	function leaveRoom() {
@@ -493,7 +495,7 @@
 					<li id="message" role="presentation"><a href="#"
 						onclick="setMessage()">Messages</a></li>
 					<li id="events" role="presentation"><a href="#"
-						onclick="setEvents()">Messages</a></li>
+						onclick="setEvents()">Events</a></li>
 				</ul>
 			</div>
 
@@ -704,8 +706,7 @@
 						</div>
 						<div id="eventsDetail" class="panel-body">
 							<div class="row" id="event-table-detail">
-								<div class="col-sm-6 col-md-6">
-								</div>
+								<div class="col-sm-6 col-md-6"></div>
 							</div>
 						</div>
 					</div>
@@ -1020,7 +1021,7 @@
 			$("#test3").show(500);
 			$("#test2").hide(500);
 			$("#profileView").hide(500);
-			$("#eventsView").show(500);
+			$("#eventsView").hide(500);
 			$("#nav").show(200);
 		}
 		function setProfile() {
@@ -1053,10 +1054,27 @@
 			$("#test1").hide(500);
 			$("#test2").hide(500);
 			$("#test0").hide(500);
+			$("#eventsView").hide();
 			$("#test3").hide(500);
 			$("#profileView").hide(500);
 		}
 		function setEvents() {
+
+			$.ajax({
+				url : basicurl + "getEvents",
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify({
+					username : document.getElementById("username").value,
+					password : document.getElementById("password").value
+				}),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : AjaxSucceeded,
+				error : AjaxFailed
+			});
+
 			setActive("events");
 			clearActive("message");
 			clearActive("profile");
@@ -1071,6 +1089,7 @@
 
 			//hide chat
 			$(".chat-wrapper").hide(500);
+
 		}
 		function setActive(elementId) {
 			var e = document.getElementById(elementId);
@@ -1122,9 +1141,8 @@
 				}
 			});
 		}
-		function createDetailEvent(eventid,location, activityName, startTime,
-				numberLimitFrom, numberLimitTo, currentNumber,
-				is_enrolled) {
+		function createDetailEvent(eventid, location, activityName, startTime,
+				numberLimitFrom, numberLimitTo, currentNumber, is_enrolled) {
 			var bt;
 			if (currentNumber == 0) {
 				bt = createB("Create", "button");
@@ -1164,11 +1182,17 @@
 			var divRight = createDiv(8);
 			divRight.appendChild(createCarousel(eventid));
 			var uploadDiv = createDiv(12);
-			var input = generateElement("input",[["type","file"],["name","images"]],null,null);
-			input.id=eventid+"image";
-			var inputAttribute = generateElement("input",[["type","hidden"],["name","event_id"],["value",eventid]],null,null);
-			var uploadButton = generateElement("button",[["type","submit"]],null,"Upload photo!");
-			var form = generateElement("form",[["method","post"],["enctype","multipart/form-data"],["action","EventImageUpload"]],null,null);
+			var input = generateElement("input", [ [ "type", "file" ],
+					[ "name", "images" ] ], null, null);
+			input.id = eventid + "image";
+			var inputAttribute = generateElement("input", [
+					[ "type", "hidden" ], [ "name", "event_id" ],
+					[ "value", eventid ] ], null, null);
+			var uploadButton = generateElement("button",
+					[ [ "type", "submit" ] ], null, "Upload photo!");
+			var form = generateElement("form", [ [ "method", "post" ],
+					[ "enctype", "multipart/form-data" ],
+					[ "action", "EventImageUpload" ] ], null, null);
 			form.appendChild(input);
 			form.appendChild(inputAttribute);
 			form.appendChild(uploadButton);
@@ -1182,7 +1206,7 @@
 										<button type="submit" id="btn">Upload Files!</button>
 									</form>*/
 			var outer = document.getElementById("eventsDetail");
-			var frame=createDiv(6);
+			var frame = createDiv(6);
 			frame.appendChild(divLeft);
 			frame.appendChild(divRight);
 			outer.appendChild(frame);
@@ -1196,44 +1220,76 @@
 			}
 		}
 		function createCarousel(event_id) {
-			var img = generateElement("img",[["src","https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"]],null,null);
-			var divUnder = generateElement("div",[["class","carousel-caption"]],null,null);
-			var inner = generateElement("div",[["class","item active"]],null,null);
+			var img = generateElement(
+					"img",
+					[ [ "src",
+							"https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png" ] ],
+					null, null);
+			var divUnder = generateElement("div", [ [ "class",
+					"carousel-caption" ] ], null, null);
+			var inner = generateElement("div", [ [ "class", "item active" ] ],
+					null, null);
 			inner.appendChild(img);
 			inner.appendChild(divUnder);
-			var imageFrame = generateElement("div",[["class","carousel-inner"],["role","listbox"]],null,null);
+			var imageFrame = generateElement("div", [
+					[ "class", "carousel-inner" ], [ "role", "listbox" ] ],
+					null, null);
 			imageFrame.appendChild(inner);
-			var li = generateElement("li",[["data-target","#"+event_id+"carousel"],["data-slide-to","0"],["class","active"]],null,null)
-			var ol = generateElement("ol",[["class","carousel-indicators"]],null,null);
+			var li = generateElement("li", [
+					[ "data-target", "#" + event_id + "carousel" ],
+					[ "data-slide-to", "0" ], [ "class", "active" ] ], null,
+					null)
+			var ol = generateElement("ol",
+					[ [ "class", "carousel-indicators" ] ], null, null);
 			ol.appendChild(li);
-			var car = generateElement("div",[["class","carousel slide"],["data-ride","carousel"]],null,null);
+			var car = generateElement("div", [ [ "class", "carousel slide" ],
+					[ "data-ride", "carousel" ] ], null, null);
 			car.appendChild(ol);
 			car.appendChild(imageFrame);
-			car.id=event_id+"carousel";
+			car.id = event_id + "carousel";
 			return car;
 		}
-		function insertPicture(event_id,url){
-			var car = document.getElementById(event_id+"carousel");
-			var img = generateElement("img",[["src",url],["alt","...."]],null,null);
-			var divUnder = generateElement("div",[["class","carousel-caption"]],null,null);
-			var number=car.childNodes[0].children.length;
-			var inner = generateElement("div",[["class","item"]],null,null);
+		function insertPicture(event_id, url) {
+			var car = document.getElementById(event_id + "carousel");
+			var img = generateElement("img", [ [ "src", url ],
+					[ "alt", "...." ] ], null, null);
+			var divUnder = generateElement("div", [ [ "class",
+					"carousel-caption" ] ], null, null);
+			var number = car.childNodes[0].children.length;
+			var inner = generateElement("div", [ [ "class", "item" ] ], null,
+					null);
 			inner.appendChild(img);
 			inner.appendChild(divUnder);
-			var li=generateElement("li",[["data-target","#"+event_id+"carousel"],["data-slide-to",number]],null,null);
+			var li = generateElement("li", [
+					[ "data-target", "#" + event_id + "carousel" ],
+					[ "data-slide-to", number ] ], null, null);
 			car.childNodes[1].appendChild(inner);
 			car.childNodes[0].appendChild(li);
 		}
-		function addCarouselController(event_id){
-			var controller = document.getElementById(event_id+"carousel");
-			var ls1 = generateElement("span",[["class","glyphicon glyphicon-chevron-left"],["aria-hidden","true"]],null,null);
-			var ls2 = generateElement("span",["class","sr-only"],null,"Prev");
-			var la = generateElement("span",[["class","left carousel-control"],["href","#"+event_id+"carousel"],["role","button"],["date-slide","prev"]],null,null);
+		function addCarouselController(event_id) {
+			var controller = document.getElementById(event_id + "carousel");
+			var ls1 = generateElement("span", [
+					[ "class", "glyphicon glyphicon-chevron-left" ],
+					[ "aria-hidden", "true" ] ], null, null);
+			var ls2 = generateElement("span", [ "class", "sr-only" ], null,
+					"Prev");
+			var la = generateElement("span", [
+					[ "class", "left carousel-control" ],
+					[ "href", "#" + event_id + "carousel" ],
+					[ "role", "button" ], [ "date-slide", "prev" ] ], null,
+					null);
 			la.appendChild(ls1);
 			la.appendChild(ls2);
-			var rs1 = generateElement("span",[["class","glyphicon glyphicon-chevron-right"],["aria-hidden","true"]],null,null);
-			var rs2 = generateElement("span",["class","sr-only"],null,"Next");
-			var ra = generateElement("span",[["class","right carousel-control"],["href","#"+event_id+"carousel"],["role","button"],["date-slide","next"]],null,null);
+			var rs1 = generateElement("span", [
+					[ "class", "glyphicon glyphicon-chevron-right" ],
+					[ "aria-hidden", "true" ] ], null, null);
+			var rs2 = generateElement("span", [ "class", "sr-only" ], null,
+					"Next");
+			var ra = generateElement("span", [
+					[ "class", "right carousel-control" ],
+					[ "href", "#" + event_id + "carousel" ],
+					[ "role", "button" ], [ "date-slide", "next" ] ], null,
+					null);
 			ra.appendChild(rs1);
 			ra.appendChild(rs2);
 			controller.appendChild(la);
@@ -1272,30 +1328,33 @@
 				<span class="sr-only">Next</span>
 			</a>
 		</div>*/
-		function generateElement(elementType, attributes, childrenToAppend, innerHTML) {
+		function generateElement(elementType, attributes, childrenToAppend,
+				innerHTML) {
 			var i, isIE = navigator.appName == 'Microsoft Internet Explorer';
-			if(isIE)
+			if (isIE)
 				tagCode = '<' + elementType;
 			else
 				newElement = document.createElement(elementType);
-			if(attributes!=null) {
-				for(i=0;i<attributes.length;i++) {
-					if(attributes[i]) {
-						if(isIE)
-							tagCode += ' ' + attributes[i][0] + '="' + attributes[i][1] + '"';
+			if (attributes != null) {
+				for (i = 0; i < attributes.length; i++) {
+					if (attributes[i]) {
+						if (isIE)
+							tagCode += ' ' + attributes[i][0] + '="'
+									+ attributes[i][1] + '"';
 						else
-							newElement.setAttribute(attributes[i][0], attributes[i][1]);
+							newElement.setAttribute(attributes[i][0],
+									attributes[i][1]);
 					}
 				}
 			}
-			if(isIE)
+			if (isIE)
 				newElement = document.createElement(tagCode + '>');
-			if(childrenToAppend!=null) {
-				for(i=0;i<childrenToAppend.length;i++) {
+			if (childrenToAppend != null) {
+				for (i = 0; i < childrenToAppend.length; i++) {
 					newElement.appendChild(childrenToAppend[i]);
 				}
 			}
-			if(innerHTML)
+			if (innerHTML)
 				newElement.innerHTML = innerHTML;
 			return newElement;
 		}
@@ -1325,7 +1384,8 @@
 								document.getElementById("set_dob").value = tmp.date_of_birth;
 								document.getElementById("set_nationality").value = tmp.nationality;
 								document.getElementById("gender").value = tmp.gender;
-								if (learnRegExp(tmp.image)&&tmp.hasOwnProperty('image')){
+								if (learnRegExp(tmp.image)
+										&& tmp.hasOwnProperty('image')) {
 									document.getElementById("userImage").src = tmp.image;
 								}
 							}
@@ -1340,6 +1400,7 @@
 		$("#test0").hide();
 		$("#test3").hide();
 		$("#logout").hide();
+		$("#eventsView").hide();
 		$("#profileView").hide();
 		$(".chat-wrapper").hide();
 		$message = $('#chatmessage');
