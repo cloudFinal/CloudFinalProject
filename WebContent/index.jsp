@@ -504,10 +504,10 @@
 						href="#" onclick="setHomePage()">Home</a></li>
 					<li id="profile" role="presentation"><a href="#"
 						onclick="setProfile()">Profile</a></li>
-					<li id="message" role="presentation"><a href="#"
-						onclick="setMessage()">Messages</a></li>
 					<li id="events" role="presentation"><a href="#"
 						onclick="setEvents()">Events</a></li>
+					<li id="message" role="presentation"><a href="#"
+						onclick="setMessage()">Messages</a></li>
 				</ul>
 			</div>
 
@@ -631,11 +631,10 @@
 								<tr>
 									<td>Prefer At</td>
 									<td><input id="maddress" type='text' class="form-control"
-										placeholder="Address"></input>
-									<input type="hidden" id="xCoordinate" />
-								<input type="hidden" id="yCoordinate" />
-								</td>
-									
+										placeholder="Address"></input> <input type="hidden"
+										id="xCoordinate" /> <input type="hidden" id="yCoordinate" />
+									</td>
+
 								</tr>
 							</tbody>
 						</table>
@@ -735,7 +734,9 @@
 											</tr>
 											<tr>
 												<td>Password</td>
-												<td><button class="btn btn-default">Change</button></td>
+												<td><input id="set_password" type="text"
+													class="form-control"></td>
+												<td><button class="btn btn-success">Change</button></td>
 											</tr>
 											<tr>
 												<td>User Name</td>
@@ -744,8 +745,12 @@
 											</tr>
 											<tr>
 												<td>Date of Birth</td>
-												<td><input type="text" class="form-control"
-													id="set_dob"></td>
+												<td><div class='input-group date' id='datetimepicker1'>
+														<input id="set_dob" type='text' class="form-control"
+															placeholder="Date Of Birth" /> <span
+															class="input-group-addon"><span
+															class="glyphicon glyphicon-calendar"></span></span>
+													</div></td>
 											</tr>
 											<tr>
 												<td>Nationality</td>
@@ -758,8 +763,8 @@
 											</tr>
 										</tbody>
 									</table>
-									<button class="btn btn-default">edit</button>
 								</div>
+									<button class="btn btn-default">Edit</button>
 							</div>
 						</div>
 					</div>
@@ -898,8 +903,8 @@
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-			var outerbt1=createDiv(6);
-			var outerbt2=createDiv(6);
+			var outerbt1 = createDiv(6);
+			var outerbt2 = createDiv(6);
 			outerbt1.appendChild(bt);
 			outerbt2.appendChild(bt2);
 			bt.onclick = function(e) {
