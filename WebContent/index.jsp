@@ -1068,7 +1068,24 @@
 			$("#nav").show(200);
 
 			/////////show message
-			connectToChatserver("123");
+			$(".chat-wrapper").hide(500);
+			$("#test1").hide(500);
+			$("#test2").hide(500);
+			$("#test0").hide(500);
+			$("#eventsView").hide();
+			$("#test3").hide(500);
+			$("#profileView").hide(500);
+		}
+
+		function setMessageInEventView(roomname) {
+			setActive("message");
+			clearActive("events");
+			clearActive("profile");
+			clearActive("homePage");
+			$("#nav").show(200);
+
+			/////////show message
+			connectToChatserver(roomname);
 			$(".chat-wrapper").show(500);
 			$("#test1").hide(500);
 			$("#test2").hide(500);
@@ -1077,6 +1094,7 @@
 			$("#test3").hide(500);
 			$("#profileView").hide(500);
 		}
+
 		function setEvents() {
 			var myNode = document.getElementById("eventsDetail");
 			while (myNode.firstChild) {
@@ -1099,15 +1117,14 @@
 					for ( var indsa in ress) {
 						var res = ress[indsa];
 						createDetailEvent(res.event_id, res.address,
-								res.start_time, res.number_limit_from,
-								res.number_limit_to, res.number_of,
-								res.is_enrolled);
-						var list=res.urlList;
-						for(li in list){
-							insertPicture(res.event_id,list[li]);
+								res.activity_name, res.start_time,
+								res.number_limit_from, res.number_limit_to,
+								res.number_of, res.is_enrolled);
+						var list = res.urlList;
+						for (li in list) {
+							insertPicture(res.event_id, list[li]);
 						}
 					}
-
 				},
 				error : AjaxFailed
 			});
@@ -1180,24 +1197,40 @@
 		}
 		function createDetailEvent(eventid, location, activityName, startTime,
 				numberLimitFrom, numberLimitTo, currentNumber, is_enrolled) {
-			var bt;
-			if (currentNumber == 0) {
-				bt = createB("Create", "button");
-				bt.setAttribute("class", "btn btn-success");
-			} else {
-				bt = createB("Join", "button");
-				bt.setAttribute("class", "btn btn-primary");
-			}
-			bt.setAttribute("id", "btn btn-primary");
-			bt.id = "1_" + eventid;
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
+			
+			bt2.onclick=function(){
+				$("#eventsView").hide(200);		
+				$
+				.ajax({
+					url : basicurl + "Leave",
+					type : 'POST',
+					dataType : "json",
+					data : JSON.stringify({
+						plantform : "aads",
+						userid : uid,
+						eventid : this.id.substring(2)
+					}),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						setEvents();
+						$("#eventsView").show(400);
+					},
+					error : function() {
+					}
+				});			
+			}
 			var bt3 = createB("chat", "button");
 			bt3.setAttribute("class", "btn btn-success");
-			bt3.id="button"+eventid;
-			var divLeftButton = createDiv(4);
-			divLeftButton.appendChild(bt);
+			bt3.id = "button" + eventid;
+			bt3.onclick = function(e) {
+				//alert(this.id);
+				setMessageInEventView(e.id);
+			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
 			var divRightButton = createDiv(4);
@@ -1218,7 +1251,6 @@
 			divInfo.appendChild(d1);
 			var divLeft = createDiv(4);
 			divLeft.appendChild(divInfo);
-			divLeft.appendChild(divLeftButton);
 			divLeft.appendChild(divMidButton);
 			divLeft.appendChild(divRightButton);
 			var divRight = createDiv(8);
@@ -1253,13 +1285,7 @@
 			frame.appendChild(divRight);
 			outer.appendChild(frame);
 			addCarouselController(eventid);
-			if (is_enrolled) {
-				document.getElementById("1_" + eventid).disabled = true;
-				document.getElementById("2_" + eventid).disabled = false;
-			} else {
-				document.getElementById("1_" + eventid).disabled = false;
-				document.getElementById("2_" + eventid).disabled = true;
-			}
+			document.getElementById("2_" + eventid).disabled = false;
 		}
 		function createCarousel(event_id) {
 			var img = generateElement(
@@ -1454,6 +1480,7 @@
 		});
 		$('#leave-room').click(function() {
 			leaveRoom();
+			setEvents();
 		});
 	</script>
 </body>
