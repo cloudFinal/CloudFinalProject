@@ -38,10 +38,12 @@ public class LookUpUserEvents extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ArrayList<Event> result = Center.db.getUserEvents("l");
+		/*ArrayList<Event> result = Center.db.getUserEvents("l");
 		for(Event e:result){
 			System.out.println(e.getEventId());
-		}
+		}*/
+		ArrayList<Event> result = Center.db.getUserEvents("zhangluoma");
+		JsonProcess.sendJson(response, JsonArrayForWeb.createJsonArray("event",result));
 	}
 
 	/**

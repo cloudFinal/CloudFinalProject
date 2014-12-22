@@ -457,6 +457,23 @@ public class Database
 		}
 		return true;
 	}
+	public ArrayList<String> getEventImages(Event e){
+		ArrayList<String> urls = new ArrayList<String>();
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select image from album where event_id="+e.getEventId());
+			while(rset.next()){
+				String s = rset.getString(1);
+				urls.add(s);
+				//System.out.println("!!!"+e.getActivityName());
+			}
+			return urls;
+		}catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			return null;
+		}
+	}
 	public Profile getProfile(String userId){
 		try{
 			stmt=conn.createStatement();
@@ -567,5 +584,6 @@ public class Database
 		e.setLocation(Center.db.getLocation(e.getHeldIn()));
 		e.setNumberOf(Center.db.numberInEvent(e));
 		e.setEnrolled(Center.db.isParticipateIn(userId, e.getEventId()));
+		e.setUrlList(getEventImages(e));
 	}
 }

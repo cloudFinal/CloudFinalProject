@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import parse.JsonArrayForWeb;
 
 public class Event implements Serializable, JsonAble,Comparable{
 
@@ -32,6 +35,7 @@ public class Event implements Serializable, JsonAble,Comparable{
 	private String address;
 	private float latitude;
 	private float longitude;
+	private ArrayList<String> urlList;
 
 	/**
 	 * Get- and Set-methods for persistent variables. The default behaviour does
@@ -58,7 +62,9 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public double getDistance() {
 		return distance;
 	}
-
+	public ArrayList<String> getUrlList(){
+		return urlList;
+	}
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
@@ -130,7 +136,9 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public void setNumberLimit(int numberLimitIn) {
 		this.numberLimit = numberLimitIn;
 	}
-
+	public void setUrlList(ArrayList<String> urlList){
+		this.urlList=urlList;
+	}
 	public void setNumberLimitTo(int numberLimitToIn) {
 		this.numberLimitTo = numberLimitToIn;
 	}
@@ -194,6 +202,11 @@ public class Event implements Serializable, JsonAble,Comparable{
 		jo.put("address", address);
 		jo.put("latitude", latitude);
 		jo.put("longitude", longitude);
+		JSONArray ja = new JSONArray();
+		for(String s:urlList){
+			ja.put(s);
+		}
+		jo.put("urlList",ja);
 		return jo;
 	}
 

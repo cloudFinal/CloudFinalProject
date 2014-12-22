@@ -1153,14 +1153,17 @@
 			}
 			bt.setAttribute("id", "btn btn-primary");
 			bt.id = "1_" + eventid;
-
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-			var divLeftButton = createDiv(6);
+			var bt3 = createB("chat","button");
+			b3.setAttribute("class","btn btn-success");
+			var divLeftButton = createDiv(4);
 			divLeftButton.appendChild(bt);
-			var divRightButton = createDiv(6);
-			divRightButton.appendChild(bt2);
+			var divMidButton = createDiv(4);
+			divMidButton.appendChild(bt2);
+			var divRightButton = createDiv(4);
+			divRightButton.appendChild(bt3);
 			var d1 = createDiv("12");
 			d1.setAttribute("class", "caption");
 			d1.appendChild(createP("Location: " + location, "p"));
@@ -1178,7 +1181,7 @@
 			var divLeft = createDiv(4);
 			divLeft.appendChild(divInfo);
 			divLeft.appendChild(divLeftButton);
-			divLeft.appendChild(divRightButton);
+			divLeft.appendChild(divMidButton);
 			var divRight = createDiv(8);
 			divRight.appendChild(createCarousel(eventid));
 			var uploadDiv = createDiv(12);
