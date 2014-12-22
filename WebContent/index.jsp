@@ -25,14 +25,14 @@
     <![endif]-->
 
 <script>
-	var basicurl = "http://localhost:8080/CloudFinal/";
+	var basicurl = "http://cloudfinalest.elasticbeanstalk.com/";
 	var uid;
 	var pword;
 	var prefs;
 	var currentPreference;
 
 	var wsocket;
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	var serviceLocation = "ws://cloudfinalest.elasticbeanstalk.com/Message/";
 	var $message;
 	var $chatWindow;
 	var room = 'Plaza';
@@ -70,7 +70,6 @@
 	}
 
 	function connectToChatserver(roomname) {
-		alert("room="+room+" roomname="+roomname)
 		if (wsocket == null) {
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
