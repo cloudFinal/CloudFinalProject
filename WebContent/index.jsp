@@ -1255,6 +1255,7 @@
 			divLeft.appendChild(divRightButton);
 			var divRight = createDiv(8);
 			divRight.appendChild(createCarousel(eventid));
+			//divRight.setAttribute("style","height:100px");
 			var uploadDiv = createDiv(12);
 			var input = generateElement("input", [ [ "type", "file" ],
 					[ "name", "images" ] ], null, null);
@@ -1339,24 +1340,24 @@
 			var ls1 = generateElement("span", [
 					[ "class", "glyphicon glyphicon-chevron-left" ],
 					[ "aria-hidden", "true" ] ], null, null);
-			var ls2 = generateElement("span", [ "class", "sr-only" ], null,
+			var ls2 = generateElement("span", [ [ "class", "sr-only" ] ], null,
 					"Prev");
-			var la = generateElement("span", [
+			var la = generateElement("a", [
 					[ "class", "left carousel-control" ],
 					[ "href", "#" + event_id + "carousel" ],
-					[ "role", "button" ], [ "date-slide", "prev" ] ], null,
+					[ "role", "button" ], [ "data-slide", "prev" ] ], null,
 					null);
 			la.appendChild(ls1);
 			la.appendChild(ls2);
 			var rs1 = generateElement("span", [
 					[ "class", "glyphicon glyphicon-chevron-right" ],
 					[ "aria-hidden", "true" ] ], null, null);
-			var rs2 = generateElement("span", [ "class", "sr-only" ], null,
+			var rs2 = generateElement("span", [ [ "class", "sr-only" ] ], null,
 					"Next");
-			var ra = generateElement("span", [
+			var ra = generateElement("a", [
 					[ "class", "right carousel-control" ],
 					[ "href", "#" + event_id + "carousel" ],
-					[ "role", "button" ], [ "date-slide", "next" ] ], null,
+					[ "role", "button" ], [ "data-slide", "next" ] ], null,
 					null);
 			ra.appendChild(rs1);
 			ra.appendChild(rs2);

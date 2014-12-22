@@ -23,6 +23,7 @@ public class Event implements Serializable, JsonAble,Comparable{
 	 */
 	private int eventId;
 	private int heldIn;
+	private String eventName;
 	private String activityName;
 	private long startTime;
 	private long endTime;
@@ -52,7 +53,6 @@ public class Event implements Serializable, JsonAble,Comparable{
 		this.numberLimitTo = numberLimitToIn;
 		eventId = new Random().nextInt(Integer.MAX_VALUE);
 	}
-
 	public Event() {
 	}
 	public int getPreferedLocation() {
@@ -68,7 +68,6 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-
 	public void setPreferedLocation(int preferedLocation) {
 		this.preferedLocation = preferedLocation;
 	}
