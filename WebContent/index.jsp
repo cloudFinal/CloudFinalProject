@@ -25,18 +25,20 @@
     <![endif]-->
 
 <script>
-	var basicurl = "http://localhost:8080/CloudFinal/";
+	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
 	var uid;
 	var pword;
 	var prefs;
 	var currentPreference;
 
 	var wsocket;
-	var serviceLocation = "ws:/localhost:8080/CloudFinal/Message/";
+	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	var $message;
 	var $chatWindow;
-	var room = 'Plaza';
+	var room = '1233';
 
+	var basicurl = "http://localhost:8080/CloudFinal/";
+	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -74,13 +76,6 @@
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
 			wsocket.onmessage = onMessageReceived;
-		} else {
-			if (room != roomname) {
-				leaveRoom();
-				room = roomname;
-				wsocket = new WebSocket(serviceLocation + room);
-				wsocket.onmessage = onMessageReceived;
-			}
 		}
 	}
 
@@ -1331,7 +1326,9 @@
 			bt3.id = "button" + eventid;
 			bt3.onclick = function(e) {
 				//alert(this.id);
-				setMessageInEventView(this.id);
+				leaveRoom();
+				setMessageInEventView(e.id);
+
 			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
