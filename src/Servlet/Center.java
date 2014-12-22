@@ -102,7 +102,7 @@ public class Center extends HttpServlet {
 						String identifier = (userId+"-"+item.getName());
 						ObjectMetadata o = new ObjectMetadata();
 						o.setContentLength(item.getSize());
-						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAIW3BWV6EDYDRSOUQ","0Sr4OKOztpxAk++Ku14nFzcy1/pIwb02bpyi92Ch"));
+						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAJI2KVNE6A6VFEWOA","fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt"));
 						PutObjectRequest pir = new PutObjectRequest("eventplanner",identifier, item.getInputStream(), o);
 						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
 						s3Client.putObject(pir);
