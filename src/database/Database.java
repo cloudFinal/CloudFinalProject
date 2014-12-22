@@ -271,8 +271,9 @@ public class Database
 				Event e=new Event();
 				e.setAll(rset.getInt(1),rset.getInt(2),rset.getString(3),rset.getLong(4),rset.getLong(5),rset.getInt(6),rset.getInt(7));
 				renewEvent(e,preference.getUserId());
-				e.getNumberOf();
-				events.add(e);
+				if(preference.getNumberLimitTo()>e.getNumberOf()){
+					events.add(e);
+				}
 				//System.out.println("!!!"+e.getActivityName());
 			}
 			System.out.println("!!!!the size is"+events.size());
