@@ -578,7 +578,6 @@
 							<div class='col-sm-6 col-md-6'>
 								Select an activity <select id="activity_name"
 									class="form-control">
-									<option value="one">basketball</option>
 								</select> <input id="number_limit_from"></input><label>number_limit_from</label>
 								<input id="number_limit_to"></input><label>number_limit_to</label>
 								<input id="maddress"></input><label>address</label> <input
@@ -1496,6 +1495,28 @@
 			leaveRoom();
 			setEvents();
 		});
+		
+		$.ajax({
+			url : basicurl + "ActivityReply",
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				plantform : "aads"
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				prefs = result.activity;
+				for ( var ke in prefs) {
+					var option=createElement("option");
+					option.innerHTML=prefs[ke].name;
+					document.getElementById("activity_name").appendChild(option);
+				}
+			},
+			error : AjaxFailed
+		});
+		
 	</script>
 </body>
 </html>
