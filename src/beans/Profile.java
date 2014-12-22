@@ -4,8 +4,10 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
-public class Profile implements Serializable,JsonAble{
+
+public class Profile implements Serializable, JsonAble {
 	private String userid;
 	private String password;
 	private String name;
@@ -15,80 +17,94 @@ public class Profile implements Serializable,JsonAble{
 	private Integer locationId;
 	private String image;
 	private String online;
-	public String getUserid(){
+
+	public String getUserid() {
 		return userid;
 	}
-	public String getOnline(){
+
+	public String getOnline() {
 		return online;
 	}
-	public String getPassword(){
+
+	public String getPassword() {
 		return password;
 	}
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	public long getDateOfBirth(){
+
+	public long getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public String getNationality(){
+
+	public String getNationality() {
 		return nationality;
 	}
-	public String getGender(){
+
+	public String getGender() {
 		return gender;
 	}
-	public String getImage(){
+
+	public String getImage() {
 		return image;
 	}
-	public Integer getLocationId(){
+
+	public Integer getLocationId() {
 		return locationId;
 	}
-	public void setUserid(String userid){
-		this.userid=userid;
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
-	public void setPassword(String password){
-		this.password=password;
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public void setName(String name){
-		this.name=name;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setOnline(String online){
-		this.online=online;
+
+	public void setOnline(String online) {
+		this.online = online;
 	}
-	public void setDateOfBirth(long dateOfBirth){
-		this.dateOfBirth=dateOfBirth;
+
+	public void setDateOfBirth(long dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
-	public void setNationality(String nationality){
-		this.nationality=nationality;
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
 	}
-	public void setGender(String gender){
-		this.gender=gender;
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
-	public void setImage(String image){
-		this.image=image;
+
+	public void setImage(String image) {
+		this.image = image;
 	}
-	public void setLocationId(int locationId){
-		this.locationId=locationId;
+
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
 	}
-	public void setAll(	String userid,
-	String password,
-	String name,
-	long dateOfBirth,
-	String nationality,
-	String gender,
-	Integer locationId,
-	String image,
-	String online){
-		 this.userid=userid;
-		 this.password=password;
-		 this.name=name;
-		 this.dateOfBirth=dateOfBirth;
-		 this.nationality=nationality;
-	     this.gender=gender;
-		 this.locationId=locationId;
-		 this.image=image;
-		 this.online=online;
+
+	public void setAll(String userid, String password, String name,
+			long dateOfBirth, String nationality, String gender,
+			Integer locationId, String image, String online) {
+		this.userid = userid;
+		this.password = password;
+		this.name = name;
+		this.dateOfBirth = dateOfBirth;
+		this.nationality = nationality;
+		this.gender = gender;
+		this.locationId = locationId;
+		this.image = image;
+		this.online = online;
 	}
-	public JSONObject toJson(){
+
+	public JSONObject toJson() {
 		JSONObject jo = new JSONObject();
 		jo.put("user_id", userid);
 		jo.put("password", password);
@@ -101,9 +117,26 @@ public class Profile implements Serializable,JsonAble{
 		jo.put("online", online);
 		return jo;
 	}
-	public static Profile fromJson(JSONObject input){
+
+	public static Profile fromJson(JSONObject input) {
 		Profile result = new Profile();
-		result.setAll(input.getString("user_id"), input.getString("password"),input.getString("name"),input.getLong("date_of_birth"),input.getString("nationality"),input.getString("gender"),input.getInt("location_id"),input.getString("image"),input.getString("online"));
+		try {
+			result.setAll(input.getString("user_id"),
+					input.getString("password"), input.getString("name"),
+					input.getLong("date_of_birth"),
+					input.getString("nationality"), input.getString("gender"),
+					input.getInt("location_id"), input.getString("image"),
+					input.getString("online"));
+		} catch (JSONException e) {
+			result.setAll(input.getString("user_id"),
+					input.getString("password"), input.getString("name"),
+					input.getInt("date_of_birth"),
+					input.getString("nationality"), input.getString("gender"),
+					input.getInt("location_id"), input.getString("image"),
+					input.getString("online"));
+
+		}
+
 		return result;
 	}
 }
