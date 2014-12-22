@@ -55,5 +55,6 @@ public class DeletePreference extends HttpServlet {
 		JSONObject output = new JSONObject();
 		output.put("result", result);
 		JsonProcess.sendJson(response, output);
+		System.out.println(result);
 	}
 }
