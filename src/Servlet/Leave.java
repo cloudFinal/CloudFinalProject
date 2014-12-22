@@ -38,12 +38,15 @@ public class Leave extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("leave!");
 		JSONObject input = Parse.getJson(request);
 		String userId = input.getString("userid");
+		System.out.println("the user is "+userId);
 		int eventId = input.getInt("eventid");
 		boolean result = Center.db.leaveEvent(userId,eventId);
 		JSONObject output = new JSONObject();
 		output.put("result",result);
 		JsonProcess.sendJson(response,output);
+		System.out.println("result="+result);
 	}
 }

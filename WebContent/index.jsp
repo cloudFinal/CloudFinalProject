@@ -333,7 +333,8 @@
 								events[ke].number_limit_to,
 								events[ke].number_of, events[ke].event_id,
 								events[ke].is_enrolled);
-						addEventMarker(events[ke].latitude,events[ke].longitude);
+						addEventMarker(events[ke].latitude,
+								events[ke].longitude);
 					}
 				},
 				error : AjaxFailed
@@ -341,6 +342,9 @@
 			clearEventMarker();
 			addMarker(parseFloat(prefs[indexi].latitude),
 					parseFloat(prefs[indexi].longitude));
+			for (var i = 0; i < events.length; i++) {
+
+			}
 			$("#test2").show(400);
 		};
 		elementb.innerHTML = prefname.substring(n + 1);
@@ -766,13 +770,14 @@
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
 		}
-		
-		function addEventMarker(lat, longi){
+
+		function addEventMarker(lat, longi) {
 			marker[marker.length] = new google.maps.Marker({
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
 			});
-			marker[marker.length].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+			marker[marker.length]
+					.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 		}
 	</script>
 	<script type="text/javascript">
@@ -783,7 +788,12 @@
 				icon : pinImage
 			});
 			map.setCenter(new google.maps.LatLng(lat, longi));
-
+		}
+		function addEevntMarker(lat, longi) {
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi)
+			});
 		}
 		function clearEventMarker() {
 			for (var i = 0; i < marker.length; i++) {
@@ -1072,33 +1082,31 @@
 			while (myNode.firstChild) {
 				myNode.removeChild(myNode.firstChild);
 			}
-			
 
-			$
-					.ajax({
-						url : basicurl + "LookUpUserEvents",
-						type : 'POST',
-						dataType : "json",
-						data : JSON.stringify({
-							plantform : "asd",
-							username : uid
-						}),
-						processData : false,
-						ContentType : 'application/json',
-						dataType : 'json',
-						success : function(result) {
-							var ress = result.event;
-							for(var indsa in ress){
-								var res=ress[indsa];
-							createDetailEvent(res.event_id, res.address,
-									res.start_time, res.number_limit_from,
-									res.number_limit_to, res.number_of,
-									res.is_enrolled);
-							}
+			$.ajax({
+				url : basicurl + "LookUpUserEvents",
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify({
+					plantform : "asd",
+					username : uid
+				}),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : function(result) {
+					var ress = result.event;
+					for ( var indsa in ress) {
+						var res = ress[indsa];
+						createDetailEvent(res.event_id, res.address,
+								res.start_time, res.number_limit_from,
+								res.number_limit_to, res.number_of,
+								res.is_enrolled);
+					}
 
-						},
-						error : AjaxFailed
-					});
+				},
+				error : AjaxFailed
+			});
 
 			setActive("events");
 			clearActive("message");
@@ -1207,6 +1215,7 @@
 			divLeft.appendChild(divInfo);
 			divLeft.appendChild(divLeftButton);
 			divLeft.appendChild(divMidButton);
+			divLeft.appendChild(divRightButton);
 			var divRight = createDiv(8);
 			divRight.appendChild(createCarousel(eventid));
 			var uploadDiv = createDiv(12);
