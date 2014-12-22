@@ -25,14 +25,14 @@
     <![endif]-->
 
 <script>
-	var basicurl = "http://54.175.30.238:8080/";
+	var basicurl = "http://localhost:8080/CloudFinal/";
 	var uid;
 	var pword;
 	var prefs;
 	var currentPreference;
 
 	var wsocket;
-	var serviceLocation = "ws://54.175.30.238:8080/Message/";
+	var serviceLocation = "ws:/localhost:8080/CloudFinal/Message/";
 	var $message;
 	var $chatWindow;
 	var room = 'Plaza';
