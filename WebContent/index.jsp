@@ -122,6 +122,7 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#nav").show(1000);
 			$("#test3").show();
 			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
@@ -175,6 +176,7 @@
 			$("#test0").show(1000);
 			$("#test1").show(1000);
 			$("#test3").show();
+			$("#nav").show(1000);
 			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
 			getAndCreateAllPreference();
@@ -1100,6 +1102,10 @@
 								res.start_time, res.number_limit_from,
 								res.number_limit_to, res.number_of,
 								res.is_enrolled);
+						var list=res.urlList;
+						for(li in list){
+							insertPicture(res.event_id,list[li]);
+						}
 					}
 
 				},
@@ -1436,6 +1442,7 @@
 		$("#test0").hide();
 		$("#test3").hide();
 		$("#logout").hide();
+		$("#nav").hide();
 		$("#eventsView").hide();
 		$("#profileView").hide();
 		$(".chat-wrapper").hide();
