@@ -32,10 +32,10 @@
 	var currentPreference;
 
 	var wsocket;
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	var serviceLocation = "ws:/localhost:8080/CloudFinal/Message/";
 	var $message;
 	var $chatWindow;
-	var room = '1233';
+	var room = 'Plaza';
 
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
@@ -74,6 +74,13 @@
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
 			wsocket.onmessage = onMessageReceived;
+		} else {
+			if (room != roomname) {
+				leaveRoom();
+				room = roomname;
+				wsocket = new WebSocket(serviceLocation + room);
+				wsocket.onmessage = onMessageReceived;
+			}
 		}
 	}
 
@@ -1324,9 +1331,7 @@
 			bt3.id = "button" + eventid;
 			bt3.onclick = function(e) {
 				//alert(this.id);
-				leaveRoom();
-				setMessageInEventView(e.id);
-
+				setMessageInEventView(this.id);
 			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
