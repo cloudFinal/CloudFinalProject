@@ -71,7 +71,6 @@
 	}
 
 	function connectToChatserver(roomname) {
-		alert(roomname);
 		if (wsocket == null) {
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
@@ -146,7 +145,6 @@
 		}
 	}
 	function AjaxFailed(result) {
-		alert("bad");
 		alert(result.status + ' ' + result.statusText);
 	}
 
@@ -784,7 +782,7 @@
 											</tr>
 											<tr>
 												<td>Gender</td>
-												<td><select id="activity_name" class="form-control"><option>Male</option>
+												<td><select id="gender" class="form-control"><option>Male</option>
 														<option>Female</option>
 												</select></td>
 											</tr>
@@ -829,8 +827,6 @@
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -856,7 +852,7 @@
 
 	<div class="container chat-wrapper">
 		<form id="do-chat">
-			<h2 class="alert alert-success"></h2>
+			<h2 class="alert alert-success "></h2>
 			<div id="chatresponse"></div>
 			<fieldset>
 				<legend>Enter your message..</legend>
@@ -871,6 +867,8 @@
 			</fieldset>
 		</form>
 	</div>
+
+
 
 
 	<script type="text/javascript">
@@ -1308,9 +1306,11 @@
 					"user_id" : uid,
 					"password" : "",
 					"name" : document.getElementById("set_username").value,
-					"date_of_birth" : document.getElementById("set_dob").value,
+					"date_of_birth" : parseInt(Date.parse(document
+							.getElementById("set_dob").value)),
 					"nationality" : document.getElementById("set_nationality").value,
-					"gender" : document.getElementById("gender").value,
+					"gender" : document.getElementById("gender").options[document
+							.getElementById("gender").selectedIndex].innerHTML,
 					"location_id" : 0,
 					"image" : "",
 					"online" : ""
@@ -1328,7 +1328,6 @@
 					if (result.result) {
 						getProfile();
 					} else {
-						alert("fail");
 					}
 
 				},
@@ -1604,10 +1603,18 @@
 							if (result.result) {
 								var tmp = result.profile;
 								document.getElementById("set_account").value = uid;
-								document.getElementById("set_username").value = tmp.name;
-								document.getElementById("set_dob").value = tmp.date_of_birth;
-								document.getElementById("set_nationality").value = tmp.nationality;
-								document.getElementById("gender").value = tmp.gender;
+								if (typeof tmp.name != 'undefined') {
+									document.getElementById("set_username").value = tmp.name;
+								}
+								if (typeof tmp.date_of_birth != 'undefined') {
+									if (parseInt(tmp.date_of_birth) > 100000)
+										document.getElementById("set_dob").value = new Date(
+												tmp.date_of_birth)
+												.toDateString();
+								}
+								if (typeof tmp.nationality != 'undefined') {
+									document.getElementById("set_nationality").value = tmp.nationality;
+								}
 								if (learnRegExp(tmp.image)
 										&& tmp.hasOwnProperty('image')) {
 									document.getElementById("userImage").src = tmp.image;
