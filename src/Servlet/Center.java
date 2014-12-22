@@ -42,8 +42,7 @@ import database.Database;
  * Servlet implementation class Center
  */
 public class Center extends HttpServlet {
-	public static String publickey = "";
-	private static String secretKey = "fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt";
+	public static String secretKey = "fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt";
 	private static final long serialVersionUID = 1L;
 	public static WorkPool wp;
 	public static Database db;

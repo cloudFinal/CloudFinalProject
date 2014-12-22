@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="javax.servlet.http.Cookie"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -23,16 +23,15 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 <script>
 	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
+	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	var uid;
 	var pword;
 	var prefs;
 	var currentPreference;
-
+	
 	var wsocket;
-	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	var $message;
 	var $chatWindow;
 	var room = '1233';
@@ -72,10 +71,18 @@
 	}
 
 	function connectToChatserver(roomname) {
+		alert(roomname);
 		if (wsocket == null) {
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
 			wsocket.onmessage = onMessageReceived;
+		} else {
+			if (room != roomname) {
+				leaveRoom();
+				room = roomname;
+				wsocket = new WebSocket(serviceLocation + room);
+				wsocket.onmessage = onMessageReceived;
+			}
 		}
 	}
 
@@ -89,7 +96,6 @@
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
-
 	function loadXMLDoc() {
 		uid = document.getElementById("username").value;
 		pword = document.getElementById("password").value;
@@ -480,8 +486,6 @@
 
 	}
 </script>
-
-
 </head>
 <body>
 	<nav class="navbar navbar-inverse" role="navigation">
@@ -1255,7 +1259,6 @@
 			var e = document.getElementById("user_id");
 			e.value = uid;
 		}
-
 		function edit_profile() {
 			var newprofile = {
 				"plantform" : "asd",
@@ -1326,8 +1329,8 @@
 			bt3.id = "button" + eventid;
 			bt3.onclick = function(e) {
 				//alert(this.id);
-				leaveRoom();
-				setMessageInEventView(e.id);
+				//leaveRoom();
+				setMessageInEventView(this.id);
 
 			}
 			var divMidButton = createDiv(4);
@@ -1582,7 +1585,34 @@
 			leaveRoom();
 			setEvents();
 		});
-
+		<%
+		HttpSession se = request.getSession();
+		if(se.getAttribute("userid")!=null){
+			%>
+				uid=<%="\""+se.getAttribute("userid")+"\""%>;
+				pword=<%="\""+se.getAttribute("password")+"\""%>;
+				var a = document.getElementById("signin");
+				document.getElementById("signin").parentElement
+						.removeChild(document.getElementById("signin"));
+				var b = document.getElementById("signup");
+				document.getElementById("signup").parentElement
+						.removeChild(document.getElementById("signup"));
+				var c = document.getElementById("username");
+				document.getElementById("username").parentElement
+						.removeChild(document.getElementById("username"));
+				var d = document.getElementById("password");
+				document.getElementById("password").parentElement
+						.removeChild(document.getElementById("password"));
+				$("#test0").show(1000);
+				$("#test1").show(1000);
+				$("#nav").show(1000);
+				$("#test3").show();
+				google.maps.event.trigger(map, 'resize');
+				$("#logout").show(100);
+				getAndCreateAllPreference();
+			<%
+		}
+		%>
 		$.ajax({
 			url : basicurl + "ActivityReply",
 			type : 'POST',

@@ -3,9 +3,11 @@ package Servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -41,7 +43,22 @@ public class Login extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		String u = input.getString("username");
 		String p = input.getString("password");
+		/*
+		if(u!=null&&p!=null){
+			System.out.println("!!!!!");
+			Cookie userid = new Cookie("userid",u);
+			Cookie password = new Cookie("password",p);
+			userid.setMaxAge(60*60*24); 
+			password.setMaxAge(60*60*24);
+			response.addCookie(userid);
+			response.addCookie(password);
+		}*/
 		boolean result = Center.db.login(u,p);
+		if(result){
+			HttpSession session = request.getSession();
+			session.setAttribute("userid",u);
+			session.setAttribute("password",p);
+		}
 		JSONObject output = new JSONObject();
 		output.put("result",result);
 		JsonProcess.sendJson(response,output);
