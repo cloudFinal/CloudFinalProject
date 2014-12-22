@@ -42,6 +42,8 @@ import database.Database;
  * Servlet implementation class Center
  */
 public class Center extends HttpServlet {
+	public static String publickey = "";
+	private static String secretKey = "fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt";
 	private static final long serialVersionUID = 1L;
 	public static WorkPool wp;
 	public static Database db;
@@ -102,7 +104,7 @@ public class Center extends HttpServlet {
 						String identifier = (userId+"-"+item.getName());
 						ObjectMetadata o = new ObjectMetadata();
 						o.setContentLength(item.getSize());
-						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAJI2KVNE6A6VFEWOA","fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt"));
+						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials(publickey,secretKey));
 						PutObjectRequest pir = new PutObjectRequest("eventplanner",identifier, item.getInputStream(), o);
 						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
 						s3Client.putObject(pir);

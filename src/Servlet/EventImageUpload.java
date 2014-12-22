@@ -90,7 +90,7 @@ public class EventImageUpload extends HttpServlet {
 						String identifier = (eventId+"-"+item.getName());
 						ObjectMetadata o = new ObjectMetadata();
 						o.setContentLength(item.getSize());
-						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAJI2KVNE6A6VFEWOA","fU0LiBmyZGUvSHuFD3ev7EEJSvwJSZJhQAVjsllt"));
+						AmazonS3 s3Client = new AmazonS3Client(new BasicAWSCredentials(Center.publickey,Center.secretKey));
 						PutObjectRequest pir = new PutObjectRequest("eventplanner",identifier, item.getInputStream(), o);
 						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
 						s3Client.putObject(pir);
