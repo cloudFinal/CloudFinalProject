@@ -31,6 +31,13 @@
 	var prefs;
 	var currentPreference;
 
+	var wsocket;
+	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	var $message;
+	var $chatWindow;
+	var room = '1233';
+
+	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
 		if (this.length == 0)
@@ -42,6 +49,39 @@
 		}
 		return hash;
 	};
+
+	////////////////////////WebSocketStuff!!!!!
+
+	function onMessageReceived(evt) {
+		//var msg = eval('(' + evt.data + ')');
+		var msg = JSON.parse(evt.data); // native API
+		var $messageLine = '<tr><td class="received">'
+				+ new Date().toLocaleTimeString()
+				+ '</td><td class="user label label-info">' + msg.sender
+				+ '</td><td class="message badge">' + msg.message
+				+ '</td></tr>';
+		$chatWindow.append($messageLine);
+	}
+	function sendMessage() {
+		var msg = '{"message":"' + $message.val() + '", "sender":"' + uid
+				+ '","room":"' + room + '", "processed":false}';
+		wsocket.send(msg);
+		$message.val('').focus();
+	}
+
+	function connectToChatserver(roomname) {
+		room = roomname;
+		wsocket = new WebSocket(serviceLocation + room);
+		wsocket.onmessage = onMessageReceived;
+	}
+
+	function leaveRoom() {
+		wsocket.close();
+		$chatWindow.empty();
+		$('.chat-wrapper').hide();
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
 
 	function loadXMLDoc() {
 		uid = document.getElementById("username").value;
@@ -80,8 +120,11 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#test3").show();
+			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
 			getAndCreateAllPreference();
+			getProfile();
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -129,8 +172,11 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#test3").show();
+			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
 			getAndCreateAllPreference();
+			getProfile();
 		} else {
 			document.getElementById('undiv').className += ' has-error';
 			document.getElementById('pwdiv').className += ' has-error';
@@ -616,7 +662,7 @@
 											<tr>
 												<td>Account</td>
 												<td><input type="text" class="form-control"
-													id="set_account"></td>
+													id="set_account" readonly></td>
 											</tr>
 											<tr>
 												<td>Password</td>
@@ -638,9 +684,8 @@
 													id="set_nationality"></td>
 											</tr>
 											<tr>
-												<td>Location</td>
-												<td><input type="text" class="form-control"
-													id="set_currentlocation" /></td>
+												<td>Gender</td>
+												<td><input type="text" class="form-control" id="gender" /></td>
 											</tr>
 										</tbody>
 									</table>
@@ -668,6 +713,27 @@
 			</div>
 		</div>
 	</div>
+
+
+	<div class="container chat-wrapper">
+		<form id="do-chat">
+			<h2 class="alert alert-success"></h2>
+			<div id="chatresponse"></div>
+			<fieldset>
+				<legend>Enter your message..</legend>
+				<div class="controls">
+					<input type="text" class="input-block-level"
+						placeholder="Your message..." id="chatmessage"
+						style="height: 60px" /> <input type="submit"
+						class="btn btn-large btn-block btn-primary" value="Send message" />
+					<button class="btn btn-large btn-block" type="button"
+						id="leave-room">Leave room</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+
 	<script type="text/javascript">
 		$(function() {
 			$('#datetimepicker1').datetimepicker();
@@ -678,13 +744,6 @@
 	</script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		$("#test1").hide();
-		$("#test2").hide();
-		$("#test0").hide();
-		$("#logout").hide();
-		$("#profileView").hide();
-	</script>
 	<script type="text/javascript">
 		function addMarker(lat, longi) {
 			marker[marker.length] = new google.maps.Marker({
@@ -977,6 +1036,9 @@
 			$("#eventsView").hide(500);
 			$("#nav").show(200);
 			addUid();
+
+			//hide chat
+			$(".chat-wrapper").hide(500);
 		}
 		function setMessage() {
 			setActive("message");
@@ -984,6 +1046,15 @@
 			clearActive("profile");
 			clearActive("homePage");
 			$("#nav").show(200);
+
+			/////////show message
+			connectToChatserver("123");
+			$(".chat-wrapper").show(500);
+			$("#test1").hide(500);
+			$("#test2").hide(500);
+			$("#test0").hide(500);
+			$("#test3").hide(500);
+			$("#profileView").hide(500);
 		}
 		function setEvents() {
 			setActive("events");
@@ -997,6 +1068,9 @@
 			$("#profileView").hide(500);
 			$("#eventsView").show(500);
 			$("#nav").show(200);
+
+			//hide chat
+			$(".chat-wrapper").hide(500);
 		}
 		function setActive(elementId) {
 			var e = document.getElementById(elementId);
@@ -1018,9 +1092,14 @@
 				"password" : pword,
 				"profile" : {
 					"user_id" : uid,
+					"password" : "",
 					"name" : document.getElementById("set_username").value,
 					"date_of_birth" : document.getElementById("set_dob").value,
-					"nationality" : document.getElementById("set_nationality").value
+					"nationality" : document.getElementById("set_nationality").value,
+					"gender" : document.getElementById("gender").value,
+					"location_id" : 0,
+					"image" : "",
+					"online" : ""
 				}
 			};
 			$.ajax({
@@ -1033,7 +1112,7 @@
 				dataType : 'json',
 				success : function(result) {
 					if (result.result) {
-						alert("success");
+						getProfile();
 					} else {
 						alert("fail");
 					}
@@ -1220,6 +1299,58 @@
 				newElement.innerHTML = innerHTML;
 			return newElement;
 		}
+		function learnRegExp(s) {
+			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+			return regexp.test(s);
+		}
+
+		function getProfile() {
+			$
+					.ajax({
+						url : basicurl + "GetProfile",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify({
+							userid : uid,
+							plantform : ""
+						}),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							if (result.result) {
+								var tmp = result.profile;
+								document.getElementById("set_account").value = uid;
+								document.getElementById("set_username").value = tmp.name;
+								document.getElementById("set_dob").value = tmp.date_of_birth;
+								document.getElementById("set_nationality").value = tmp.nationality;
+								document.getElementById("gender").value = tmp.gender;
+								if (learnRegExp(tmp.image)&&tmp.hasOwnProperty('image')){
+									document.getElementById("userImage").src = tmp.image;
+								}
+							}
+						},
+						error : AjaxFailed
+					});
+		}
+	</script>
+	<script type="text/javascript">
+		$("#test1").hide();
+		$("#test2").hide();
+		$("#test0").hide();
+		$("#test3").hide();
+		$("#logout").hide();
+		$("#profileView").hide();
+		$(".chat-wrapper").hide();
+		$message = $('#chatmessage');
+		$chatWindow = $('#chatresponse');
+		$('#do-chat').submit(function(evt) {
+			evt.preventDefault();
+			sendMessage();
+		});
+		$('#leave-room').click(function() {
+			leaveRoom();
+		});
 	</script>
 </body>
 </html>
