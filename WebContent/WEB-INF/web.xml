@@ -189,4 +189,14 @@
     <servlet-name>LookUpUserEvents</servlet-name>
     <url-pattern>/LookUpUserEvents</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Message</display-name>
+    <servlet-name>Message</servlet-name>
+    <servlet-class>Servlet.Message</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Message</servlet-name>
+    <url-pattern>/Message</url-pattern>
+  </servlet-mapping>
 </web-app>
