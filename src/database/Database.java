@@ -495,7 +495,12 @@ public class Database
 		Event event = Center.db.getEvent(eventId,userId);
 		ArrayList<Preference> list = getRelatedPreference(event);
 		if(list.size()==1){
-			return(deleteParticipatesIn(userId,eventId)&&deleteEvent(eventId));
+			if(deleteParticipatesIn(userId,eventId)){
+				deleteEvent(eventId);
+				return true;
+			}else{
+				return false;
+			}
 		}
 		Preference removed = null;
 		for(Preference p:list){

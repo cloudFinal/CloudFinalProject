@@ -338,6 +338,9 @@
 			clearEventMarker();
 			addMarker(parseFloat(prefs[indexi].latitude),
 					parseFloat(prefs[indexi].longitude));
+			for(var i=0;i<events.length;i++){
+				
+			}
 			$("#test2").show(400);
 		};
 		elementb.innerHTML = prefname.substring(n + 1);
@@ -773,7 +776,12 @@
 				icon : pinImage
 			});
 			map.setCenter(new google.maps.LatLng(lat, longi));
-
+		}
+		function addEevntMarker(lat,longi){
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi)
+			});
 		}
 		function clearEventMarker() {
 			for (var i = 0; i < marker.length; i++) {
