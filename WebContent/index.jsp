@@ -1102,6 +1102,10 @@
 								res.start_time, res.number_limit_from,
 								res.number_limit_to, res.number_of,
 								res.is_enrolled);
+						var list=res.urlList;
+						for(li in list){
+							insertPicture(res.event_id,list[li]);
+						}
 					}
 
 				},
