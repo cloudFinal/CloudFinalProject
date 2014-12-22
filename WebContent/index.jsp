@@ -776,8 +776,6 @@
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
 			});
-			marker[marker.length]
-					.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 		}
 	</script>
 	<script type="text/javascript">
@@ -1191,6 +1189,7 @@
 			bt2.id = "2_" + eventid;
 			var bt3 = createB("chat", "button");
 			bt3.setAttribute("class", "btn btn-success");
+			bt3.id="button"+eventid;
 			var divLeftButton = createDiv(4);
 			divLeftButton.appendChild(bt);
 			var divMidButton = createDiv(4);
