@@ -25,14 +25,14 @@
     <![endif]-->
 
 <script>
-	var basicurl = "http://cloudfinalest.elasticbeanstalk.com/";
+	var basicurl = "http://54.175.30.238:8080/";
 	var uid;
 	var pword;
 	var prefs;
 	var currentPreference;
 
 	var wsocket;
-	var serviceLocation = "ws://cloudfinalest.elasticbeanstalk.com/Message/";
+	var serviceLocation = "ws://54.175.30.238:8080/Message/";
 	var $message;
 	var $chatWindow;
 	var room = 'Plaza';
