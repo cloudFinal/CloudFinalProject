@@ -533,8 +533,8 @@
 					<button class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
 				</div>
 				<div class="form-group" id="logout">
-					<button class="btn btn-default">
-						<a href="">Log out</a>
+					<button class="btn btn-danger" onclick="logout()">
+						Log out
 					</button>
 				</div>
 			</div>
@@ -738,10 +738,10 @@
 											<input type="file" name="images" id="images" multiple /> <input
 												type="hidden" id="user_id" name="user_id" value="" />
 										</div>
-									</form>
-									<div class="col-sm-12 col-md-12">
+										<div class="col-sm-12 col-md-12">
 										<button type="submit" class="btn btn-primary" id="btn" style="width:100%">Upload</button>
 									</div>
+									</form>
 								</div>
 								<div class="col-sm-4 col-md-4">
 									<div class="col-sm-12 col-md-12">
@@ -1529,6 +1529,9 @@
 				newElement.innerHTML = innerHTML;
 			return newElement;
 		}
+		function logout(){
+			
+		}
 		function learnRegExp(s) {
 			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 			return regexp.test(s);
@@ -1607,9 +1610,10 @@
 				$("#test1").show(1000);
 				$("#nav").show(1000);
 				$("#test3").show();
-				google.maps.event.trigger(map, 'resize');
+				//google.maps.event.trigger(map, 'resize');
 				$("#logout").show(100);
 				getAndCreateAllPreference();
+				getProfile();
 			<%
 		}
 		%>
