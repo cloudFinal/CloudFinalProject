@@ -1,11 +1,14 @@
 package Servlet;
 
 import java.io.IOException;
+
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+
+import org.json.JSONObject;
 
 @ServerEndpoint(value = "/Message/{room}")
 public class Message {
@@ -22,6 +25,8 @@ public class Message {
 		String room = (String) session.getUserProperties().get("room");
 		for (Session s : session.getOpenSessions()) {
 			if (s.isOpen() && room.equals(s.getUserProperties().get("room"))) {
+				JSONObject jo = new JSONObject(message);
+				jo.put("url", Center.db.getUserUrl);
 				s.getBasicRemote().sendText(message);
 			}
 		}
