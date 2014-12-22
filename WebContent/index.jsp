@@ -1037,11 +1037,12 @@
 			clearActive("events");
 			$("#test1").show(500);
 			$("#test0").show(500);
-			$("#test3").show(500);
+			$("#test3").show();
 			$("#test2").hide(500);
 			$("#profileView").hide(500);
 			$("#eventsView").hide(500);
 			$("#nav").show(200);
+			google.maps.event.trigger(map, 'resize');
 		}
 		function setProfile() {
 			setActive("profile");
@@ -1229,7 +1230,9 @@
 			bt3.id = "button" + eventid;
 			bt3.onclick = function(e) {
 				//alert(this.id);
+				leaveRoom();
 				setMessageInEventView(e.id);
+				
 			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
