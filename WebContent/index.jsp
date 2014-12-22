@@ -1139,7 +1139,7 @@
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
 			var bt3 = createB("chat","button");
-			b3.setAttribute("class","btn btn-success");
+			bt3.setAttribute("class","btn btn-success");
 			var divLeftButton = createDiv(4);
 			divLeftButton.appendChild(bt);
 			var divMidButton = createDiv(4);
@@ -1164,6 +1164,7 @@
 			divLeft.appendChild(divInfo);
 			divLeft.appendChild(divLeftButton);
 			divLeft.appendChild(divMidButton);
+			divLeft.appendChild(divRightButton);
 			var divRight = createDiv(8);
 			divRight.appendChild(createCarousel(eventid));
 			var uploadDiv = createDiv(12);
