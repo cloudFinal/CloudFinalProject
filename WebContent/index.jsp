@@ -1059,15 +1059,15 @@
 			$("#profileView").hide(500);
 		}
 		function setEvents() {
+			var ary={
+					
+			}
 
 			$.ajax({
-				url : basicurl + "getEvents",
+				url : basicurl + "LookUpUserEvent",
 				type : 'POST',
 				dataType : "json",
-				data : JSON.stringify({
-					username : document.getElementById("username").value,
-					password : document.getElementById("password").value
-				}),
+				data : JSON.stringify(ary),
 				processData : false,
 				ContentType : 'application/json',
 				dataType : 'json',
