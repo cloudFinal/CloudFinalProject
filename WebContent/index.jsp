@@ -299,6 +299,8 @@
 			$("#test1").hide(200);
 			$("#event-table").hide();
 			$("#preference-table").show(600);
+			
+			document.getElementById("set_distance_to_tolerance").innerHTML = prefs[indexi].distance_to_tolerance;
 			document.getElementById("set_preferencename").innerHTML = prefs[indexi].preference_name
 					.substring(n + 1);
 			document.getElementById("set_activity").innerHTML = prefs[indexi].activity_name;
@@ -606,6 +608,10 @@
 								<tr>
 									<td>Preference Name</td>
 									<td id="set_preferencename"></td>
+								</tr>
+								<tr>
+									<td>Distance withn</td>
+									<td id="set_distance_to_tolerance"></td>
 								</tr>
 								<tr>
 									<td>Activit</td>
@@ -1121,7 +1127,7 @@
 					var ress = result.event;
 					for ( var indsa in ress) {
 						var res = ress[indsa];
-						var finaltime=new Date( res.start_time).toLocalString();
+						var finaltime=new Date(res.start_time).toLocaleString();
 						createDetailEvent(res.event_id, res.address,
 								res.activity_name, finaltime,
 								res.number_limit_from, res.number_limit_to,
