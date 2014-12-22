@@ -770,7 +770,7 @@
 												</tr>
 												<tr>
 													<td>Date of Birth</td>
-													<td><div class='input-group date' id='datetimepicker1'>
+													<td><div class='input-group date' id='datetimepicker3'>
 															<input id="set_dob" type='text' class="form-control"
 																placeholder="Date Of Birth" /> <span
 																class="input-group-addon"><span
@@ -842,6 +842,9 @@
 		});
 		$(function() {
 			$('#datetimepicker2').datetimepicker();
+		});
+		$(function() {
+			$('#datetimepicker3').datetimepicker();
 		});
 	</script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
