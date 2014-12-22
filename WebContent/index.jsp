@@ -30,7 +30,7 @@
 	var pword;
 	var prefs;
 	var currentPreference;
-	
+
 	var wsocket;
 	var $message;
 	var $chatWindow;
@@ -533,8 +533,7 @@
 					<button class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
 				</div>
 				<div class="form-group" id="logout">
-					<button class="btn btn-danger" onclick="logout()">
-						Log out
+					<button class="btn btn-danger" onclick="logout()">Log out
 					</button>
 				</div>
 			</div>
@@ -708,112 +707,150 @@
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6" style="float: right" id="test3">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<a href="#" onclick="toggleEvent()">My Map</a>
-						</div>
-						<div>
-							<div class="panel-body">
-								<div id="dvMap" style="height: 400px"></div>
-							</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="toggleEvent()">My Map</a>
+					</div>
+					<div>
+						<div class="panel-body">
+							<div id="dvMap" style="height: 400px"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-12" id="profileView">
-				<div class="col-sm-12 col-md-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<a href="#" onclick="toggleEvent()">My Profile</a>
-						</div>
-						<div id="event-table" class="panel-body">
-							<div class="row" id="event-table-detail">
-								<div class="col-sm-4 col-md-4">
-									<img id="userImage"
-										src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
-										class="img-thumbnail">
-									<form method="post" enctype="multipart/form-data"
-										action="Center">
-										<div class="col-sm-4 col-md-4">
-											<input type="file" name="images" id="images" multiple /> <input
-												type="hidden" id="user_id" name="user_id" value="" />
+		</div>
+		<div class="col-sm-12 col-md-12" id="profileView">
+			<div class="col-sm-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="toggleEvent()">My Profile</a>
+					</div>
+					<div id="event-table" class="panel-body">
+						<div class="row" id="event-table-detail">
+							<div class="col-sm-4 col-md-4">
+								<img id="userImage"
+									src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
+									class="img-thumbnail">
+								<form method="post" enctype="multipart/form-data"
+									action="Center">
+									<div class="col-sm-4 col-md-4">
+										<input type="file" name="images" id="images" multiple /> <input
+											type="hidden" id="user_id" name="user_id" value="" />
+									</div>
+									<div class="col-sm-12 col-md-12">
+										<button type="submit" class="btn btn-primary" id="btn"
+											style="width: 100%">Upload</button>
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-4 col-md-4">
+								<div class="col-sm-12 col-md-12">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td>Account</td>
+												<td><input type="text" class="form-control"
+													id="set_account" readonly></td>
+											</tr>
+											<tr>
+												<td>Password</td>
+												<td>
+													<div class="col-sm-7 col-md-7" style="padding: 0px">
+														<input id="set_password" type="text" class="form-control">
+													</div>
+													<div class="col-sm-3 col-md-3">
+														<button class="btn btn-success">Change</button>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>User Name</td>
+												<td><input type="text" class="form-control"
+													id="set_username"></td>
+											</tr>
+											<tr>
+												<td>Date of Birth</td>
+												<td><div class='input-group date' id='datetimepicker3'>
+														<input id="set_dob" type='text' class="form-control"
+															placeholder="Date Of Birth" /> <span
+															class="input-group-addon"><span
+															class="glyphicon glyphicon-calendar"></span></span>
+													</div></td>
+											</tr>
+											<tr>
+												<td>Nationality</td>
+												<td><input type="text" class="form-control"
+													id="set_nationality"></td>
+											</tr>
+											<tr>
+												<td>Gender</td>
+												<td><select id="activity_name" class="form-control"><option>Male</option>
+														<option>Female</option>
+												</select></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-sm-12 col-md-12">
+									<button class="btn btn-primary" style="width: 100%"
+										onclick="edit_profile()">Edit</button>
+								</div>
+							</div>
+							<div class="col-sm-2 col-md-2">
+								<div class="col-sm-12 col-md-12">
+									<div class="panel panel-default" style="height: 10" style="padding:5%">
+										<div class="panel-heading">
+											<p>Evet Info</p>
 										</div>
-										<div class="col-sm-12 col-md-12">
-										<button type="submit" class="btn btn-primary" id="btn" style="width:100%">Upload</button>
-									</div>
-									</form>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="col-sm-12 col-md-12">
-										<table class="table">
-											<tbody>
-												<tr>
-													<td>Account</td>
-													<td><input type="text" class="form-control"
-														id="set_account" readonly></td>
-												</tr>
-												<tr>
-													<td>Password</td>
-													<td>
-														<div class="col-sm-7 col-md-7" style="padding: 0px">
-															<input id="set_password" type="text" class="form-control">
-														</div>
-														<div class="col-sm-3 col-md-3">
-															<button class="btn btn-success">Change</button>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td>User Name</td>
-													<td><input type="text" class="form-control"
-														id="set_username"></td>
-												</tr>
-												<tr>
-													<td>Date of Birth</td>
-													<td><div class='input-group date' id='datetimepicker3'>
-															<input id="set_dob" type='text' class="form-control"
-																placeholder="Date Of Birth" /> <span
-																class="input-group-addon"><span
-																class="glyphicon glyphicon-calendar"></span></span>
-														</div></td>
-												</tr>
-												<tr>
-													<td>Nationality</td>
-													<td><input type="text" class="form-control"
-														id="set_nationality"></td>
-												</tr>
-												<tr>
-													<td>Gender</td>
-													<td><select id="activity_name" class="form-control"><option>Male</option><option>Female</option>
-									</select></td>	
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="col-sm-12 col-md-12">
-										<button class="btn btn-primary" style="width: 100%" onclick="edit_profile()">Edit</button>
+										<div id="event-table" class="panel-body" style="padding:5%">
+											<table class="table" style="padding:0px">
+												<tbody>
+													<tr>
+														<p style="font-size: 10px">Location: 35-11 Broadway,
+															Long Island City, NY 11106, USA</p>
+													</tr>
+													<tr>
+														<p style="font-size: 10px">activityName: board game</p>
+													</tr>
+													<tr>
+														<p style="font-size: 10px">startTime: 12/1/2014,
+															9:18:00 AM</p>
+													</tr>
+													<tr>
+														<p style="font-size: 10px">Limit:2/10</p>
+													</tr>
+												</tbody>
+											</table>
+											<div class="col-sm-12 col-md-12" style="padding:0px">
+												<button class="btn btn-danger" id="2_2114993318" style="width:100%">leave</button>
+											</div>
+											<div class="col-sm-12 col-md-12" style="padding:0px">
+												<button class="btn btn-success" id="button2114993318" style="width:100%">chat</button>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-12" id="eventsView">
-				<div class="col-sm-12 col-md-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<a href="#" onclick="toggleEvent()">Current Event</a>
-						</div>
-						<div id="eventsDetail" class="panel-body">
-							<div class="row" id="event-table-detail">
-								<div class="col-sm-6 col-md-6"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="col-sm-12 col-md-12" id="eventsView">
+			<div class="col-sm-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" onclick="toggleEvent()">Current Event</a>
+					</div>
+					<div id="eventsDetail" class="panel-body">
+						<div class="row" id="event-table-detail">
+							<div class="col-sm-6 col-md-6"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	</div>
 
 
@@ -1533,13 +1570,11 @@
 			return newElement;
 		}
 		////logout
-		function logout(){
-			$
-			.ajax({
+		function logout() {
+			$.ajax({
 				url : basicurl + "Logout",
 				type : 'POST',
-				data : JSON.stringify({
-				}),
+				data : JSON.stringify({}),
 				processData : false,
 				success : function(result) {
 					location.reload();
@@ -1584,41 +1619,36 @@
 		}
 	</script>
 	<script type="text/javascript">
-	<%
-	HttpSession se = request.getSession();
-	if(se.getAttribute("userid")!=null){
-		%>
-			uid=<%="\""+se.getAttribute("userid")+"\""%>;
-			pword=<%="\""+se.getAttribute("password")+"\""%>;
-			var a = document.getElementById("signin");
-			document.getElementById("signin").parentElement
-					.removeChild(document.getElementById("signin"));
-			var b = document.getElementById("signup");
-			document.getElementById("signup").parentElement
-					.removeChild(document.getElementById("signup"));
-			var c = document.getElementById("username");
-			document.getElementById("username").parentElement
-					.removeChild(document.getElementById("username"));
-			var d = document.getElementById("password");
-			document.getElementById("password").parentElement
-					.removeChild(document.getElementById("password"));
-			getAndCreateAllPreference();
-			getProfile();
-		<%
-	}else{
-	%>
-	$("#test1").hide();
-	$("#test0").hide();
-	$("#test3").hide();
-	$("#logout").hide();
-	$("#nav").hide();
+		
+	<%HttpSession se = request.getSession();
+			if (se.getAttribute("userid") != null) {%>
+		uid =
+	<%="\"" + se.getAttribute("userid") + "\""%>
+		;
+		pword =
+	<%="\"" + se.getAttribute("password") + "\""%>
+		;
+		var a = document.getElementById("signin");
+		document.getElementById("signin").parentElement.removeChild(document
+				.getElementById("signin"));
+		var b = document.getElementById("signup");
+		document.getElementById("signup").parentElement.removeChild(document
+				.getElementById("signup"));
+		var c = document.getElementById("username");
+		document.getElementById("username").parentElement.removeChild(document
+				.getElementById("username"));
+		var d = document.getElementById("password");
+		document.getElementById("password").parentElement.removeChild(document
+				.getElementById("password"));
+		getAndCreateAllPreference();
+		getProfile();
+	<%} else {%>
+		$("#test1").hide();
+		$("#test0").hide();
+		$("#test3").hide();
+		$("#logout").hide();
+		$("#nav").hide();
 	<%}%>
-	
-	
-	
-	
-	
-	
 		$("#test2").hide();
 		$("#eventsView").hide();
 		$("#profileView").hide();
