@@ -709,13 +709,23 @@
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6" style="float: right" id="test3">
-				<div id="dvMap" style="height: 400px"></div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a href="#" onclick="toggleEvent()">My Map</a>
+						</div>
+						<div>
+							<div class="panel-body">
+								<div id="dvMap" style="height: 400px"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="col-sm-12 col-md-12" id="profileView">
 				<div class="col-sm-12 col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<a href="#" onclick="toggleEvent()">Current Event</a>
+							<a href="#" onclick="toggleEvent()">My Profile</a>
 						</div>
 						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail">
@@ -725,53 +735,66 @@
 										class="img-thumbnail">
 									<form method="post" enctype="multipart/form-data"
 										action="Center">
-										<input type="file" name="images" id="images" multiple /> <input
-											type="hidden" id="user_id" name="user_id" value="" />
-										<button type="submit" id="btn">Upload Files!</button>
+										<div class="col-sm-4 col-md-4">
+											<input type="file" name="images" id="images" multiple /> <input
+												type="hidden" id="user_id" name="user_id" value="" />
+										</div>
 									</form>
-									<div id="response"></div>
+									<div class="col-sm-12 col-md-12">
+										<button type="submit" class="btn btn-primary" id="btn" style="width:100%">Upload</button>
+									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
-									<table class="table">
-										<tbody>
-											<tr>
-												<td>Account</td>
-												<td><input type="text" class="form-control"
-													id="set_account" readonly></td>
-											</tr>
-											<tr>
-												<td>Password</td>
-												<td><input id="set_password" type="text"
-													class="form-control"></td>
-												<td><button class="btn btn-success">Change</button></td>
-											</tr>
-											<tr>
-												<td>User Name</td>
-												<td><input type="text" class="form-control"
-													id="set_username"></td>
-											</tr>
-											<tr>
-												<td>Date of Birth</td>
-												<td><div class='input-group date' id='datetimepicker1'>
-														<input id="set_dob" type='text' class="form-control"
-															placeholder="Date Of Birth" /> <span
-															class="input-group-addon"><span
-															class="glyphicon glyphicon-calendar"></span></span>
-													</div></td>
-											</tr>
-											<tr>
-												<td>Nationality</td>
-												<td><input type="text" class="form-control"
-													id="set_nationality"></td>
-											</tr>
-											<tr>
-												<td>Gender</td>
-												<td><input type="text" class="form-control" id="gender" /></td>
-											</tr>
-										</tbody>
-									</table>
+									<div class="col-sm-12 col-md-12">
+										<table class="table">
+											<tbody>
+												<tr>
+													<td>Account</td>
+													<td><input type="text" class="form-control"
+														id="set_account" readonly></td>
+												</tr>
+												<tr>
+													<td>Password</td>
+													<td>
+														<div class="col-sm-7 col-md-7" style="padding: 0px">
+															<input id="set_password" type="text" class="form-control">
+														</div>
+														<div class="col-sm-3 col-md-3">
+															<button class="btn btn-success">Change</button>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>User Name</td>
+													<td><input type="text" class="form-control"
+														id="set_username"></td>
+												</tr>
+												<tr>
+													<td>Date of Birth</td>
+													<td><div class='input-group date' id='datetimepicker1'>
+															<input id="set_dob" type='text' class="form-control"
+																placeholder="Date Of Birth" /> <span
+																class="input-group-addon"><span
+																class="glyphicon glyphicon-calendar"></span></span>
+														</div></td>
+												</tr>
+												<tr>
+													<td>Nationality</td>
+													<td><input type="text" class="form-control"
+														id="set_nationality"></td>
+												</tr>
+												<tr>
+													<td>Gender</td>
+													<td><input type="text" class="form-control"
+														id="gender" /></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-sm-12 col-md-12">
+										<button class="btn btn-primary" style="width: 100%">Edit</button>
+									</div>
 								</div>
-									<button class="btn btn-default">Edit</button>
 							</div>
 						</div>
 					</div>
@@ -894,6 +917,7 @@
 			<button class="btn btn-primary">Join</button>
 		</div>
 		</div>*/
+		/*event!*/
 		function addEvents(location, activityName, startTime, numberLimitFrom,
 				numberLimitTo, currentNumber, eventid, is_enrolled) {
 			var bt;

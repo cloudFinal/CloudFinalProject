@@ -46,7 +46,7 @@ public class Location implements Serializable,JsonAble{
 		double dlat = eventLat - preferLat; 
 		double a = Math.pow((Math.sin(dlat/2)),2) + Math.cos(eventLat) * Math.cos(preferLat) * Math.pow((Math.sin(dlon/2)),2);
 		double c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a)); 
-		double d = 6373 * c;
+		double d = 3959 * c;
 		return d;
 	}
 	@Override
