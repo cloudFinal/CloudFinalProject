@@ -23,7 +23,6 @@ public class Event implements Serializable, JsonAble,Comparable{
 	 */
 	private int eventId;
 	private int heldIn;
-	private String eventName;
 	private String activityName;
 	private long startTime;
 	private long endTime;

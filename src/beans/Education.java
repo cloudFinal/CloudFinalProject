@@ -25,7 +25,6 @@ public class Education implements Serializable{
 	public void setSchool(String schoolIn) {
 	      this.school = schoolIn;
 	}
-
 	public String getMajor() {
 	      return this.major;
 	}
