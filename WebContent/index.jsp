@@ -1191,6 +1191,7 @@
 			bt2.id = "2_" + eventid;
 			var bt3 = createB("chat", "button");
 			bt3.setAttribute("class", "btn btn-success");
+			bt3.id="button"+eventid;
 			var divLeftButton = createDiv(4);
 			divLeftButton.appendChild(bt);
 			var divMidButton = createDiv(4);
