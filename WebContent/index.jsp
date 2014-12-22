@@ -35,7 +35,7 @@
 	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	var $message;
 	var $chatWindow;
-	var room = '1233';
+	var room = 'Plaza';
 
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
@@ -70,10 +70,18 @@
 	}
 
 	function connectToChatserver(roomname) {
+		alert("room="+room+" roomname="+roomname)
 		if (wsocket == null) {
 			room = roomname;
 			wsocket = new WebSocket(serviceLocation + room);
 			wsocket.onmessage = onMessageReceived;
+		} else {
+			if (room != roomname) {
+				leaveRoom();
+				room = roomname;
+				wsocket = new WebSocket(serviceLocation + room);
+				wsocket.onmessage = onMessageReceived;
+			}
 		}
 	}
 
@@ -631,11 +639,10 @@
 								<tr>
 									<td>Prefer At</td>
 									<td><input id="maddress" type='text' class="form-control"
-										placeholder="Address"></input>
-									<input type="hidden" id="xCoordinate" />
-								<input type="hidden" id="yCoordinate" />
-								</td>
-									
+										placeholder="Address"></input> <input type="hidden"
+										id="xCoordinate" /> <input type="hidden" id="yCoordinate" />
+									</td>
+
 								</tr>
 							</tbody>
 						</table>
@@ -898,8 +905,8 @@
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-			var outerbt1=createDiv(6);
-			var outerbt2=createDiv(6);
+			var outerbt1 = createDiv(6);
+			var outerbt2 = createDiv(6);
 			outerbt1.appendChild(bt);
 			outerbt2.appendChild(bt2);
 			bt.onclick = function(e) {
@@ -1295,9 +1302,7 @@
 			bt3.id = "button" + eventid;
 			bt3.onclick = function(e) {
 				//alert(this.id);
-				leaveRoom();
-				setMessageInEventView(e.id);
-
+				setMessageInEventView(this.id);
 			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
