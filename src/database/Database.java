@@ -459,6 +459,23 @@ public class Database
 		}
 		return true;
 	}
+	public ArrayList<String> getEventUsers(Event e){
+		ArrayList<String> userList = new ArrayList<String>();
+		try{
+			stmt=conn.createStatement();
+			ResultSet rset = stmt.executeQuery("select user_id from participates_in where event_id="+e.getEventId());
+			while(rset.next()){
+				String s = rset.getString(1);
+				userList.add(s);
+				//System.out.println("!!!"+e.getActivityName());
+			}
+			return userList;
+		}catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+			return null;
+		}
+	}
 	public ArrayList<String> getEventImages(Event e){
 		ArrayList<String> urls = new ArrayList<String>();
 		try{
@@ -592,5 +609,6 @@ public class Database
 		e.setNumberOf(Center.db.numberInEvent(e));
 		e.setEnrolled(Center.db.isParticipateIn(userId, e.getEventId()));
 		e.setUrlList(getEventImages(e));
+		e.setUserList(getEventUsers(e));
 	}
 }

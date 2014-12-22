@@ -36,6 +36,7 @@ public class Event implements Serializable, JsonAble,Comparable{
 	private float latitude;
 	private float longitude;
 	private ArrayList<String> urlList;
+	private ArrayList<String> userList;
 
 	/**
 	 * Get- and Set-methods for persistent variables. The default behaviour does
@@ -57,7 +58,9 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public int getPreferedLocation() {
 		return preferedLocation;
 	}
-
+	public ArrayList<String> getUserList(){
+		return userList;
+	}
 	public double getDistance() {
 		return distance;
 	}
@@ -78,7 +81,9 @@ public class Event implements Serializable, JsonAble,Comparable{
 	public void setEventId(int eventIdIn) {
 		this.eventId = eventIdIn;
 	}
-
+	public void setUserList(ArrayList<String> userList){
+		this.userList= userList;
+	}
 	public int getHeldIn() {
 		return this.heldIn;
 	}
@@ -201,10 +206,15 @@ public class Event implements Serializable, JsonAble,Comparable{
 		jo.put("latitude", latitude);
 		jo.put("longitude", longitude);
 		JSONArray ja = new JSONArray();
+		JSONArray ju = new JSONArray();
 		for(String s:urlList){
 			ja.put(s);
 		}
+		for(String u:userList){
+			ju.put(u);
+		}
 		jo.put("urlList",ja);
+		jo.put("userList",ju);
 		return jo;
 	}
 
