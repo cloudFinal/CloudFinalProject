@@ -1121,8 +1121,9 @@
 					var ress = result.event;
 					for ( var indsa in ress) {
 						var res = ress[indsa];
+						var finaltime=new Date( res.start_time).toLocalString();
 						createDetailEvent(res.event_id, res.address,
-								res.activity_name, res.start_time,
+								res.activity_name, finaltime,
 								res.number_limit_from, res.number_limit_to,
 								res.number_of, res.is_enrolled);
 						var list = res.urlList;
