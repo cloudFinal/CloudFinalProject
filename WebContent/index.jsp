@@ -784,14 +784,14 @@
 												</tr>
 												<tr>
 													<td>Gender</td>
-													<td><input type="text" class="form-control"
-														id="gender" /></td>
+													<td><select id="activity_name" class="form-control"><option>Male</option><option>Female</option>
+									</select></td>	
 												</tr>
 											</tbody>
 										</table>
 									</div>
 									<div class="col-sm-12 col-md-12">
-										<button class="btn btn-primary" style="width: 100%">Edit</button>
+										<button class="btn btn-primary" style="width: 100%" onclick="edit_profile()">Edit</button>
 									</div>
 								</div>
 							</div>
