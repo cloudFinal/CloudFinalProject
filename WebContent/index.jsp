@@ -299,6 +299,8 @@
 			$("#test1").hide(200);
 			$("#event-table").hide();
 			$("#preference-table").show(600);
+
+			document.getElementById("set_distance_to_tolerance").innerHTML = prefs[indexi].distance_to_tolerance;
 			document.getElementById("set_preferencename").innerHTML = prefs[indexi].preference_name
 					.substring(n + 1);
 			document.getElementById("set_activity").innerHTML = prefs[indexi].activity_name;
@@ -550,7 +552,7 @@
 							href="#" onclick="deletePreference()" style="float: right">Delete
 							it</a>
 					</div>
-					<div id="preference-table" class="panel-body">
+					<div class="panel-body">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -561,11 +563,10 @@
 								<tr>
 									<td>Activity</td>
 									<td><select id="activity_name" class="form-control">
-											<option value="one">basketball</option>
 									</select></td>
 								</tr>
 								<tr>
-									<td>Within</td>
+									<td>Within(Miles)</td>
 									<td><input id="distance_to_tolerance" type="text"
 										class="form-control" placeholder="Miles"></td>
 								</tr>
@@ -589,18 +590,52 @@
 								</tr>
 								<tr>
 									<td>Number Limit From</td>
-									<td><input id="number_limit_from" type='text'
-										class="form-control" placeholder="Minimal Anticipation" /></td>
+									<td><select id="number_limit_from" class="form-control">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+											<option>6</option>
+											<option>7</option>
+											<option>8</option>
+											<option>9</option>
+											<option>10</option>
+											<option>11</option>
+											<option>12</option>
+											<option>13</option>
+											<option>14</option>
+											<option>15</option>
+									</select></td>
 								</tr>
 								<tr>
 									<td>Number Limit To</td>
-									<td><input id="number_limit_to" type='text'
-										class="form-control" placeholder="Minimal Anticipation" /></td>
+									<td><select id="number_limit_to" class="form-control">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+											<option>6</option>
+											<option>7</option>
+											<option>8</option>
+											<option>9</option>
+											<option>10</option>
+											<option>11</option>
+											<option>12</option>
+											<option>13</option>
+											<option>14</option>
+											<option>15</option>
+									</select></td>
 								</tr>
 								<tr>
 									<td>Prefer At</td>
 									<td><input id="maddress" type='text' class="form-control"
-										placeholder="Address"></input></td>
+										placeholder="Address"></input>
+									<input type="hidden" id="xCoordinate" />
+								<input type="hidden" id="yCoordinate" />
+								</td>
+									
 								</tr>
 							</tbody>
 						</table>
@@ -624,6 +659,10 @@
 								<tr>
 									<td>Preference Name</td>
 									<td id="set_preferencename"></td>
+								</tr>
+								<tr>
+									<td>Distance withn</td>
+									<td id="set_distance_to_tolerance"></td>
 								</tr>
 								<tr>
 									<td>Activity</td>
@@ -654,7 +693,7 @@
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a href="#" onclick="toggleEvent()">Current Event</a>
+						<a href="#" onclick="toggleEvent()">Available Event</a>
 					</div>
 					<div id="event_loading">
 						<div id="event-table" class="panel-body" style="height: 300px">
@@ -859,7 +898,10 @@
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-
+			var outerbt1=createDiv(6);
+			var outerbt2=createDiv(6);
+			outerbt1.appendChild(bt);
+			outerbt2.appendChild(bt2);
 			bt.onclick = function(e) {
 				document.getElementById("event_loading").className = "ui loading segment";
 				$
@@ -1008,8 +1050,8 @@
 					"p");
 			currentonline.id = "3_" + eventid;
 			d1.appendChild(currentonline);
-			d1.appendChild(bt);
-			d1.appendChild(bt2);
+			d1.appendChild(outerbt1);
+			d1.appendChild(outerbt2);
 			var image = createElement("img");
 			image.src = "";
 			var d2 = createElement("div");
@@ -1017,7 +1059,7 @@
 			d2.appendChild(image);
 			d2.appendChild(d1);
 			var d3 = createElement("div");
-			d3.setAttribute("class", "col-sm-6 col-md-4");
+			d3.setAttribute("class", "col-sm-6 col-md-6");
 			d3.appendChild(d2);
 			var outer = document.getElementById("event-table-detail");
 			outer.appendChild(d3);
@@ -1139,8 +1181,10 @@
 					var ress = result.event;
 					for ( var indsa in ress) {
 						var res = ress[indsa];
+						var finaltime = new Date(res.start_time)
+								.toLocaleString();
 						createDetailEvent(res.event_id, res.address,
-								res.activity_name, res.start_time,
+								res.activity_name, finaltime,
 								res.number_limit_from, res.number_limit_to,
 								res.number_of, res.is_enrolled);
 						var list = res.urlList;
@@ -1506,6 +1550,28 @@
 		$('#leave-room').click(function() {
 			leaveRoom();
 			setEvents();
+		});
+
+		$.ajax({
+			url : basicurl + "ActivityReply",
+			type : 'POST',
+			dataType : "json",
+			data : JSON.stringify({
+				plantform : "aads"
+			}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				prefs = result.activity;
+				for ( var ke in prefs) {
+					var option = createElement("option");
+					option.innerHTML = prefs[ke].name;
+					document.getElementById("activity_name")
+							.appendChild(option);
+				}
+			},
+			error : AjaxFailed
 		});
 	</script>
 </body>
