@@ -122,6 +122,7 @@
 					.removeChild(document.getElementById("password"));
 			$("#test0").show(1000);
 			$("#test1").show(1000);
+			$("#nav").show(1000);
 			$("#test3").show();
 			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
@@ -175,6 +176,7 @@
 			$("#test0").show(1000);
 			$("#test1").show(1000);
 			$("#test3").show();
+			$("#nav").show(1000);
 			google.maps.event.trigger(map, 'resize');
 			$("#logout").show(100);
 			getAndCreateAllPreference();
@@ -776,8 +778,6 @@
 				map : map,
 				position : new google.maps.LatLng(lat, longi),
 			});
-			marker[marker.length]
-					.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
 		}
 	</script>
 	<script type="text/javascript">
@@ -1437,6 +1437,7 @@
 		$("#test0").hide();
 		$("#test3").hide();
 		$("#logout").hide();
+		$("#nav").hide();
 		$("#eventsView").hide();
 		$("#profileView").hide();
 		$(".chat-wrapper").hide();
