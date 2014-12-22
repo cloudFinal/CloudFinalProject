@@ -24,8 +24,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
-	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
+	var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
+	var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	var uid;
 	var pword;
 	var prefs;
@@ -36,8 +36,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	var basicurl = "http://localhost:8080/CloudFinal/";
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	//var basicurl = "http://localhost:8080/CloudFinal/";
+	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -794,39 +794,6 @@
 										onclick="edit_profile()">Edit</button>
 								</div>
 							</div>
-							<div class="col-sm-2 col-md-2">
-								<div class="col-sm-12 col-md-12">
-									<div class="panel panel-default" style="height: 10" style="padding:5%">
-										<div class="panel-heading">
-											<p>Evet Info</p>
-										</div>
-										<div id="event-table" class="panel-body" style="padding:5%">
-											<table class="table" style="padding:0px">
-												<tbody>
-													<tr>
-														<p style="font-size: 10px">Location: 35-11 Broadway,
-															Long Island City, NY 11106, USA</p>
-													</tr>
-													<tr>
-														<p style="font-size: 10px">activityName: board game</p>
-													</tr>
-													<tr>
-														<p style="font-size: 10px">startTime: 12/1/2014,
-															9:18:00 AM</p>
-													</tr>
-													<tr>
-														<p style="font-size: 10px">Limit:2/10</p>
-													</tr>
-												</tbody>
-											</table>
-											<div class="col-sm-12 col-md-12" style="padding:0px">
-												<button class="btn btn-danger" id="2_2114993318" style="width:100%">leave</button>
-											</div>
-											<div class="col-sm-12 col-md-12" style="padding:0px">
-												<button class="btn btn-success" id="button2114993318" style="width:100%">chat</button>
-											</div>
-										</div>
-									</div>
 						</div>
 					</div>
 				</div>
@@ -840,857 +807,878 @@
 					</div>
 					<div id="eventsDetail" class="panel-body">
 						<div class="row" id="event-table-detail">
-							<div class="col-sm-6 col-md-6"></div>
+							<div class="col-sm-6 col-md-6">
+								
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	</div>
 
-
-	<div class="container chat-wrapper">
-		<form id="do-chat">
-			<h2 class="alert alert-success "></h2>
-			<div id="chatresponse"></div>
-			<fieldset>
-				<legend>Enter your message..</legend>
-				<div class="controls">
-					<input type="text" class="input-block-level"
-						placeholder="Your message..." id="chatmessage"
-						style="height: 60px" /> <input type="submit"
-						class="btn btn-large btn-block btn-primary" value="Send message" />
-					<button class="btn btn-large btn-block" type="button"
-						id="leave-room">Leave room</button>
-				</div>
-			</fieldset>
-		</form>
-	</div>
-
-
-
-
-	<script type="text/javascript">
-		$(function() {
-			$('#datetimepicker1').datetimepicker();
-		});
-		$(function() {
-			$('#datetimepicker2').datetimepicker();
-		});
-		$(function() {
-			$('#datetimepicker3').datetimepicker();
-		});
-	</script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		function addMarker(lat, longi) {
-			marker[marker.length] = new google.maps.Marker({
-				map : map,
-				position : new google.maps.LatLng(lat, longi),
-				icon : pinImage
-			});
-		}
-		function clearEventMarker() {
-			for (var i = 0; i < marker.length; i++) {
-				marker[i].setMap(null);
-			}
-			marker = [];
-		}
-		function togglePreference() {
-			$("#preference-table").toggle("slow");
-		}
-		function toggleEvent() {
-			$("#event-table").toggle("slow");
-		}
-
-		function addEventMarker(lat, longi) {
-			marker[marker.length] = new google.maps.Marker({
-				map : map,
-				position : new google.maps.LatLng(lat, longi),
-			});
-		}
-	</script>
-	<script type="text/javascript">
-		function addMarker(lat, longi) {
-			marker[marker.length] = new google.maps.Marker({
-				map : map,
-				position : new google.maps.LatLng(lat, longi),
-				icon : pinImage
-			});
-			map.setCenter(new google.maps.LatLng(lat, longi));
-		}
-		function addEevntMarker(lat, longi) {
-			marker[marker.length] = new google.maps.Marker({
-				map : map,
-				position : new google.maps.LatLng(lat, longi)
-			});
-		}
-		function clearEventMarker() {
-			for (var i = 0; i < marker.length; i++) {
-				marker[i].setMap(null);
-			}
-			marker = [];
-			if (tmpMarker != null) {
-				tmpMarker.setMap(null);
-			}
-			tmpMarker = null;
-		}
-		function togglePreference() {
-			$("#preference-table").toggle("slow");
-			$("#event-table").hide(200);
-		}
-		function toggleEvent() {
-			$("#event-table").toggle("slow");
-			$("#preference-table").hide(200);
-		}
-		/*element.appendChild(para);
-		event-table-detail
-		<div class="thumbnail">
-		<img src="" alt="">
-		<div class="caption">
-			<p>number:14</p>
-			<button class="btn btn-primary">Join</button>
+		<div class="container chat-wrapper">
+			<form id="do-chat">
+				<h2 class="alert alert-success "></h2>
+				<div id="chatresponse"></div>
+				<fieldset>
+					<legend>Enter your message..</legend>
+					<div class="controls">
+						<input type="text" class="input-block-level"
+							placeholder="Your message..." id="chatmessage"
+							style="height: 60px" /> <input type="submit"
+							class="btn btn-large btn-block btn-primary" value="Send message" />
+						<button class="btn btn-large btn-block" type="button"
+							id="leave-room">Leave room</button>
+					</div>
+				</fieldset>
+			</form>
 		</div>
-		</div>*/
-		/*event!*/
-		function addEvents(location, activityName, startTime, numberLimitFrom,
-				numberLimitTo, currentNumber, eventid, is_enrolled) {
-			var bt;
-			if (currentNumber == 0) {
-				bt = createB("Create", "button");
-				bt.setAttribute("class", "btn btn-success");
-			} else {
-				bt = createB("Join", "button");
-				bt.setAttribute("class", "btn btn-primary");
+
+
+
+
+		<script type="text/javascript">
+			$(function() {
+				$('#datetimepicker1').datetimepicker();
+			});
+			$(function() {
+				$('#datetimepicker2').datetimepicker();
+			});
+			$(function() {
+				$('#datetimepicker3').datetimepicker();
+			});
+		</script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function addMarker(lat, longi) {
+				marker[marker.length] = new google.maps.Marker({
+					map : map,
+					position : new google.maps.LatLng(lat, longi),
+					icon : pinImage
+				});
 			}
-			bt.setAttribute("id", "btn btn-primary");
-			bt.id = "1_" + eventid;
+			function clearEventMarker() {
+				for (var i = 0; i < marker.length; i++) {
+					marker[i].setMap(null);
+				}
+				marker = [];
+			}
+			function togglePreference() {
+				$("#preference-table").toggle("slow");
+			}
+			function toggleEvent() {
+				$("#event-table").toggle("slow");
+			}
+			function toggleMember() {
+				$("#member-table").toggle("slow");
+			}
+			function addEventMarker(lat, longi) {
+				marker[marker.length] = new google.maps.Marker({
+					map : map,
+					position : new google.maps.LatLng(lat, longi),
+				});
+			}
+		</script>
+		<script type="text/javascript">
+			function addMarker(lat, longi) {
+				marker[marker.length] = new google.maps.Marker({
+					map : map,
+					position : new google.maps.LatLng(lat, longi),
+					icon : pinImage
+				});
+				map.setCenter(new google.maps.LatLng(lat, longi));
+			}
+			function addEevntMarker(lat, longi) {
+				marker[marker.length] = new google.maps.Marker({
+					map : map,
+					position : new google.maps.LatLng(lat, longi)
+				});
+			}
+			function clearEventMarker() {
+				for (var i = 0; i < marker.length; i++) {
+					marker[i].setMap(null);
+				}
+				marker = [];
+				if (tmpMarker != null) {
+					tmpMarker.setMap(null);
+				}
+				tmpMarker = null;
+			}
+			function togglePreference() {
+				$("#preference-table").toggle("slow");
+				$("#event-table").hide(200);
+			}
+			function toggleEvent() {
+				$("#event-table").toggle("slow");
+				$("#preference-table").hide(200);
+			}
+			/*element.appendChild(para);
+			event-table-detail
+			<div class="thumbnail">
+			<img src="" alt="">
+			<div class="caption">
+				<p>number:14</p>
+				<button class="btn btn-primary">Join</button>
+			</div>
+			</div>*/
+			/*event!*/
+			function addEvents(location, activityName, startTime,
+					numberLimitFrom, numberLimitTo, currentNumber, eventid,
+					is_enrolled) {
+				var bt;
+				if (currentNumber == 0) {
+					bt = createB("Create", "button");
+					bt.setAttribute("class", "btn btn-success");
+				} else {
+					bt = createB("Join", "button");
+					bt.setAttribute("class", "btn btn-primary");
+				}
+				bt.setAttribute("id", "btn btn-primary");
+				bt.id = "1_" + eventid;
 
-			var bt2 = createB("leave", "button");
-			bt2.setAttribute("class", "btn btn-danger");
-			bt2.id = "2_" + eventid;
-			var outerbt1 = createDiv(6);
-			var outerbt2 = createDiv(6);
-			outerbt1.appendChild(bt);
-			outerbt2.appendChild(bt2);
-			bt.onclick = function(e) {
-				document.getElementById("event_loading").className = "ui loading segment";
-				$
-						.ajax({
-							url : basicurl + "JoinEvent",
-							type : 'POST',
-							dataType : "json",
-							data : JSON
-									.stringify({
-										plantform : "aads",
-										userid : uid,
-										eventid : eventid,
-										preferencename : prefs[currentPreference].preference_name
-									}),
-							processData : false,
-							ContentType : 'application/json',
-							dataType : 'json',
-							success : function(result) {
-								if (result.result) {
-									var myNode = document
-											.getElementById("event-table-detail");
-									while (myNode.firstChild) {
-										myNode.removeChild(myNode.firstChild);
-									}
-									$
-											.ajax({
-												url : basicurl + "LookUpEvent",
-												type : 'POST',
-												dataType : "json",
-												data : JSON
-														.stringify({
-															plantform : "aads",
-															userid : uid,
-															preferencename : prefs[currentPreference].preference_name
-														}),
-												processData : false,
-												ContentType : 'application/json',
-												dataType : 'json',
-												success : function(result) {
-													var events = result.event;
-													for ( var ke in events) {
-														addEvents(
-																events[ke].address,
-																events[ke].activity_name,
-																(new Date(
-																		events[ke].start_time))
-																		.toDateString(),
-																events[ke].number_limit_from,
-																events[ke].number_limit_to,
-																events[ke].number_of,
-																events[ke].event_id,
-																events[ke].is_enrolled);
+				var bt2 = createB("leave", "button");
+				bt2.setAttribute("class", "btn btn-danger");
+				bt2.id = "2_" + eventid;
+				var outerbt1 = createDiv(6);
+				var outerbt2 = createDiv(6);
+				outerbt1.appendChild(bt);
+				outerbt2.appendChild(bt2);
+				bt.onclick = function(e) {
+					document.getElementById("event_loading").className = "ui loading segment";
+					$
+							.ajax({
+								url : basicurl + "JoinEvent",
+								type : 'POST',
+								dataType : "json",
+								data : JSON
+										.stringify({
+											plantform : "aads",
+											userid : uid,
+											eventid : eventid,
+											preferencename : prefs[currentPreference].preference_name
+										}),
+								processData : false,
+								ContentType : 'application/json',
+								dataType : 'json',
+								success : function(result) {
+									if (result.result) {
+										var myNode = document
+												.getElementById("event-table-detail");
+										while (myNode.firstChild) {
+											myNode
+													.removeChild(myNode.firstChild);
+										}
+										$
+												.ajax({
+													url : basicurl
+															+ "LookUpEvent",
+													type : 'POST',
+													dataType : "json",
+													data : JSON
+															.stringify({
+																plantform : "aads",
+																userid : uid,
+																preferencename : prefs[currentPreference].preference_name
+															}),
+													processData : false,
+													ContentType : 'application/json',
+													dataType : 'json',
+													success : function(result) {
+														var events = result.event;
+														for ( var ke in events) {
+															addEvents(
+																	events[ke].address,
+																	events[ke].activity_name,
+																	(new Date(
+																			events[ke].start_time))
+																			.toDateString(),
+																	events[ke].number_limit_from,
+																	events[ke].number_limit_to,
+																	events[ke].number_of,
+																	events[ke].event_id,
+																	events[ke].is_enrolled);
+														}
+														document
+																.getElementById("event_loading").className = "";
+													},
+													error : function() {
+														document
+																.getElementById("event_loading").className = "";
 													}
-													document
-															.getElementById("event_loading").className = "";
-												},
-												error : function() {
-													document
-															.getElementById("event_loading").className = "";
-												}
-											});
+												});
+									}
+								},
+								error : function() {
+									document.getElementById("event_loading").className = "";
 								}
-							},
-							error : function() {
-								document.getElementById("event_loading").className = "";
+							});
+
+				};
+
+				bt2.onclick = function(e) {
+					document.getElementById("event_loading").className = "ui loading segment";
+					$
+							.ajax({
+								url : basicurl + "Leave",
+								type : 'POST',
+								dataType : "json",
+								data : JSON.stringify({
+									plantform : "aads",
+									userid : uid,
+									eventid : eventid
+								}),
+								processData : false,
+								ContentType : 'application/json',
+								dataType : 'json',
+								success : function(result) {
+									if (result.result) {
+										var myNode = document
+												.getElementById("event-table-detail");
+										while (myNode.firstChild) {
+											myNode
+													.removeChild(myNode.firstChild);
+										}
+										$
+												.ajax({
+													url : basicurl
+															+ "LookUpEvent",
+													type : 'POST',
+													dataType : "json",
+													data : JSON
+															.stringify({
+																plantform : "aads",
+																userid : uid,
+																preferencename : prefs[currentPreference].preference_name
+															}),
+													processData : false,
+													ContentType : 'application/json',
+													dataType : 'json',
+													success : function(result) {
+														var events = result.event;
+														for ( var ke in events) {
+															addEvents(
+																	events[ke].address,
+																	events[ke].activity_name,
+																	(new Date(
+																			events[ke].start_time))
+																			.toDateString(),
+																	events[ke].number_limit_from,
+																	events[ke].number_limit_to,
+																	events[ke].number_of,
+																	events[ke].event_id,
+																	events[ke].is_enrolled);
+														}
+														document
+																.getElementById("event_loading").className = "";
+													},
+													error : function() {
+														document
+																.getElementById("event_loading").className = "";
+													}
+												});
+									}
+								},
+								error : function() {
+									document.getElementById("event_loading").className = "";
+								}
+							});
+
+				}
+
+				var d1 = createElement("div");
+				d1.setAttribute("class", "caption");
+				d1.appendChild(createP("Location: " + location, "p"));
+				d1.appendChild(createP("activityName: " + activityName, "p"));
+				d1.appendChild(createP("startTime: " + startTime, "p"));
+				d1.appendChild(createP("Limit:", "p"));
+				var currentonline = createP(
+						currentNumber + "/" + numberLimitTo, "p");
+				currentonline.id = "3_" + eventid;
+				d1.appendChild(currentonline);
+				d1.appendChild(outerbt1);
+				d1.appendChild(outerbt2);
+				var image = createElement("img");
+				image.src = "";
+				var d2 = createElement("div");
+				d2.setAttribute("class", "thumbnail");
+				d2.appendChild(image);
+				d2.appendChild(d1);
+				var d3 = createElement("div");
+				d3.setAttribute("class", "col-sm-6 col-md-6");
+				d3.appendChild(d2);
+				var outer = document.getElementById("event-table-detail");
+				outer.appendChild(d3);
+				if (is_enrolled) {
+					document.getElementById("1_" + eventid).disabled = true;
+					document.getElementById("2_" + eventid).disabled = false;
+				} else {
+					document.getElementById("1_" + eventid).disabled = false;
+					document.getElementById("2_" + eventid).disabled = true;
+				}
+			}
+			function createP(str, type) {
+				var result = document.createElement(type);
+				var node = document.createTextNode(str);
+				result.setAttribute("style", "font-size:10px");
+				result.appendChild(node);
+				return result;
+			}
+			function createB(str, type) {
+				var result = document.createElement(type);
+				var node = document.createTextNode(str);
+				result.appendChild(node);
+				return result;
+			}
+			function createElement(type) {
+				var result = document.createElement(type);
+				return result;
+			}
+			function createDiv(ratio) {
+				var d = createElement("div");
+				d.setAttribute("class", "col-sm-" + ratio + " col-md-" + ratio);
+				return d;
+			}
+			function setHomePage() {
+				setActive("homePage");
+				clearActive("profile");
+				clearActive("message");
+				clearActive("events");
+				$("#test1").show(500);
+				$("#test0").show(500);
+				$("#test3").show();
+				$("#test2").hide(500);
+				$("#profileView").hide(500);
+				$("#eventsView").hide(500);
+				$("#nav").show(200);
+				$(".chat-wrapper").hide(500);
+				google.maps.event.trigger(map, 'resize');
+			}
+			function setProfile() {
+				setActive("profile");
+				clearActive("homePage");
+				clearActive("message");
+				clearActive("events");
+				$("#profileView").show(500);
+				$("#test1").hide(500);
+				$("#test2").hide(500);
+				$("#test0").hide(500);
+				$("#test3").hide(500);
+				$("#eventsView").hide(500);
+				$("#nav").show(200);
+				addUid();
+
+				//hide chat
+				$(".chat-wrapper").hide(500);
+			}
+			function setMessage() {
+				setActive("message");
+				clearActive("events");
+				clearActive("profile");
+				clearActive("homePage");
+				$("#nav").show(200);
+
+				/////////show message
+				$(".chat-wrapper").hide(500);
+				$("#test1").hide(500);
+				$("#test2").hide(500);
+				$("#test0").hide(500);
+				$("#eventsView").hide();
+				$("#test3").hide(500);
+				$("#profileView").hide(500);
+			}
+
+			function setMessageInEventView(roomname) {
+				setActive("message");
+				clearActive("events");
+				clearActive("profile");
+				clearActive("homePage");
+				$("#nav").show(200);
+
+				/////////show message
+				connectToChatserver(roomname);
+				$(".chat-wrapper").show(500);
+				$("#test1").hide(500);
+				$("#test2").hide(500);
+				$("#test0").hide(500);
+				$("#eventsView").hide();
+				$("#test3").hide(500);
+				$("#profileView").hide(500);
+			}
+
+			function setEvents() {
+				var myNode = document.getElementById("eventsDetail");
+				while (myNode.firstChild) {
+					myNode.removeChild(myNode.firstChild);
+				}
+
+				$.ajax({
+					url : basicurl + "LookUpUserEvents",
+					type : 'POST',
+					dataType : "json",
+					data : JSON.stringify({
+						plantform : "asd",
+						username : uid
+					}),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						var ress = result.event;
+						for ( var indsa in ress) {
+							var res = ress[indsa];
+							var finaltime = new Date(res.start_time)
+									.toLocaleString();
+							createDetailEvent(res.event_id, res.address,
+									res.activity_name, finaltime,
+									res.number_limit_from, res.number_limit_to,
+									res.number_of, res.is_enrolled);
+							var list = res.urlList;
+							for (li in list) {
+								insertPicture(res.event_id, list[li]);
 							}
-						});
+						}
+					},
+					error : AjaxFailed
+				});
 
-			};
+				setActive("events");
+				clearActive("message");
+				clearActive("profile");
+				clearActive("homePage");
+				$("#test1").hide(500);
+				$("#test2").hide(500);
+				$("#test0").hide(500);
+				$("#test3").hide(500);
+				$("#profileView").hide(500);
+				$("#eventsView").show(500);
+				$("#nav").show(200);
 
-			bt2.onclick = function(e) {
-				document.getElementById("event_loading").className = "ui loading segment";
+				//hide chat
+				$(".chat-wrapper").hide(500);
+
+			}
+			function setActive(elementId) {
+				var e = document.getElementById(elementId);
+				e.setAttribute("class", "active");
+			}
+			function clearActive(elementId) {
+				var e = document.getElementById(elementId);
+				e.className = "";
+			}
+			function addUid() {
+				var e = document.getElementById("user_id");
+				e.value = uid;
+			}
+			function edit_profile() {
+				var newprofile = {
+					"plantform" : "asd",
+					"user_id" : uid,
+					"password" : pword,
+					"profile" : {
+						"user_id" : uid,
+						"password" : "",
+						"name" : document.getElementById("set_username").value,
+						"date_of_birth" : parseInt(Date.parse(document
+								.getElementById("set_dob").value)),
+						"nationality" : document
+								.getElementById("set_nationality").value,
+						"gender" : document.getElementById("gender").options[document
+								.getElementById("gender").selectedIndex].innerHTML,
+						"location_id" : 0,
+						"image" : "",
+						"online" : ""
+					}
+				};
+				$.ajax({
+					url : basicurl + "UpdateProfile",
+					type : 'POST',
+					dataType : "json",
+					data : JSON.stringify(newprofile),
+					processData : false,
+					ContentType : 'application/json',
+					dataType : 'json',
+					success : function(result) {
+						if (result.result) {
+							getProfile();
+						} else {
+						}
+
+					},
+					error : function() {
+					}
+				});
+			}
+			function createDetailEevent(eventid, location, activityName,
+					startTime, numberLimitFrom, numberLimitTo, currentNumber,
+					is_enrolled){
+				//left part Dl1
+				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+				generateElement("td",[["class","font-size: 10px"]],null,ActivityName+": "+activityName);
+				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+			}
+			function createDetailEvent(eventid, location, activityName,
+					startTime, numberLimitFrom, numberLimitTo, currentNumber,
+					is_enrolled) {
+				var bt2 = createB("leave", "button");
+				bt2.setAttribute("class", "btn btn-danger");
+				bt2.id = "2_" + eventid;
+
+				bt2.onclick = function() {
+					$("#eventsView").hide(200);
+					$.ajax({
+						url : basicurl + "Leave",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify({
+							plantform : "aads",
+							userid : uid,
+							eventid : this.id.substring(2)
+						}),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							setEvents();
+							$("#eventsView").show(400);
+						},
+						error : function() {
+						}
+					});
+				}
+				var bt3 = createB("chat", "button");
+				bt3.setAttribute("class", "btn btn-success");
+				bt3.id = "button" + eventid;
+				bt3.onclick = function(e) {
+					//alert(this.id);
+					//leaveRoom();
+					setMessageInEventView(this.id);
+
+				}
+				var divMidButton = createDiv(4);
+				divMidButton.appendChild(bt2);
+				var divRightButton = createDiv(4);
+				divRightButton.appendChild(bt3);
+				var d1 = createDiv("12");
+				d1.setAttribute("class", "caption");
+				d1.appendChild(createP("Location: " + location, "p"));
+				d1.appendChild(createP("activityName: " + activityName, "p"));
+				d1.appendChild(createP("startTime: " + startTime, "p"));
+				d1.appendChild(createP("Limit:", "p"));
+				var currentonline = createP(
+						currentNumber + "/" + numberLimitTo, "p");
+				currentonline.id = "3_" + eventid;
+				d1.appendChild(currentonline);
+				var image = createElement("img");
+				image.src = "";
+				var divInfo = createDiv(12);
+				divInfo.appendChild(d1);
+				var divLeft = createDiv(4);
+				divLeft.appendChild(divInfo);
+				divLeft.appendChild(divMidButton);
+				divLeft.appendChild(divRightButton);
+				var divRight = createDiv(8);
+				divRight.appendChild(createCarousel(eventid));
+				//divRight.setAttribute("style","height:100px");
+				var uploadDiv = createDiv(12);
+				var input = generateElement("input", [ [ "type", "file" ],
+						[ "name", "images" ] ], null, null);
+				input.id = eventid + "image";
+				var inputAttribute = generateElement("input", [
+						[ "type", "hidden" ], [ "name", "event_id" ],
+						[ "value", eventid ] ], null, null);
+				var uploadButton = generateElement("button", [ [ "type",
+						"submit" ] ], null, "Upload photo!");
+				var form = generateElement("form", [ [ "method", "post" ],
+						[ "enctype", "multipart/form-data" ],
+						[ "action", "EventImageUpload" ] ], null, null);
+				form.appendChild(input);
+				form.appendChild(inputAttribute);
+				form.appendChild(uploadButton);
+				uploadDiv.appendChild(form);
+				divRight.appendChild(uploadDiv);
+				//addCarouselController(eventid);
+				/*<form method="post" enctype="multipart/form-data"
+										action="Center">
+											<input type="file" name="images" id="images" multiple /> <input
+											type="hidden" id="user_id" name="user_id" value="" />
+											<button type="submit" id="btn">Upload Files!</button>
+										</form>*/
+				var outer = document.getElementById("eventsDetail");
+				var frame = createDiv(6);
+				frame.appendChild(divLeft);
+				frame.appendChild(divRight);
+				outer.appendChild(frame);
+				addCarouselController(eventid);
+				document.getElementById("2_" + eventid).disabled = false;
+			}
+			function createCarousel(event_id) {
+				var img = generateElement(
+						"img",
+						[ [ "src",
+								"https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png" ] ],
+						null, null);
+				var divUnder = generateElement("div", [ [ "class",
+						"carousel-caption" ] ], null, null);
+				var inner = generateElement("div",
+						[ [ "class", "item active" ] ], null, null);
+				inner.appendChild(img);
+				inner.appendChild(divUnder);
+				var imageFrame = generateElement("div", [
+						[ "class", "carousel-inner" ], [ "role", "listbox" ] ],
+						null, null);
+				imageFrame.appendChild(inner);
+				var li = generateElement("li", [
+						[ "data-target", "#" + event_id + "carousel" ],
+						[ "data-slide-to", "0" ], [ "class", "active" ] ],
+						null, null)
+				var ol = generateElement("ol", [ [ "class",
+						"carousel-indicators" ] ], null, null);
+				ol.appendChild(li);
+				var car = generateElement("div", [
+						[ "class", "carousel slide" ],
+						[ "data-ride", "carousel" ] ], null, null);
+				car.appendChild(ol);
+				car.appendChild(imageFrame);
+				car.id = event_id + "carousel";
+				return car;
+			}
+			function insertPicture(event_id, url) {
+				var car = document.getElementById(event_id + "carousel");
+				var img = generateElement("img", [ [ "src", url ],
+						[ "alt", "...." ] ], null, null);
+				var divUnder = generateElement("div", [ [ "class",
+						"carousel-caption" ] ], null, null);
+				var number = car.childNodes[0].children.length;
+				var inner = generateElement("div", [ [ "class", "item" ] ],
+						null, null);
+				inner.appendChild(img);
+				inner.appendChild(divUnder);
+				var li = generateElement("li", [
+						[ "data-target", "#" + event_id + "carousel" ],
+						[ "data-slide-to", number ] ], null, null);
+				car.childNodes[1].appendChild(inner);
+				car.childNodes[0].appendChild(li);
+			}
+			function addCarouselController(event_id) {
+				var controller = document.getElementById(event_id + "carousel");
+				var ls1 = generateElement("span", [
+						[ "class", "glyphicon glyphicon-chevron-left" ],
+						[ "aria-hidden", "true" ] ], null, null);
+				var ls2 = generateElement("span", [ [ "class", "sr-only" ] ],
+						null, "Prev");
+				var la = generateElement("a", [
+						[ "class", "left carousel-control" ],
+						[ "href", "#" + event_id + "carousel" ],
+						[ "role", "button" ], [ "data-slide", "prev" ] ], null,
+						null);
+				la.appendChild(ls1);
+				la.appendChild(ls2);
+				var rs1 = generateElement("span", [
+						[ "class", "glyphicon glyphicon-chevron-right" ],
+						[ "aria-hidden", "true" ] ], null, null);
+				var rs2 = generateElement("span", [ [ "class", "sr-only" ] ],
+						null, "Next");
+				var ra = generateElement("a", [
+						[ "class", "right carousel-control" ],
+						[ "href", "#" + event_id + "carousel" ],
+						[ "role", "button" ], [ "data-slide", "next" ] ], null,
+						null);
+				ra.appendChild(rs1);
+				ra.appendChild(rs2);
+				controller.appendChild(la);
+				controller.appendChild(ra);
+			}
+			/*<div id="carousel-example-generic" class="carousel slide"
+			data-ride="carousel">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-example-generic" data-slide-to="0"
+					class="active"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+				</ol>
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img
+						src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
+						alt="...">
+						<div class="carousel-caption">...</div>
+					</div>
+				</div>
+
+				<!-- Controls -->
+				<a class="left carousel-control"
+				href="#carousel-example-generic" role="button"
+				data-slide="prev"> <span
+				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control"
+				href="#carousel-example-generic" role="button"
+				data-slide="next"> <span
+				class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>*/
+			function generateElement(elementType, attributes, childrenToAppend,
+					innerHTML) {
+				var i, isIE = navigator.appName == 'Microsoft Internet Explorer';
+				if (isIE)
+					tagCode = '<' + elementType;
+				else
+					newElement = document.createElement(elementType);
+				if (attributes != null) {
+					for (i = 0; i < attributes.length; i++) {
+						if (attributes[i]) {
+							if (isIE)
+								tagCode += ' ' + attributes[i][0] + '="'
+										+ attributes[i][1] + '"';
+							else
+								newElement.setAttribute(attributes[i][0],
+										attributes[i][1]);
+						}
+					}
+				}
+				if (isIE)
+					newElement = document.createElement(tagCode + '>');
+				if (childrenToAppend != null) {
+					for (i = 0; i < childrenToAppend.length; i++) {
+						newElement.appendChild(childrenToAppend[i]);
+					}
+				}
+				if (innerHTML)
+					newElement.innerHTML = innerHTML;
+				return newElement;
+			}
+			////logout
+			function logout() {
+				$.ajax({
+					url : basicurl + "Logout",
+					type : 'POST',
+					data : JSON.stringify({}),
+					processData : false,
+					success : function(result) {
+						location.reload();
+					},
+					error : AjaxFailed
+				});
+			}
+			function learnRegExp(s) {
+				var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+				return regexp.test(s);
+			}
+
+			function getProfile() {
 				$
 						.ajax({
-							url : basicurl + "Leave",
+							url : basicurl + "GetProfile",
 							type : 'POST',
 							dataType : "json",
 							data : JSON.stringify({
-								plantform : "aads",
 								userid : uid,
-								eventid : eventid
+								plantform : ""
 							}),
 							processData : false,
 							ContentType : 'application/json',
 							dataType : 'json',
 							success : function(result) {
 								if (result.result) {
-									var myNode = document
-											.getElementById("event-table-detail");
-									while (myNode.firstChild) {
-										myNode.removeChild(myNode.firstChild);
+									var tmp = result.profile;
+									document.getElementById("set_account").value = uid;
+									if (typeof tmp.name != 'undefined') {
+										document.getElementById("set_username").value = tmp.name;
 									}
-									$
-											.ajax({
-												url : basicurl + "LookUpEvent",
-												type : 'POST',
-												dataType : "json",
-												data : JSON
-														.stringify({
-															plantform : "aads",
-															userid : uid,
-															preferencename : prefs[currentPreference].preference_name
-														}),
-												processData : false,
-												ContentType : 'application/json',
-												dataType : 'json',
-												success : function(result) {
-													var events = result.event;
-													for ( var ke in events) {
-														addEvents(
-																events[ke].address,
-																events[ke].activity_name,
-																(new Date(
-																		events[ke].start_time))
-																		.toDateString(),
-																events[ke].number_limit_from,
-																events[ke].number_limit_to,
-																events[ke].number_of,
-																events[ke].event_id,
-																events[ke].is_enrolled);
-													}
-													document
-															.getElementById("event_loading").className = "";
-												},
-												error : function() {
-													document
-															.getElementById("event_loading").className = "";
-												}
-											});
+									if (typeof tmp.date_of_birth != 'undefined') {
+										if (parseInt(tmp.date_of_birth) > 100000)
+											document.getElementById("set_dob").value = new Date(
+													tmp.date_of_birth)
+													.toDateString();
+									}
+									if (typeof tmp.nationality != 'undefined') {
+										document
+												.getElementById("set_nationality").value = tmp.nationality;
+									}
+									if (learnRegExp(tmp.image)
+											&& tmp.hasOwnProperty('image')) {
+										document.getElementById("userImage").src = tmp.image;
+									}
 								}
 							},
-							error : function() {
-								document.getElementById("event_loading").className = "";
-							}
+							error : AjaxFailed
 						});
-
 			}
-
-			var d1 = createElement("div");
-			d1.setAttribute("class", "caption");
-			d1.appendChild(createP("Location: " + location, "p"));
-			d1.appendChild(createP("activityName: " + activityName, "p"));
-			d1.appendChild(createP("startTime: " + startTime, "p"));
-			d1.appendChild(createP("Limit:", "p"));
-			var currentonline = createP(currentNumber + "/" + numberLimitTo,
-					"p");
-			currentonline.id = "3_" + eventid;
-			d1.appendChild(currentonline);
-			d1.appendChild(outerbt1);
-			d1.appendChild(outerbt2);
-			var image = createElement("img");
-			image.src = "";
-			var d2 = createElement("div");
-			d2.setAttribute("class", "thumbnail");
-			d2.appendChild(image);
-			d2.appendChild(d1);
-			var d3 = createElement("div");
-			d3.setAttribute("class", "col-sm-6 col-md-6");
-			d3.appendChild(d2);
-			var outer = document.getElementById("event-table-detail");
-			outer.appendChild(d3);
-			if (is_enrolled) {
-				document.getElementById("1_" + eventid).disabled = true;
-				document.getElementById("2_" + eventid).disabled = false;
-			} else {
-				document.getElementById("1_" + eventid).disabled = false;
-				document.getElementById("2_" + eventid).disabled = true;
-			}
-		}
-		function createP(str, type) {
-			var result = document.createElement(type);
-			var node = document.createTextNode(str);
-			result.setAttribute("style", "font-size:10px");
-			result.appendChild(node);
-			return result;
-		}
-		function createB(str, type) {
-			var result = document.createElement(type);
-			var node = document.createTextNode(str);
-			result.appendChild(node);
-			return result;
-		}
-		function createElement(type) {
-			var result = document.createElement(type);
-			return result;
-		}
-		function createDiv(ratio) {
-			var d = createElement("div");
-			d.setAttribute("class", "col-sm-" + ratio + " col-md-" + ratio);
-			return d;
-		}
-		function setHomePage() {
-			setActive("homePage");
-			clearActive("profile");
-			clearActive("message");
-			clearActive("events");
-			$("#test1").show(500);
-			$("#test0").show(500);
-			$("#test3").show();
-			$("#test2").hide(500);
-			$("#profileView").hide(500);
-			$("#eventsView").hide(500);
-			$("#nav").show(200);
-			$(".chat-wrapper").hide(500);
-			google.maps.event.trigger(map, 'resize');
-		}
-		function setProfile() {
-			setActive("profile");
-			clearActive("homePage");
-			clearActive("message");
-			clearActive("events");
-			$("#profileView").show(500);
-			$("#test1").hide(500);
-			$("#test2").hide(500);
-			$("#test0").hide(500);
-			$("#test3").hide(500);
-			$("#eventsView").hide(500);
-			$("#nav").show(200);
-			addUid();
-
-			//hide chat
-			$(".chat-wrapper").hide(500);
-		}
-		function setMessage() {
-			setActive("message");
-			clearActive("events");
-			clearActive("profile");
-			clearActive("homePage");
-			$("#nav").show(200);
-
-			/////////show message
-			$(".chat-wrapper").hide(500);
-			$("#test1").hide(500);
-			$("#test2").hide(500);
-			$("#test0").hide(500);
+		</script>
+		<script type="text/javascript">
+			
+		<%HttpSession se = request.getSession();
+			if (se.getAttribute("userid") != null) {%>
+			uid =
+		<%="\"" + se.getAttribute("userid") + "\""%>
+			;
+			pword =
+		<%="\"" + se.getAttribute("password") + "\""%>
+			;
+			var a = document.getElementById("signin");
+			document.getElementById("signin").parentElement
+					.removeChild(document.getElementById("signin"));
+			var b = document.getElementById("signup");
+			document.getElementById("signup").parentElement
+					.removeChild(document.getElementById("signup"));
+			var c = document.getElementById("username");
+			document.getElementById("username").parentElement
+					.removeChild(document.getElementById("username"));
+			var d = document.getElementById("password");
+			document.getElementById("password").parentElement
+					.removeChild(document.getElementById("password"));
+			getAndCreateAllPreference();
+			getProfile();
+		<%} else {%>
+			$("#test1").hide();
+			$("#test0").hide();
+			$("#test3").hide();
+			$("#logout").hide();
+			$("#nav").hide();
+		<%}%>
+			$("#test2").hide();
 			$("#eventsView").hide();
-			$("#test3").hide(500);
-			$("#profileView").hide(500);
-		}
-
-		function setMessageInEventView(roomname) {
-			setActive("message");
-			clearActive("events");
-			clearActive("profile");
-			clearActive("homePage");
-			$("#nav").show(200);
-
-			/////////show message
-			connectToChatserver(roomname);
-			$(".chat-wrapper").show(500);
-			$("#test1").hide(500);
-			$("#test2").hide(500);
-			$("#test0").hide(500);
-			$("#eventsView").hide();
-			$("#test3").hide(500);
-			$("#profileView").hide(500);
-		}
-
-		function setEvents() {
-			var myNode = document.getElementById("eventsDetail");
-			while (myNode.firstChild) {
-				myNode.removeChild(myNode.firstChild);
-			}
-
+			$("#profileView").hide();
+			$(".chat-wrapper").hide();
+			$message = $('#chatmessage');
+			$chatWindow = $('#chatresponse');
+			$('#do-chat').submit(function(evt) {
+				evt.preventDefault();
+				sendMessage();
+			});
+			$('#leave-room').click(function() {
+				leaveRoom();
+				setEvents();
+			});
 			$.ajax({
-				url : basicurl + "LookUpUserEvents",
+				url : basicurl + "ActivityReply",
 				type : 'POST',
 				dataType : "json",
 				data : JSON.stringify({
-					plantform : "asd",
-					username : uid
+					plantform : "aads"
 				}),
 				processData : false,
 				ContentType : 'application/json',
 				dataType : 'json',
 				success : function(result) {
-					var ress = result.event;
-					for ( var indsa in ress) {
-						var res = ress[indsa];
-						var finaltime = new Date(res.start_time)
-								.toLocaleString();
-						createDetailEvent(res.event_id, res.address,
-								res.activity_name, finaltime,
-								res.number_limit_from, res.number_limit_to,
-								res.number_of, res.is_enrolled);
-						var list = res.urlList;
-						for (li in list) {
-							insertPicture(res.event_id, list[li]);
-						}
+					prefs = result.activity;
+					for ( var ke in prefs) {
+						var option = createElement("option");
+						option.innerHTML = prefs[ke].name;
+						document.getElementById("activity_name").appendChild(
+								option);
 					}
 				},
 				error : AjaxFailed
 			});
-
-			setActive("events");
-			clearActive("message");
-			clearActive("profile");
-			clearActive("homePage");
-			$("#test1").hide(500);
-			$("#test2").hide(500);
-			$("#test0").hide(500);
-			$("#test3").hide(500);
-			$("#profileView").hide(500);
-			$("#eventsView").show(500);
-			$("#nav").show(200);
-
-			//hide chat
-			$(".chat-wrapper").hide(500);
-
-		}
-		function setActive(elementId) {
-			var e = document.getElementById(elementId);
-			e.setAttribute("class", "active");
-		}
-		function clearActive(elementId) {
-			var e = document.getElementById(elementId);
-			e.className = "";
-		}
-		function addUid() {
-			var e = document.getElementById("user_id");
-			e.value = uid;
-		}
-		function edit_profile() {
-			var newprofile = {
-				"plantform" : "asd",
-				"user_id" : uid,
-				"password" : pword,
-				"profile" : {
-					"user_id" : uid,
-					"password" : "",
-					"name" : document.getElementById("set_username").value,
-					"date_of_birth" : parseInt(Date.parse(document
-							.getElementById("set_dob").value)),
-					"nationality" : document.getElementById("set_nationality").value,
-					"gender" : document.getElementById("gender").options[document
-							.getElementById("gender").selectedIndex].innerHTML,
-					"location_id" : 0,
-					"image" : "",
-					"online" : ""
-				}
-			};
-			$.ajax({
-				url : basicurl + "UpdateProfile",
-				type : 'POST',
-				dataType : "json",
-				data : JSON.stringify(newprofile),
-				processData : false,
-				ContentType : 'application/json',
-				dataType : 'json',
-				success : function(result) {
-					if (result.result) {
-						getProfile();
-					} else {
-					}
-
-				},
-				error : function() {
-				}
-			});
-		}
-		function createDetailEvent(eventid, location, activityName, startTime,
-				numberLimitFrom, numberLimitTo, currentNumber, is_enrolled) {
-			var bt2 = createB("leave", "button");
-			bt2.setAttribute("class", "btn btn-danger");
-			bt2.id = "2_" + eventid;
-
-			bt2.onclick = function() {
-				$("#eventsView").hide(200);
-				$.ajax({
-					url : basicurl + "Leave",
-					type : 'POST',
-					dataType : "json",
-					data : JSON.stringify({
-						plantform : "aads",
-						userid : uid,
-						eventid : this.id.substring(2)
-					}),
-					processData : false,
-					ContentType : 'application/json',
-					dataType : 'json',
-					success : function(result) {
-						setEvents();
-						$("#eventsView").show(400);
-					},
-					error : function() {
-					}
-				});
-			}
-			var bt3 = createB("chat", "button");
-			bt3.setAttribute("class", "btn btn-success");
-			bt3.id = "button" + eventid;
-			bt3.onclick = function(e) {
-				//alert(this.id);
-				//leaveRoom();
-				setMessageInEventView(this.id);
-
-			}
-			var divMidButton = createDiv(4);
-			divMidButton.appendChild(bt2);
-			var divRightButton = createDiv(4);
-			divRightButton.appendChild(bt3);
-			var d1 = createDiv("12");
-			d1.setAttribute("class", "caption");
-			d1.appendChild(createP("Location: " + location, "p"));
-			d1.appendChild(createP("activityName: " + activityName, "p"));
-			d1.appendChild(createP("startTime: " + startTime, "p"));
-			d1.appendChild(createP("Limit:", "p"));
-			var currentonline = createP(currentNumber + "/" + numberLimitTo,
-					"p");
-			currentonline.id = "3_" + eventid;
-			d1.appendChild(currentonline);
-			var image = createElement("img");
-			image.src = "";
-			var divInfo = createDiv(12);
-			divInfo.appendChild(d1);
-			var divLeft = createDiv(4);
-			divLeft.appendChild(divInfo);
-			divLeft.appendChild(divMidButton);
-			divLeft.appendChild(divRightButton);
-			var divRight = createDiv(8);
-			divRight.appendChild(createCarousel(eventid));
-			//divRight.setAttribute("style","height:100px");
-			var uploadDiv = createDiv(12);
-			var input = generateElement("input", [ [ "type", "file" ],
-					[ "name", "images" ] ], null, null);
-			input.id = eventid + "image";
-			var inputAttribute = generateElement("input", [
-					[ "type", "hidden" ], [ "name", "event_id" ],
-					[ "value", eventid ] ], null, null);
-			var uploadButton = generateElement("button",
-					[ [ "type", "submit" ] ], null, "Upload photo!");
-			var form = generateElement("form", [ [ "method", "post" ],
-					[ "enctype", "multipart/form-data" ],
-					[ "action", "EventImageUpload" ] ], null, null);
-			form.appendChild(input);
-			form.appendChild(inputAttribute);
-			form.appendChild(uploadButton);
-			uploadDiv.appendChild(form);
-			divRight.appendChild(uploadDiv);
-			//addCarouselController(eventid);
-			/*<form method="post" enctype="multipart/form-data"
-										action="Center">
-										<input type="file" name="images" id="images" multiple /> <input
-											type="hidden" id="user_id" name="user_id" value="" />
-										<button type="submit" id="btn">Upload Files!</button>
-									</form>*/
-			var outer = document.getElementById("eventsDetail");
-			var frame = createDiv(6);
-			frame.appendChild(divLeft);
-			frame.appendChild(divRight);
-			outer.appendChild(frame);
-			addCarouselController(eventid);
-			document.getElementById("2_" + eventid).disabled = false;
-		}
-		function createCarousel(event_id) {
-			var img = generateElement(
-					"img",
-					[ [ "src",
-							"https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png" ] ],
-					null, null);
-			var divUnder = generateElement("div", [ [ "class",
-					"carousel-caption" ] ], null, null);
-			var inner = generateElement("div", [ [ "class", "item active" ] ],
-					null, null);
-			inner.appendChild(img);
-			inner.appendChild(divUnder);
-			var imageFrame = generateElement("div", [
-					[ "class", "carousel-inner" ], [ "role", "listbox" ] ],
-					null, null);
-			imageFrame.appendChild(inner);
-			var li = generateElement("li", [
-					[ "data-target", "#" + event_id + "carousel" ],
-					[ "data-slide-to", "0" ], [ "class", "active" ] ], null,
-					null)
-			var ol = generateElement("ol",
-					[ [ "class", "carousel-indicators" ] ], null, null);
-			ol.appendChild(li);
-			var car = generateElement("div", [ [ "class", "carousel slide" ],
-					[ "data-ride", "carousel" ] ], null, null);
-			car.appendChild(ol);
-			car.appendChild(imageFrame);
-			car.id = event_id + "carousel";
-			return car;
-		}
-		function insertPicture(event_id, url) {
-			var car = document.getElementById(event_id + "carousel");
-			var img = generateElement("img", [ [ "src", url ],
-					[ "alt", "...." ] ], null, null);
-			var divUnder = generateElement("div", [ [ "class",
-					"carousel-caption" ] ], null, null);
-			var number = car.childNodes[0].children.length;
-			var inner = generateElement("div", [ [ "class", "item" ] ], null,
-					null);
-			inner.appendChild(img);
-			inner.appendChild(divUnder);
-			var li = generateElement("li", [
-					[ "data-target", "#" + event_id + "carousel" ],
-					[ "data-slide-to", number ] ], null, null);
-			car.childNodes[1].appendChild(inner);
-			car.childNodes[0].appendChild(li);
-		}
-		function addCarouselController(event_id) {
-			var controller = document.getElementById(event_id + "carousel");
-			var ls1 = generateElement("span", [
-					[ "class", "glyphicon glyphicon-chevron-left" ],
-					[ "aria-hidden", "true" ] ], null, null);
-			var ls2 = generateElement("span", [ [ "class", "sr-only" ] ], null,
-					"Prev");
-			var la = generateElement("a", [
-					[ "class", "left carousel-control" ],
-					[ "href", "#" + event_id + "carousel" ],
-					[ "role", "button" ], [ "data-slide", "prev" ] ], null,
-					null);
-			la.appendChild(ls1);
-			la.appendChild(ls2);
-			var rs1 = generateElement("span", [
-					[ "class", "glyphicon glyphicon-chevron-right" ],
-					[ "aria-hidden", "true" ] ], null, null);
-			var rs2 = generateElement("span", [ [ "class", "sr-only" ] ], null,
-					"Next");
-			var ra = generateElement("a", [
-					[ "class", "right carousel-control" ],
-					[ "href", "#" + event_id + "carousel" ],
-					[ "role", "button" ], [ "data-slide", "next" ] ], null,
-					null);
-			ra.appendChild(rs1);
-			ra.appendChild(rs2);
-			controller.appendChild(la);
-			controller.appendChild(ra);
-		}
-		/*<div id="carousel-example-generic" class="carousel slide"
-			data-ride="carousel">
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0"
-					class="active"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-			</ol>
-
-			<!-- Wrapper for slides -->
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<img
-						src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
-						alt="...">
-					<div class="carousel-caption">...</div>
-				</div>
-			</div>
-
-			<!-- Controls -->
-			<a class="left carousel-control"
-				href="#carousel-example-generic" role="button"
-				data-slide="prev"> <span
-				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a> <a class="right carousel-control"
-				href="#carousel-example-generic" role="button"
-				data-slide="next"> <span
-				class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>*/
-		function generateElement(elementType, attributes, childrenToAppend,
-				innerHTML) {
-			var i, isIE = navigator.appName == 'Microsoft Internet Explorer';
-			if (isIE)
-				tagCode = '<' + elementType;
-			else
-				newElement = document.createElement(elementType);
-			if (attributes != null) {
-				for (i = 0; i < attributes.length; i++) {
-					if (attributes[i]) {
-						if (isIE)
-							tagCode += ' ' + attributes[i][0] + '="'
-									+ attributes[i][1] + '"';
-						else
-							newElement.setAttribute(attributes[i][0],
-									attributes[i][1]);
-					}
-				}
-			}
-			if (isIE)
-				newElement = document.createElement(tagCode + '>');
-			if (childrenToAppend != null) {
-				for (i = 0; i < childrenToAppend.length; i++) {
-					newElement.appendChild(childrenToAppend[i]);
-				}
-			}
-			if (innerHTML)
-				newElement.innerHTML = innerHTML;
-			return newElement;
-		}
-		////logout
-		function logout() {
-			$.ajax({
-				url : basicurl + "Logout",
-				type : 'POST',
-				data : JSON.stringify({}),
-				processData : false,
-				success : function(result) {
-					location.reload();
-				},
-				error : AjaxFailed
-			});
-		}
-		function learnRegExp(s) {
-			var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-			return regexp.test(s);
-		}
-
-		function getProfile() {
-			$
-					.ajax({
-						url : basicurl + "GetProfile",
-						type : 'POST',
-						dataType : "json",
-						data : JSON.stringify({
-							userid : uid,
-							plantform : ""
-						}),
-						processData : false,
-						ContentType : 'application/json',
-						dataType : 'json',
-						success : function(result) {
-							if (result.result) {
-								var tmp = result.profile;
-								document.getElementById("set_account").value = uid;
-								if (typeof tmp.name != 'undefined') {
-									document.getElementById("set_username").value = tmp.name;
-								}
-								if (typeof tmp.date_of_birth != 'undefined') {
-									if (parseInt(tmp.date_of_birth) > 100000)
-										document.getElementById("set_dob").value = new Date(
-												tmp.date_of_birth)
-												.toDateString();
-								}
-								if (typeof tmp.nationality != 'undefined') {
-									document.getElementById("set_nationality").value = tmp.nationality;
-								}
-								if (learnRegExp(tmp.image)
-										&& tmp.hasOwnProperty('image')) {
-									document.getElementById("userImage").src = tmp.image;
-								}
-							}
-						},
-						error : AjaxFailed
-					});
-		}
-	</script>
-	<script type="text/javascript">
-		
-	<%HttpSession se = request.getSession();
-			if (se.getAttribute("userid") != null) {%>
-		uid =
-	<%="\"" + se.getAttribute("userid") + "\""%>
-		;
-		pword =
-	<%="\"" + se.getAttribute("password") + "\""%>
-		;
-		var a = document.getElementById("signin");
-		document.getElementById("signin").parentElement.removeChild(document
-				.getElementById("signin"));
-		var b = document.getElementById("signup");
-		document.getElementById("signup").parentElement.removeChild(document
-				.getElementById("signup"));
-		var c = document.getElementById("username");
-		document.getElementById("username").parentElement.removeChild(document
-				.getElementById("username"));
-		var d = document.getElementById("password");
-		document.getElementById("password").parentElement.removeChild(document
-				.getElementById("password"));
-		getAndCreateAllPreference();
-		getProfile();
-	<%} else {%>
-		$("#test1").hide();
-		$("#test0").hide();
-		$("#test3").hide();
-		$("#logout").hide();
-		$("#nav").hide();
-	<%}%>
-		$("#test2").hide();
-		$("#eventsView").hide();
-		$("#profileView").hide();
-		$(".chat-wrapper").hide();
-		$message = $('#chatmessage');
-		$chatWindow = $('#chatresponse');
-		$('#do-chat').submit(function(evt) {
-			evt.preventDefault();
-			sendMessage();
-		});
-		$('#leave-room').click(function() {
-			leaveRoom();
-			setEvents();
-		});
-		$.ajax({
-			url : basicurl + "ActivityReply",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
-				plantform : "aads"
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : function(result) {
-				prefs = result.activity;
-				for ( var ke in prefs) {
-					var option = createElement("option");
-					option.innerHTML = prefs[ke].name;
-					document.getElementById("activity_name")
-							.appendChild(option);
-				}
-			},
-			error : AjaxFailed
-		});
-	</script>
+		</script>
 </body>
 </html>
