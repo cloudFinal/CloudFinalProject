@@ -78,9 +78,12 @@
 	}
 
 	function leaveRoom() {
-		wsocket.close();
-		$chatWindow.empty();
-		$('.chat-wrapper').hide();
+		if (wsocket != null) {
+			wsocket.close();
+			$chatWindow.empty();
+			$('.chat-wrapper').hide();
+			wsocket=null;
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -1202,11 +1205,10 @@
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-			
-			bt2.onclick=function(){
-				$("#eventsView").hide(200);		
-				$
-				.ajax({
+
+			bt2.onclick = function() {
+				$("#eventsView").hide(200);
+				$.ajax({
 					url : basicurl + "Leave",
 					type : 'POST',
 					dataType : "json",
@@ -1224,7 +1226,7 @@
 					},
 					error : function() {
 					}
-				});			
+				});
 			}
 			var bt3 = createB("chat", "button");
 			bt3.setAttribute("class", "btn btn-success");
@@ -1233,7 +1235,7 @@
 				//alert(this.id);
 				leaveRoom();
 				setMessageInEventView(e.id);
-				
+
 			}
 			var divMidButton = createDiv(4);
 			divMidButton.appendChild(bt2);
