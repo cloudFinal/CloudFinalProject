@@ -333,6 +333,7 @@
 								events[ke].number_limit_to,
 								events[ke].number_of, events[ke].event_id,
 								events[ke].is_enrolled);
+						addEventMarker(events[ke].latitude,events[ke].longitude);
 					}
 				},
 				error : AjaxFailed
@@ -765,6 +766,14 @@
 		function toggleEvent() {
 			$("#event-table").toggle("slow");
 		}
+		
+		function addEventMarker(lat, longi){
+			marker[marker.length] = new google.maps.Marker({
+				map : map,
+				position : new google.maps.LatLng(lat, longi),
+			});
+			marker[marker.length].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+		}
 	</script>
 	<script type="text/javascript">
 		function addMarker(lat, longi) {
@@ -1059,21 +1068,37 @@
 			$("#profileView").hide(500);
 		}
 		function setEvents() {
-			var ary={
-					
+			var myNode = document.getElementById("eventsDetail");
+			while (myNode.firstChild) {
+				myNode.removeChild(myNode.firstChild);
 			}
+			
 
-			$.ajax({
-				url : basicurl + "LookUpUserEvent",
-				type : 'POST',
-				dataType : "json",
-				data : JSON.stringify(ary),
-				processData : false,
-				ContentType : 'application/json',
-				dataType : 'json',
-				success : AjaxSucceeded,
-				error : AjaxFailed
-			});
+			$
+					.ajax({
+						url : basicurl + "LookUpUserEvents",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify({
+							plantform : "asd",
+							username : uid
+						}),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							var ress = result.event;
+							for(var indsa in ress){
+								var res=ress[indsa];
+							createDetailEvent(res.event_id, res.address,
+									res.start_time, res.number_limit_from,
+									res.number_limit_to, res.number_of,
+									res.is_enrolled);
+							}
+
+						},
+						error : AjaxFailed
+					});
 
 			setActive("events");
 			clearActive("message");
@@ -1156,8 +1181,8 @@
 			var bt2 = createB("leave", "button");
 			bt2.setAttribute("class", "btn btn-danger");
 			bt2.id = "2_" + eventid;
-			var bt3 = createB("chat","button");
-			b3.setAttribute("class","btn btn-success");
+			var bt3 = createB("chat", "button");
+			bt3.setAttribute("class", "btn btn-success");
 			var divLeftButton = createDiv(4);
 			divLeftButton.appendChild(bt);
 			var divMidButton = createDiv(4);
