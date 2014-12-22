@@ -1307,7 +1307,7 @@
 			var ls1 = generateElement("span", [
 					[ "class", "glyphicon glyphicon-chevron-left" ],
 					[ "aria-hidden", "true" ] ], null, null);
-			var ls2 = generateElement("span", [ "class", "sr-only" ], null,
+			var ls2 = generateElement("span", [[ "class", "sr-only" ]], null,
 					"Prev");
 			var la = generateElement("span", [
 					[ "class", "left carousel-control" ],
@@ -1319,7 +1319,7 @@
 			var rs1 = generateElement("span", [
 					[ "class", "glyphicon glyphicon-chevron-right" ],
 					[ "aria-hidden", "true" ] ], null, null);
-			var rs2 = generateElement("span", [ "class", "sr-only" ], null,
+			var rs2 = generateElement("span", [[ "class", "sr-only" ]], null,
 					"Next");
 			var ra = generateElement("span", [
 					[ "class", "right carousel-control" ],
