@@ -39,15 +39,12 @@ public class GetProfile extends HttpServlet {
 		String userId = "zhangluoma";
 		Profile profile = Center.db.getProfile(userId);
 		boolean result=false;
-		String obj=null;
+		JSONObject output = new JSONObject();
 		if(profile!=null){
 			result=true;
-			Gson gson = new Gson();
-			obj = gson.toJson(profile);
 		}
-		JSONObject output = new JSONObject();
+		output.put("profile", profile.toJson());
 		output.put("result", result);
-		output.put("object", obj);
 		JsonProcess.sendJson(response, output);
 	}
 

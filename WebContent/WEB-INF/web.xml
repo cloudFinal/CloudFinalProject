@@ -189,4 +189,14 @@
     <servlet-name>LookUpUserEvents</servlet-name>
     <url-pattern>/LookUpUserEvents</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EventImageUpload</display-name>
+    <servlet-name>EventImageUpload</servlet-name>
+    <servlet-class>Servlet.EventImageUpload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EventImageUpload</servlet-name>
+    <url-pattern>/EventImageUpload</url-pattern>
+  </servlet-mapping>
 </web-app>

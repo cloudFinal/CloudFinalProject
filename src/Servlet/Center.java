@@ -46,7 +46,7 @@ public class Center extends HttpServlet {
 	public static WorkPool wp;
 	public static Database db;
 	public static Hashtable<Integer, Location> locationInfo = new Hashtable<Integer, Location>();
-	private final String UPLOAD_DIRECTORY = "http://localhost:8080/CloudFinal/my.jpg";
+	private final String UPLOAD_DIRECTORY = "https://s3-us-west-2.amazonaws.com/eventplanner/";
 	static {
 		db = new Database();
 		wp = new WorkPool();
@@ -107,7 +107,7 @@ public class Center extends HttpServlet {
 						pir.withCannedAcl(CannedAccessControlList.PublicReadWrite);
 						s3Client.putObject(pir);
 						System.out.println(identifier);
-						Center.db.insertUserImage(userId, "https://s3-us-west-2.amazonaws.com/eventplanner/"+identifier);
+						Center.db.insertUserImage(userId, UPLOAD_DIRECTORY+identifier);
 						/*System.out.println("Downloading an object");
 			            S3Object s3object = s3Client.getObject(new GetObjectRequest(
 			            		"elasticbeanstalk-us-east-1-668249848517", "output1/output.out"));

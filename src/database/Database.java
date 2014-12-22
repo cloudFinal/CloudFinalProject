@@ -446,6 +446,17 @@ public class Database
 		}
 		return true;
 	}
+	public boolean insertEventImage(int eventid,String url){
+		try{
+			stmt=conn.createStatement();
+			stmt.execute(QueryGenerator.insertQ("album","event_id","Integer",String.valueOf(eventid),"image","String",url));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public Profile getProfile(String userId){
 		try{
 			stmt=conn.createStatement();
