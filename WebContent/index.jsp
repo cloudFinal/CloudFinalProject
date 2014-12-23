@@ -24,8 +24,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-	var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
-	var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
+	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
+	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	var uid;
 	var pword;
 	var prefs;
@@ -36,8 +36,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	//var basicurl = "http://localhost:8080/CloudFinal/";
-	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	var basicurl = "http://localhost:8080/CloudFinal/";
+	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -698,7 +698,7 @@
 						<a href="#" onclick="toggleEvent()">Available Event</a>
 					</div>
 					<div id="event_loading">
-						<div id="event-table" class="panel-body" style="height: 300px">
+						<div id="event-table" class="panel-body">
 							<div class="row" id="event-table-detail"></div>
 						</div>
 					</div>
@@ -926,24 +926,48 @@
 			function addEvents(location, activityName, startTime,
 					numberLimitFrom, numberLimitTo, currentNumber, eventid,
 					is_enrolled) {
+				var td1=generateElement("td",[["style","font-size: 10px"]],null,"Location: "+location);
+				var td2=generateElement("td",[["style","font-size: 10px"]],null,"ActivityName "+activityName);
+				var td3=generateElement("td",[["style","font-size: 10px"]],null,"Start Time :"+startTime);
+				var td4=generateElement("td",[["style","font-size: 10px"]],null,"Current Participants:"+currentNumber+"/"+numberLimitTo);
+				var tr1=generateElement("tr",null,null,null);
+				var tr2=generateElement("tr",null,null,null);
+				var tr3=generateElement("tr",null,null,null);
+				var tr4=generateElement("tr",null,null,null);
+				tr1.appendChild(td1);
+				tr2.appendChild(td2);
+				tr3.appendChild(td3);
+				tr4.appendChild(td4);
+				var t0=document.createElement("tbody");
+				t0.appendChild(tr1);
+				t0.appendChild(tr2);
+				t0.appendChild(tr3);
+				t0.appendChild(tr4);
+				var tableMain=generateElement("table",[["class","table"],["style","padding: 0px"]],null,null);
+				tableMain.appendChild(t0);
 				var bt;
 				if (currentNumber == 0) {
-					bt = createB("Create", "button");
-					bt.setAttribute("class", "btn btn-success");
+					bt=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"Setup");
 				} else {
-					bt = createB("Join", "button");
-					bt.setAttribute("class", "btn btn-primary");
+					bt=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"Join");
 				}
-				bt.setAttribute("id", "btn btn-primary");
-				bt.id = "1_" + eventid;
-
-				var bt2 = createB("leave", "button");
-				bt2.setAttribute("class", "btn btn-danger");
-				bt2.id = "2_" + eventid;
-				var outerbt1 = createDiv(6);
-				var outerbt2 = createDiv(6);
-				outerbt1.appendChild(bt);
-				outerbt2.appendChild(bt2);
+				bt.id="1_"+eventid;
+				var button1div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				button1div.appendChild(bt);
+				var bt2=generateElement("button",[["class","btn btn-success"],["style","width: 100%"]],null,"Leave");
+				bt2.id="2_"+eventid;
+				var button2div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				button2div.appendChild(bt2);
+				var bodyMain = generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				bodyMain.appendChild(tableMain);
+				bodyMain.appendChild(button1div);
+				bodyMain.appendChild(button2div);
+				var headingMain = generateElement("div",[["class","panel-heading"]],null,null);
+				headingMain.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Event Info"));
+				var panel = generateElement("div",[["class","panel panel-default"],["style","height: 10px"],["style","padding: 5%"]],null,null);
+				panel.appendChild(headingMain);
+				panel.appendChild(bodyMain);
+				var left = createDiv(6);
 				bt.onclick = function(e) {
 					document.getElementById("event_loading").className = "ui loading segment";
 					$
@@ -1085,30 +1109,8 @@
 							});
 
 				}
-
-				var d1 = createElement("div");
-				d1.setAttribute("class", "caption");
-				d1.appendChild(createP("Location: " + location, "p"));
-				d1.appendChild(createP("activityName: " + activityName, "p"));
-				d1.appendChild(createP("startTime: " + startTime, "p"));
-				d1.appendChild(createP("Limit:", "p"));
-				var currentonline = createP(
-						currentNumber + "/" + numberLimitTo, "p");
-				currentonline.id = "3_" + eventid;
-				d1.appendChild(currentonline);
-				d1.appendChild(outerbt1);
-				d1.appendChild(outerbt2);
-				var image = createElement("img");
-				image.src = "";
-				var d2 = createElement("div");
-				d2.setAttribute("class", "thumbnail");
-				d2.appendChild(image);
-				d2.appendChild(d1);
-				var d3 = createElement("div");
-				d3.setAttribute("class", "col-sm-6 col-md-6");
-				d3.appendChild(d2);
-				var outer = document.getElementById("event-table-detail");
-				outer.appendChild(d3);
+				left.appendChild(panel);
+				document.getElementById("event-table-detail").appendChild(left);
 				if (is_enrolled) {
 					document.getElementById("1_" + eventid).disabled = true;
 					document.getElementById("2_" + eventid).disabled = false;
@@ -1309,16 +1311,103 @@
 					}
 				});
 			}
-			function createDetailEevent(eventid, location, activityName,
+			function createDetailEvent2(eventid, location, activityName,
+					startTime, numberLimitFrom, numberLimitTo, currentNumber,
+					is_enrolled){
+				var divRight = createDiv(8);
+				divRight.appendChild(createCarousel(eventid));
+				//divRight.setAttribute("style","height:100px");
+				var uploadDiv = createDiv(12);
+				var input = generateElement("input", [ [ "type", "file" ],
+						[ "name", "images" ] ], null, null);
+				input.id = eventid + "image";
+				var inputAttribute = generateElement("input", [
+						[ "type", "hidden" ], [ "name", "event_id" ],
+						[ "value", eventid ] ], null, null);
+				var uploadButton = generateElement("button", [ [ "type",
+						"submit" ] ], null, "Upload photo!");
+				var form = generateElement("form", [ [ "method", "post" ],
+						[ "enctype", "multipart/form-data" ],
+						[ "action", "EventImageUpload" ] ], null, null);
+				form.appendChild(input);
+				form.appendChild(inputAttribute);
+				form.appendChild(uploadButton);
+				uploadDiv.appendChild(form);
+				divRight.appendChild(uploadDiv);
+				var divAll = createDiv(6);
+				divAll.appendChild(createEventInfo(eventid, location, activityName,
+						startTime, numberLimitFrom, numberLimitTo, currentNumber,
+						is_enrolled));
+				divAll.appendChild(divRight);
+				document.getElementById("eventsView").appendChild(divAll);
+				addCarouselController(eventid);
+			}
+			function createEventInfo(eventid, location, activityName,
 					startTime, numberLimitFrom, numberLimitTo, currentNumber,
 					is_enrolled){
 				//left part Dl1
-				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
-				generateElement("td",[["class","font-size: 10px"]],null,ActivityName+": "+activityName);
-				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
-				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
-				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
-				generateElement("td",[["class","font-size: 10px"]],null,Location+": "+location);
+				var td1=generateElement("td",[["style","font-size: 10px"]],null,"Location: "+location);
+				var td2=generateElement("td",[["style","font-size: 10px"]],null,"ActivityName "+activityName);
+				var td3=generateElement("td",[["style","font-size: 10px"]],null,"Start Time :"+startTime);
+				var td4=generateElement("td",[["style","font-size: 10px"]],null,"Current Participants:"+currentNumber+"/"+numberLimitTo);
+				var tr1=generateElement("tr",null,null,null);
+				var tr2=generateElement("tr",null,null,null);
+				var tr3=generateElement("tr",null,null,null);
+				var tr4=generateElement("tr",null,null,null);
+				tr1.appendChild(td1);
+				tr2.appendChild(td2);
+				tr3.appendChild(td3);
+				tr4.appendChild(td4);
+				var t0=document.createElement("tbody");
+				t0.appendChild(tr1);
+				t0.appendChild(tr2);
+				t0.appendChild(tr3);
+				t0.appendChild(tr4);
+				var tableMain=generateElement("table",[["class","table"],["style","padding: 0px"]],null,null);
+				tableMain.appendChild(t0);
+				//sub
+				var subtable=generateElement("table",[["class","table"]],null,null);
+				var subtablebody=generateElement("tbody",null,null,null);
+				subtable.appendChild(subtablebody);
+				subtablebody.id="membertable"+eventid;
+				var subbody=generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				subbody.appendChild(subtable);
+				var subheading=generateElement("div",[["class","panel-heading"]],null,null);
+				subheading.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Member"));
+				var subpanel=generateElement("div",[["class","panel-default"],["style","height: 10px"],["style","padding:5%"],["style","width: 100%"],["onclick","toggleMember(membertable"+eventid+")"]],null,null);
+				subpanel.appendChild(subheading);
+				subpanel.appendChild(subbody);
+				var button1=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"leave");
+				button1.id="2_"+eventid;
+				var button1div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				button1div.appendChild(button1);
+				var button2=generateElement("button",[["class","btn btn-success"],["style","width: 100%"]],null,"chat");
+				button2.id="button"+eventid;
+				var button2div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				button2div.appendChild(button2);
+				var bodyMain = generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				bodyMain.appendChild(tableMain);
+				bodyMain.appendChild(subpanel);
+				bodyMain.appendChild(button1div);
+				bodyMain.appendChild(button2div);
+				var headingMain = generateElement("div",[["class","panel-heading"]],null,null);
+				headingMain.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Event Info"));
+				var panel = generateElement("div",[["class","panel panel-default"],["style","height: 10px"],["style","padding: 5%"]],null,null);
+				panel.appendChild(headingMain);
+				panel.appendChild(bodyMain);
+				var left = createDiv(4);
+				left.appendChild(panel);
+				function alter(){
+					subbody.toggle(100);
+				}
+				//document.getElementById("eventsView").appendChild(left);
+				return left;
+			}
+			function addMember(eventid,membername){
+				var body=document.getElementById("membertable"+eventid);
+				var tr=generateElement("tr",null,null,null);
+				tr.appendChild(generateElement("td",[["style","font-size: 10px"]],null,membername));
+				body.appendChild(tr);
 			}
 			function createDetailEvent(eventid, location, activityName,
 					startTime, numberLimitFrom, numberLimitTo, currentNumber,
@@ -1669,10 +1758,10 @@
 				ContentType : 'application/json',
 				dataType : 'json',
 				success : function(result) {
-					prefs = result.activity;
-					for ( var ke in prefs) {
+					var activi = result.activity;
+					for ( var ke in activi) {
 						var option = createElement("option");
-						option.innerHTML = prefs[ke].name;
+						option.innerHTML = activi[ke].name;
 						document.getElementById("activity_name").appendChild(
 								option);
 					}

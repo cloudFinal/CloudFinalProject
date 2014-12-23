@@ -22,7 +22,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="panel panel-default" style="height: 10"
+				<div class="panel panel-default" style="height: 10px"
 					style="padding:5%" onclick="toggleMember()">
 					<div class="panel-heading">
 						<p>member</p>
