@@ -16,3 +16,7 @@
 	opacity: 1;
     filter: alpha(opacity=100)
 }
+.imageSize{
+	width:640px;
+	height:480px	
+}
