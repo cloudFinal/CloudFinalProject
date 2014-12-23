@@ -42,8 +42,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	//var basicurl = "http://localhost:8080/CloudFinal/";
-	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
+	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -828,10 +828,10 @@
 					</div>
 					<div id="event-table" class="panel-body">
 						<div class="row" id="event-table-detail">
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-4 col-md-4">
 								<img id="userImage"
 									src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
-									class="img-thumbnail">
+									class="img-thumbnail" style="width:400px" style="height:400px">
 								<form method="post" enctype="multipart/form-data"
 									action="Center">
 									<div class="col-sm-4 col-md-4">
@@ -844,7 +844,7 @@
 									</div>
 								</form>
 							</div>
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-8 col-md-8">
 								<div class="col-sm-12 col-md-12">
 									<table class="table">
 										<tbody>
@@ -1374,13 +1374,17 @@
 
 									var list = res.urlList;
 									for (li in list) {
-										insertPicture(res.event_id, list[li]);
+										if(li==0){
+											insertFirstPicture(res.event_id, list[li]);
+										}else{
+											insertPicture(res.event_id,list[li])
+										}
 									}
-
 									list = res.userList;
 									for (li in list) {
 										addMember(res.event_id, list[li]);
 									}
+									
 								}
 								if (tmpboo) {
 									var smalel = document.createElement("p");
@@ -1483,7 +1487,7 @@
 				form.appendChild(uploadButton);
 				uploadDiv.appendChild(form);
 				divRight.appendChild(uploadDiv);
-				var divAll = createDiv(6);
+				var divAll = createDiv(12);
 				divAll.appendChild(createEventInfo(eventid, location,
 						activityName, startTime, numberLimitFrom,
 						numberLimitTo, currentNumber, is_enrolled));
@@ -1762,7 +1766,7 @@
 			function insertPicture(event_id, url) {
 				var car = document.getElementById(event_id + "carousel");
 				var img = generateElement("img", [ [ "src", url ],
-						[ "alt", "...." ] ], null, null);
+						[ "alt", "...." ]], null, null);
 				var divUnder = generateElement("div", [ [ "class",
 						"carousel-caption" ] ], null, null);
 				var number = car.childNodes[0].children.length;
@@ -1772,9 +1776,40 @@
 				inner.appendChild(divUnder);
 				var li = generateElement("li", [
 						[ "data-target", "#" + event_id + "carousel" ],
-						[ "data-slide-to", number ] ], null, null);
-				car.childNodes[1].appendChild(inner);
-				car.childNodes[0].appendChild(li);
+						[ "data-slide-to", number ]], null, null);
+				var imageList = car.childNodes[1];
+				//imageList.childNodes[number].setAttribute("class","item active");
+				//imageList.childNodes[number-1].setAttribute("class","item");
+				imageList.appendChild(inner);
+				var liList=car.childNodes[0];
+				//liList.childNodes[number].setAttribute("class","active");
+				//liList.childNodes[number-1].setAttribute("class",null);
+				liList.appendChild(li);
+			}
+			function insertFirstPicture(event_id, url) {
+				var car = document.getElementById(event_id + "carousel");
+				car.childNodes[0].removeChild(car.childNodes[0].childNodes[0]);
+				car.childNodes[1].removeChild(car.childNodes[1].childNodes[0]);
+				var img = generateElement("img", [ [ "src", url ],
+						[ "alt", "...." ]], null, null);
+				var divUnder = generateElement("div", [ [ "class",
+						"carousel-caption" ] ], null, null);
+				var number = car.childNodes[0].children.length;
+				var inner = generateElement("div", [ [ "class", "item active" ] ],
+						null, null);
+				inner.appendChild(img);
+				inner.appendChild(divUnder);
+				var li = generateElement("li", [
+						[ "data-target", "#" + event_id + "carousel" ],
+						[ "data-slide-to", number ],["class","active"]], null, null);
+				var imageList = car.childNodes[1];
+				//imageList.childNodes[number].setAttribute("class","item active");
+				//imageList.childNodes[number-1].setAttribute("class","item");
+				imageList.appendChild(inner);
+				var liList=car.childNodes[0];
+				//liList.childNodes[number].setAttribute("class","active");
+				//liList.childNodes[number-1].setAttribute("class",null);
+				liList.appendChild(li);
 			}
 			function addCarouselController(event_id) {
 				var controller = document.getElementById(event_id + "carousel");
