@@ -241,6 +241,17 @@
 		return re.test(email);
 	}
 
+	function clearPre() {
+		document.getElementById("preference_name").value = "";
+		document.getElementById("start_time").value = "";
+		document.getElementById("end_time").value = "";
+		document.getElementById("number_limit_from").value = "";
+		document.getElementById("number_limit_to").value = "";
+		document.getElementById("maddress").value == "";
+		document.getElementById("distance_to_tolerance").value
+		"";
+	}
+
 	function addPref() {
 		if (document.getElementById("preference_name").value == ""
 				|| parseInt(Date
@@ -318,6 +329,7 @@
 								dataType : 'json',
 								success : function(result) {
 									getAndCreateAllPreference();
+									clearPre();
 								},
 								error : AjaxFailed
 							});
@@ -329,7 +341,7 @@
 	//get and create all preference
 	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
-		while (myNode.children.length>1) {
+		while (myNode.children.length > 1) {
 			myNode.removeChild(myNode.lastChild);
 		}
 
@@ -423,7 +435,7 @@
 			$("#test2").show(400);
 		};
 		elementb.innerHTML = prefname.substring(n + 1);
-		elementb.setAttribute("href","#");
+		elementb.setAttribute("href", "#");
 		elementa.appendChild(elementb);
 		elementa.setAttribute("role", "presentation");
 		document.getElementById('motherlist').appendChild(elementa);
@@ -547,20 +559,18 @@
 	function mapFromMiddleToRight() {
 
 	}
-	
-	function changepassword(e){
-		var npw=document.getElementById("set_password").value;
-		$
-		.ajax({
+
+	function changepassword(e) {
+		var npw = document.getElementById("set_password").value;
+		$.ajax({
 			url : basicurl + "ChangePassword",
 			type : 'POST',
 			dataType : "json",
-			data : JSON
-					.stringify({
-						plantform : "aads",
-						username : uid,
-						password : npw
-					}),
+			data : JSON.stringify({
+				plantform : "aads",
+				username : uid,
+				password : npw
+			}),
 			processData : false,
 			ContentType : 'application/json',
 			dataType : 'json',
@@ -636,7 +646,8 @@
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar" id="test0">
 				<div class="bs-example" data-example-id="simple-nav-stacked">
-					<ul id="motherlist" class="nav nav-pills nav-stacked" style="max-width: 300px">
+					<ul id="motherlist" class="nav nav-pills nav-stacked"
+						style="max-width: 300px">
 						<li role="presentation" class="active"><a href="#"
 							onclick="addPreference()">New Preference</a></li>
 					</ul>
@@ -850,7 +861,8 @@
 														<input id="set_password" type="text" class="form-control">
 													</div>
 													<div class="col-sm-5 col-md-5">
-														<button class="btn btn-success" onclick="changepassword()" style="width:100%">Change</button>
+														<button class="btn btn-success" onclick="changepassword()"
+															style="width: 100%">Change</button>
 													</div>
 												</td>
 											</tr>
@@ -863,7 +875,7 @@
 												<td>Date of Birth</td>
 												<td><div class='input-group date' id='datetimepicker3'>
 														<input id="set_dob" type='text' class="form-control"
-															placeholder="Date Of Birth" readonly/> <span
+															placeholder="Date Of Birth" readonly /> <span
 															class="input-group-addon"><span
 															class="glyphicon glyphicon-calendar"></span></span>
 													</div></td>
@@ -1360,13 +1372,12 @@
 											finaltime, res.number_limit_from,
 											res.number_limit_to, res.number_of,
 											res.is_enrolled);
-									
+
 									var list = res.urlList;
 									for (li in list) {
 										insertPicture(res.event_id, list[li]);
 									}
-									
-									
+
 									list = res.userList;
 									for (li in list) {
 										addMember(res.event_id, list[li]);
