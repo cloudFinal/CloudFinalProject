@@ -18,6 +18,7 @@
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/semantic.css" rel="stylesheet">
+<link href="css/background.css" rel="stylesheet">
 <script type="text/javascript" src="js/moment.js"></script>
 <script type="text/javascript" src="js/semantic.js"></script>
 <script type="text/javascript"
@@ -548,7 +549,7 @@
 	}
 </script>
 </head>
-<body>
+<body class="background1 transparent">
 	<nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -620,7 +621,7 @@
 						<a href="#" onclick="togglePreference()">New Preference</a> <a
 							href="#" onclick="deletePreference()" style="float: right"></a>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body transparent">
 						<table class="table">
 							<tbody>
 								<tr>
@@ -790,7 +791,7 @@
 					</div>
 					<div id="event-table" class="panel-body">
 						<div class="row" id="event-table-detail">
-							<div class="col-sm-4 col-md-4">
+							<div class="col-sm-6 col-md-6">
 								<img id="userImage"
 									src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"
 									class="img-thumbnail">
@@ -806,7 +807,7 @@
 									</div>
 								</form>
 							</div>
-							<div class="col-sm-4 col-md-4">
+							<div class="col-sm-6 col-md-6">
 								<div class="col-sm-12 col-md-12">
 									<table class="table">
 										<tbody>
@@ -821,8 +822,8 @@
 													<div class="col-sm-7 col-md-7" style="padding: 0px">
 														<input id="set_password" type="text" class="form-control">
 													</div>
-													<div class="col-sm-3 col-md-3">
-														<button class="btn btn-success">Change</button>
+													<div class="col-sm-5 col-md-5">
+														<button class="btn btn-success" style="width:100%">Change</button>
 													</div>
 												</td>
 											</tr>
