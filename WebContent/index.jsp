@@ -70,6 +70,7 @@
 				+ msg.message
 				+ '</div></div></div>';
 		$chatWindow.append($messageLine);
+		window.scrollTo(0,document.body.scrollHeight);
 	}
 	function sendMessage() {
 		if ($message.val() != "") {
