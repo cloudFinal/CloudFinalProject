@@ -1369,7 +1369,7 @@
 						startTime, numberLimitFrom, numberLimitTo, currentNumber,
 						is_enrolled));
 				divAll.appendChild(divRight);
-				document.getElementById("eventsView").appendChild(divAll);
+				document.getElementById("eventsDetail").appendChild(divAll);
 				addCarouselController(eventid);
 			}
 			function createEventInfo(eventid, location, activityName,
@@ -1409,10 +1409,44 @@
 				subpanel.appendChild(subbody);
 				var button1=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"leave");
 				button1.id="2_"+eventid;
+				
+				button1.onclick = function() {
+					$("#eventsView").hide(200);
+					$.ajax({
+						url : basicurl + "Leave",
+						type : 'POST',
+						dataType : "json",
+						data : JSON.stringify({
+							plantform : "aads",
+							userid : uid,
+							eventid : this.id.substring(2)
+						}),
+						processData : false,
+						ContentType : 'application/json',
+						dataType : 'json',
+						success : function(result) {
+							setEvents();
+							$("#eventsView").show(400);
+						},
+						error : function() {
+						}
+					});
+				}
+				
+				
 				var button1div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
 				button1div.appendChild(button1);
 				var button2=generateElement("button",[["class","btn btn-success"],["style","width: 100%"]],null,"chat");
 				button2.id="button"+eventid;
+				
+				button2.onclick = function(e) {
+					//alert(this.id);
+					//leaveRoom();
+					setMessageInEventView(this.id);
+
+				}
+				
+				
 				var button2div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
 				button2div.appendChild(button2);
 				var bodyMain = generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
