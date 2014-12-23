@@ -544,6 +544,43 @@
 	function mapFromMiddleToRight() {
 
 	}
+	
+	function changepassword(e){
+		var npw=document.getElementById("set_password").value;
+		
+		
+		
+		$
+		.ajax({
+			url : basicurl + "ChangePassword",
+			type : 'POST',
+			dataType : "json",
+			data : JSON
+					.stringify({
+						plantform : "aads",
+						user_id : uid,
+						preference_name : prefs[currentPreference].preference_name
+					}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				if (result.result) {
+					getAndCreateAllPreference();
+					$("#test2").hide(200);
+					$("#test1").show(400);
+					document.getElementById('maddress').value = "";
+					document.getElementById('xCoordinate').value = "";
+					document.getElementById('yCoordinate').value = "";
+				} else {
+					alert("Sorry guys, but you should leave the event before you delete this preference.");
+				}
+			},
+			error : function() {
+				alert("Sorry guys, an error happens.");
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -820,7 +857,7 @@
 														<input id="set_password" type="text" class="form-control">
 													</div>
 													<div class="col-sm-3 col-md-3">
-														<button class="btn btn-success">Change</button>
+														<button class="btn btn-success" onclick="changepassword()">Change</button>
 													</div>
 												</td>
 											</tr>
