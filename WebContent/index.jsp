@@ -30,8 +30,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-	var basicurl = "http://localhost:8080/CloudFinal/";
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	//var basicurl = "http://localhost:8080/CloudFinal/";
+	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	var uid;
 	var pword;
 	var prefs;
@@ -42,8 +42,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
-	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
+	var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
+	var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -1384,7 +1384,6 @@
 									for (li in list) {
 										addMember(res.event_id, list[li]);
 									}
-									
 								}
 								if (tmpboo) {
 									var smalel = document.createElement("p");
@@ -2021,8 +2020,7 @@
 					for ( var ke in activi) {
 						var option = createElement("option");
 						option.innerHTML = activi[ke].name;
-						document.getElementById("activity_name").appendChild(
-								option);
+						document.getElementById("activity_name").appendChild(option);
 					}
 				},
 				error : AjaxFailed
