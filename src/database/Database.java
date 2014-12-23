@@ -103,10 +103,12 @@ public class Database
 			if(rset.next()){
 				return true;
 			}else{
+				System.out.println("1");
 				return false;
 			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("2");
 			return false;
 		}
 	}
@@ -578,19 +580,15 @@ public class Database
 		}
 	}
 	public boolean changePassword(String user_id, String password){
-		if(this.userExist(user_id, password)){
 			try {
 				stmt=conn.createStatement();
-				stmt.execute("update from users set password='"+password+"' where user_id='"+user_id+"'");
+				stmt.execute("update users set password='"+password+"' where user_id='"+user_id+"'");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				return false;
 			}
 			return true;
-		}else{
-			return false;
-		}
 	}
 	public boolean deletePreference(String user_id,String preferenceName){
 		try {

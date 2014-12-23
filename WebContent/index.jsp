@@ -549,9 +549,6 @@
 	
 	function changepassword(e){
 		var npw=document.getElementById("set_password").value;
-		
-		
-		
 		$
 		.ajax({
 			url : basicurl + "ChangePassword",
@@ -560,22 +557,15 @@
 			data : JSON
 					.stringify({
 						plantform : "aads",
-						user_id : uid,
-						preference_name : prefs[currentPreference].preference_name
+						username : uid,
+						password : npw
 					}),
 			processData : false,
 			ContentType : 'application/json',
 			dataType : 'json',
 			success : function(result) {
 				if (result.result) {
-					getAndCreateAllPreference();
-					$("#test2").hide(200);
-					$("#test1").show(400);
-					document.getElementById('maddress').value = "";
-					document.getElementById('xCoordinate').value = "";
-					document.getElementById('yCoordinate').value = "";
 				} else {
-					alert("Sorry guys, but you should leave the event before you delete this preference.");
 				}
 			},
 			error : function() {
