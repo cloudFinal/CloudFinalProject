@@ -5,8 +5,7 @@
 <head>
 
 
-<link rel="icon" type="image/png"
-	href="./icon_cloud.jpg">
+<link rel="icon" type="image/png" href="./icon_cloud.jpg">
 
 
 <meta charset="utf-8">
@@ -70,7 +69,7 @@
 				+ msg.message
 				+ '</div></div></div>';
 		$chatWindow.append($messageLine);
-		window.scrollTo(0,document.body.scrollHeight);
+		window.scrollTo(0, document.body.scrollHeight);
 	}
 	function sendMessage() {
 		if ($message.val() != "") {
@@ -296,8 +295,8 @@
 	//get and create all preference
 	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
-		while (myNode.firstChild) {
-			myNode.removeChild(myNode.firstChild);
+		while (myNode.children.length>1) {
+			myNode.removeChild(myNode.lastChild);
 		}
 
 		$.ajax({
@@ -390,7 +389,9 @@
 			$("#test2").show(400);
 		};
 		elementb.innerHTML = prefname.substring(n + 1);
+		elementb.setAttribute("href","#");
 		elementa.appendChild(elementb);
+		elementa.setAttribute("role", "presentation");
 		document.getElementById('motherlist').appendChild(elementa);
 	}
 	//this function is called to show addPreference page and hide Preference detail page
@@ -571,18 +572,18 @@
 	<div>
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar" id="test0">
-				<ul class="nav nav-sidebar">
-					<li><a href="#" onclick="addPreference()">New Preference</a></li>
-				</ul>
-				<ul class="nav nav-sidebar" id="motherlist">
-				</ul>
+				<div class="bs-example" data-example-id="simple-nav-stacked">
+					<ul id="motherlist" class="nav nav-pills nav-stacked" style="max-width: 300px">
+						<li role="presentation" class="active"><a href="#"
+							onclick="addPreference()">New Preference</a></li>
+					</ul>
+				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test1">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a href="#" onclick="togglePreference()">New Preference</a> <a
-							href="#" onclick="deletePreference()" style="float: right">Delete
-							it</a>
+							href="#" onclick="deletePreference()" style="float: right"></a>
 					</div>
 					<div class="panel-body">
 						<table class="table">
@@ -740,7 +741,7 @@
 					</div>
 					<div>
 						<div class="panel-body">
-							<div id="dvMap" style="height: 400px"></div>
+							<div id="dvMap" style="height: 457px"></div>
 						</div>
 					</div>
 				</div>
@@ -836,9 +837,7 @@
 					</div>
 					<div id="eventsDetail" class="panel-body">
 						<div class="row" id="event-table-detail">
-							<div class="col-sm-6 col-md-6">
-								
-							</div>
+							<div class="col-sm-6 col-md-6"></div>
 						</div>
 					</div>
 				</div>
@@ -956,45 +955,74 @@
 			function addEvents(location, activityName, startTime,
 					numberLimitFrom, numberLimitTo, currentNumber, eventid,
 					is_enrolled) {
-				var td1=generateElement("td",[["style","font-size: 10px"]],null,"Location: "+location);
-				var td2=generateElement("td",[["style","font-size: 10px"]],null,"ActivityName "+activityName);
-				var td3=generateElement("td",[["style","font-size: 10px"]],null,"Start Time :"+startTime);
-				var td4=generateElement("td",[["style","font-size: 10px"]],null,"Current Participants:"+currentNumber+"/"+numberLimitTo);
-				var tr1=generateElement("tr",null,null,null);
-				var tr2=generateElement("tr",null,null,null);
-				var tr3=generateElement("tr",null,null,null);
-				var tr4=generateElement("tr",null,null,null);
+				var td1 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null, "Location: "
+								+ location);
+				var td2 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"ActivityName " + activityName);
+				var td3 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"Start Time :" + startTime);
+				var td4 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"Current Participants:" + currentNumber + "/"
+								+ numberLimitTo);
+				var tr1 = generateElement("tr", null, null, null);
+				var tr2 = generateElement("tr", null, null, null);
+				var tr3 = generateElement("tr", null, null, null);
+				var tr4 = generateElement("tr", null, null, null);
 				tr1.appendChild(td1);
 				tr2.appendChild(td2);
 				tr3.appendChild(td3);
 				tr4.appendChild(td4);
-				var t0=document.createElement("tbody");
+				var t0 = document.createElement("tbody");
 				t0.appendChild(tr1);
 				t0.appendChild(tr2);
 				t0.appendChild(tr3);
 				t0.appendChild(tr4);
-				var tableMain=generateElement("table",[["class","table"],["style","padding: 0px"]],null,null);
+				var tableMain = generateElement("table", [
+						[ "class", "table" ], [ "style", "padding: 0px" ] ],
+						null, null);
 				tableMain.appendChild(t0);
 				var bt;
 				if (currentNumber == 0) {
-					bt=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"Setup");
+					bt = generateElement("button", [
+							[ "class", "btn btn-danger" ],
+							[ "style", "width: 100%" ] ], null, "Setup");
 				} else {
-					bt=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"Join");
+					bt = generateElement("button", [
+							[ "class", "btn btn-danger" ],
+							[ "style", "width: 100%" ] ], null, "Join");
 				}
-				bt.id="1_"+eventid;
-				var button1div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				bt.id = "1_" + eventid;
+				var button1div = generateElement("div", [
+						[ "class", "col-sm-12 col-md-12" ],
+						[ "style", "padding: 0px" ] ], null, null);
 				button1div.appendChild(bt);
-				var bt2=generateElement("button",[["class","btn btn-success"],["style","width: 100%"]],null,"Leave");
-				bt2.id="2_"+eventid;
-				var button2div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+				var bt2 = generateElement("button", [
+						[ "class", "btn btn-success" ],
+						[ "style", "width: 100%" ] ], null, "Leave");
+				bt2.id = "2_" + eventid;
+				var button2div = generateElement("div", [
+						[ "class", "col-sm-12 col-md-12" ],
+						[ "style", "padding: 0px" ] ], null, null);
 				button2div.appendChild(bt2);
-				var bodyMain = generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				var bodyMain = generateElement(
+						"div",
+						[ [ "class", "panel-body" ], [ "style", "padding: 5%" ] ],
+						null, null);
 				bodyMain.appendChild(tableMain);
 				bodyMain.appendChild(button1div);
 				bodyMain.appendChild(button2div);
-				var headingMain = generateElement("div",[["class","panel-heading"]],null,null);
-				headingMain.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Event Info"));
-				var panel = generateElement("div",[["class","panel panel-default"],["style","height: 10px"],["style","padding: 5%"]],null,null);
+				var headingMain = generateElement("div", [ [ "class",
+						"panel-heading" ] ], null, null);
+				headingMain.appendChild(generateElement("p", [ [ "style",
+						"font-size: 10px" ] ], null, "Event Info"));
+				var panel = generateElement("div",
+						[ [ "class", "panel panel-default" ],
+								[ "style", "height: 10px" ],
+								[ "style", "padding: 5%" ] ], null, null);
 				panel.appendChild(headingMain);
 				panel.appendChild(bodyMain);
 				var left = createDiv(6);
@@ -1229,7 +1257,7 @@
 
 				/////////show message
 				connectToChatserver(roomname);
-				$("#chat-wrapper").show(500); 
+				$("#chat-wrapper").show(500);
 				$("#test1").hide(500);
 				$("#test2").hide(500);
 				$("#test0").hide(500);
@@ -1343,7 +1371,7 @@
 			}
 			function createDetailEvent2(eventid, location, activityName,
 					startTime, numberLimitFrom, numberLimitTo, currentNumber,
-					is_enrolled){
+					is_enrolled) {
 				var divRight = createDiv(8);
 				divRight.appendChild(createCarousel(eventid));
 				//divRight.setAttribute("style","height:100px");
@@ -1365,51 +1393,79 @@
 				uploadDiv.appendChild(form);
 				divRight.appendChild(uploadDiv);
 				var divAll = createDiv(6);
-				divAll.appendChild(createEventInfo(eventid, location, activityName,
-						startTime, numberLimitFrom, numberLimitTo, currentNumber,
-						is_enrolled));
+				divAll.appendChild(createEventInfo(eventid, location,
+						activityName, startTime, numberLimitFrom,
+						numberLimitTo, currentNumber, is_enrolled));
 				divAll.appendChild(divRight);
 				document.getElementById("eventsDetail").appendChild(divAll);
 				addCarouselController(eventid);
 			}
 			function createEventInfo(eventid, location, activityName,
 					startTime, numberLimitFrom, numberLimitTo, currentNumber,
-					is_enrolled){
+					is_enrolled) {
 				//left part Dl1
-				var td1=generateElement("td",[["style","font-size: 10px"]],null,"Location: "+location);
-				var td2=generateElement("td",[["style","font-size: 10px"]],null,"ActivityName "+activityName);
-				var td3=generateElement("td",[["style","font-size: 10px"]],null,"Start Time :"+startTime);
-				var td4=generateElement("td",[["style","font-size: 10px"]],null,"Current Participants:"+currentNumber+"/"+numberLimitTo);
-				var tr1=generateElement("tr",null,null,null);
-				var tr2=generateElement("tr",null,null,null);
-				var tr3=generateElement("tr",null,null,null);
-				var tr4=generateElement("tr",null,null,null);
+				var td1 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null, "Location: "
+								+ location);
+				var td2 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"ActivityName " + activityName);
+				var td3 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"Start Time :" + startTime);
+				var td4 = generateElement("td",
+						[ [ "style", "font-size: 10px" ] ], null,
+						"Current Participants:" + currentNumber + "/"
+								+ numberLimitTo);
+				var tr1 = generateElement("tr", null, null, null);
+				var tr2 = generateElement("tr", null, null, null);
+				var tr3 = generateElement("tr", null, null, null);
+				var tr4 = generateElement("tr", null, null, null);
 				tr1.appendChild(td1);
 				tr2.appendChild(td2);
 				tr3.appendChild(td3);
 				tr4.appendChild(td4);
-				var t0=document.createElement("tbody");
+				var t0 = document.createElement("tbody");
 				t0.appendChild(tr1);
 				t0.appendChild(tr2);
 				t0.appendChild(tr3);
 				t0.appendChild(tr4);
-				var tableMain=generateElement("table",[["class","table"],["style","padding: 0px"]],null,null);
+				var tableMain = generateElement("table", [
+						[ "class", "table" ], [ "style", "padding: 0px" ] ],
+						null, null);
 				tableMain.appendChild(t0);
 				//sub
-				var subtable=generateElement("table",[["class","table"]],null,null);
-				var subtablebody=generateElement("tbody",null,null,null);
+				var subtable = generateElement("table",
+						[ [ "class", "table" ] ], null, null);
+				var subtablebody = generateElement("tbody", null, null, null);
 				subtable.appendChild(subtablebody);
-				subtablebody.id="membertable"+eventid;
-				var subbody=generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				subtablebody.id = "membertable" + eventid;
+				var subbody = generateElement(
+						"div",
+						[ [ "class", "panel-body" ], [ "style", "padding: 5%" ] ],
+						null, null);
 				subbody.appendChild(subtable);
-				var subheading=generateElement("div",[["class","panel-heading"]],null,null);
-				subheading.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Member"));
-				var subpanel=generateElement("div",[["class","panel-default"],["style","height: 10px"],["style","padding:5%"],["style","width: 100%"],["onclick","toggleMember(membertable"+eventid+")"]],null,null);
+				var subheading = generateElement("div", [ [ "class",
+						"panel-heading" ] ], null, null);
+				subheading.appendChild(generateElement("p", [ [ "style",
+						"font-size: 10px" ] ], null, "Member"));
+				var subpanel = generateElement("div",
+						[
+								[ "class", "panel-default" ],
+								[ "style", "height: 10px" ],
+								[ "style", "padding:5%" ],
+								[ "style", "width: 100%" ],
+								[
+										"onclick",
+										"toggleMember(membertable" + eventid
+												+ ")" ] ], null, null);
 				subpanel.appendChild(subheading);
 				subpanel.appendChild(subbody);
-				var button1=generateElement("button",[["class","btn btn-danger"],["style","width: 100%"]],null,"leave");
-				button1.id="2_"+eventid;
-				
+				var button1 = generateElement("button", [
+						[ "class", "btn btn-danger" ],
+						[ "style", "width: 100%" ] ], null, "leave");
+				button1.id = "2_" + eventid;
+
 				button1.onclick = function() {
 					$("#eventsView").hide(200);
 					$.ajax({
@@ -1432,45 +1488,58 @@
 						}
 					});
 				}
-				
-				
-				var button1div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+
+				var button1div = generateElement("div", [
+						[ "class", "col-sm-12 col-md-12" ],
+						[ "style", "padding: 0px" ] ], null, null);
 				button1div.appendChild(button1);
-				var button2=generateElement("button",[["class","btn btn-success"],["style","width: 100%"]],null,"chat");
-				button2.id="button"+eventid;
-				
+				var button2 = generateElement("button", [
+						[ "class", "btn btn-success" ],
+						[ "style", "width: 100%" ] ], null, "chat");
+				button2.id = "button" + eventid;
+
 				button2.onclick = function(e) {
 					//alert(this.id);
 					//leaveRoom();
 					setMessageInEventView(this.id);
 
 				}
-				
-				
-				var button2div=generateElement("div",[["class","col-sm-12 col-md-12"],["style","padding: 0px"]],null,null);
+
+				var button2div = generateElement("div", [
+						[ "class", "col-sm-12 col-md-12" ],
+						[ "style", "padding: 0px" ] ], null, null);
 				button2div.appendChild(button2);
-				var bodyMain = generateElement("div",[["class","panel-body"],["style","padding: 5%"]],null,null);
+				var bodyMain = generateElement(
+						"div",
+						[ [ "class", "panel-body" ], [ "style", "padding: 5%" ] ],
+						null, null);
 				bodyMain.appendChild(tableMain);
 				bodyMain.appendChild(subpanel);
 				bodyMain.appendChild(button1div);
 				bodyMain.appendChild(button2div);
-				var headingMain = generateElement("div",[["class","panel-heading"]],null,null);
-				headingMain.appendChild(generateElement("p",[["style","font-size: 10px"]],null,"Event Info"));
-				var panel = generateElement("div",[["class","panel panel-default"],["style","height: 10px"],["style","padding: 5%"]],null,null);
+				var headingMain = generateElement("div", [ [ "class",
+						"panel-heading" ] ], null, null);
+				headingMain.appendChild(generateElement("p", [ [ "style",
+						"font-size: 10px" ] ], null, "Event Info"));
+				var panel = generateElement("div",
+						[ [ "class", "panel panel-default" ],
+								[ "style", "height: 10px" ],
+								[ "style", "padding: 5%" ] ], null, null);
 				panel.appendChild(headingMain);
 				panel.appendChild(bodyMain);
 				var left = createDiv(4);
 				left.appendChild(panel);
-				function alter(){
+				function alter() {
 					subbody.toggle(100);
 				}
 				//document.getElementById("eventsView").appendChild(left);
 				return left;
 			}
-			function addMember(eventid,membername){
-				var body=document.getElementById("membertable"+eventid);
-				var tr=generateElement("tr",null,null,null);
-				tr.appendChild(generateElement("td",[["style","font-size: 10px"]],null,membername));
+			function addMember(eventid, membername) {
+				var body = document.getElementById("membertable" + eventid);
+				var tr = generateElement("tr", null, null, null);
+				tr.appendChild(generateElement("td", [ [ "style",
+						"font-size: 10px" ] ], null, membername));
 				body.appendChild(tr);
 			}
 			function createDetailEvent(eventid, location, activityName,
