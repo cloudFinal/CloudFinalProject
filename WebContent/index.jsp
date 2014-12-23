@@ -248,8 +248,7 @@
 		document.getElementById("number_limit_from").value = "";
 		document.getElementById("number_limit_to").value = "";
 		document.getElementById("maddress").value == "";
-		document.getElementById("distance_to_tolerance").value
-		"";
+		document.getElementById("distance_to_tolerance").value = "";
 	}
 
 	function addPref() {
