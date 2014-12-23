@@ -590,10 +590,10 @@
 						placeholder="Password">
 				</div>
 				<div class="form-group">
-					<button class="btn btn-default" onclick="loadXMLDoc()" id="signin">SignIn</button>
+					<button class="btn btn-primary" onclick="loadXMLDoc()" id="signin">SignIn</button>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
+					<button class="btn btn-success" onclick="singup()" id="signup">SignUp</button>
 				</div>
 				<div class="form-group" id="logout">
 					<button class="btn btn-danger" onclick="logout()">Log out
@@ -835,7 +835,7 @@
 												<td>Date of Birth</td>
 												<td><div class='input-group date' id='datetimepicker3'>
 														<input id="set_dob" type='text' class="form-control"
-															placeholder="Date Of Birth" /> <span
+															placeholder="Date Of Birth" readonly/> <span
 															class="input-group-addon"><span
 															class="glyphicon glyphicon-calendar"></span></span>
 													</div></td>
@@ -995,13 +995,13 @@
 								+ location);
 				var td2 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"ActivityName " + activityName);
+						"ActivityName: " + activityName);
 				var td3 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Start Time :" + startTime);
+						"Start Time: " + startTime);
 				var td4 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Current Participants:" + currentNumber + "/"
+						"Current Participants: " + currentNumber + "/"
 								+ numberLimitTo);
 				var tr1 = generateElement("tr", null, null, null);
 				var tr2 = generateElement("tr", null, null, null);
@@ -1462,13 +1462,13 @@
 								+ location);
 				var td2 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"ActivityName " + activityName);
+						"ActivityName: " + activityName);
 				var td3 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Start Time :" + startTime);
+						"Start Time: " + startTime);
 				var td4 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Current Participants:" + currentNumber + "/"
+						"Current Participants: " + currentNumber + "/"
 								+ numberLimitTo);
 				var tr1 = generateElement("tr", null, null, null);
 				var tr2 = generateElement("tr", null, null, null);

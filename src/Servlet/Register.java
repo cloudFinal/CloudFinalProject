@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -46,6 +47,11 @@ public class Register extends HttpServlet {
 		String u = input.getString("username");
 		String p = input.getString("password");
 		boolean result = Center.db.register(u,p);
+		if(result){
+			HttpSession session = request.getSession();
+			session.setAttribute("userid",u);
+			session.setAttribute("password",p);
+		}
 		Center.db.setOnline(u, false);
 		JSONObject output = new JSONObject();
 		output.put("result",result);
