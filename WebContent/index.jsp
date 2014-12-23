@@ -547,6 +547,33 @@
 	function mapFromMiddleToRight() {
 
 	}
+	
+	function changepassword(e){
+		var npw=document.getElementById("set_password").value;
+		$
+		.ajax({
+			url : basicurl + "ChangePassword",
+			type : 'POST',
+			dataType : "json",
+			data : JSON
+					.stringify({
+						plantform : "aads",
+						username : uid,
+						password : npw
+					}),
+			processData : false,
+			ContentType : 'application/json',
+			dataType : 'json',
+			success : function(result) {
+				if (result.result) {
+				} else {
+				}
+			},
+			error : function() {
+				alert("Sorry guys, an error happens.");
+			}
+		});
+	}
 </script>
 </head>
 <body class="background1 transparent">
@@ -823,7 +850,7 @@
 														<input id="set_password" type="text" class="form-control">
 													</div>
 													<div class="col-sm-5 col-md-5">
-														<button class="btn btn-success" style="width:100%">Change</button>
+														<button class="btn btn-success" onclick="changepassword()" style="width:100%">Change</button>
 													</div>
 												</td>
 											</tr>
