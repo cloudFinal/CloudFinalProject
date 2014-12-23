@@ -3,10 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+
+
+<link rel="icon" type="image/png"
+	href="./icon_cloud.jpg">
+
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap 101 Template</title>
+<title>Group UP</title>
 <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
@@ -56,7 +62,7 @@
 	function onMessageReceived(evt) {
 		//var msg = eval('(' + evt.data + ')');
 		var msg = JSON.parse(evt.data); // native API
-		var $messageLine = '<div class="comment"><a class="avatar"><img src="https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png"></a><div class="content"><a class="author">'
+		var $messageLine = '<div class="comment"><a class="avatar"><img src="'+msg.url+'"></a><div class="content"><a class="author">'
 				+ msg.sender
 				+ '</a><div class="metadata"><span class="date">'
 				+ new Date().toLocaleTimeString()
@@ -518,7 +524,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">CloudFinal</a>
+			<a class="navbar-brand" href="#">Group Up</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -533,7 +539,7 @@
 					<li id="events" role="presentation"><a href="#"
 						onclick="setEvents()">Events</a></li>
 					<li id="message" role="presentation"><a href="#"
-						onclick="setMessage()">Messages</a></li>
+						onclick="setMessage()" style="display: none">Messages</a></li>
 				</ul>
 			</div>
 

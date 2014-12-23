@@ -22,7 +22,6 @@ public class Message {
 	@OnMessage
 	public void onMessage(final Session session, String message)
 			throws IOException {
-		System.out.println(message);
 		String room = (String) session.getUserProperties().get("room");
 		for (Session s : session.getOpenSessions()) {
 			if (s.isOpen() && room.equals(s.getUserProperties().get("room"))) {
@@ -34,6 +33,7 @@ public class Message {
 					jo.put("url",
 							"https://s3-us-west-2.amazonaws.com/eventplanner/765-default-avatar.png");
 				s.getBasicRemote().sendText(jo.toString());
+				System.out.println(jo.toString());
 			}
 		}
 	}
