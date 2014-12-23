@@ -3,10 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+
+
+<link rel="icon" type="image/png"
+	href="./icon_cloud.jpg">
+
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap 101 Template</title>
+<title>Group UP</title>
 <script type="text/javascript" src="js/jquery-2.1.3.js"></script>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
@@ -24,8 +30,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-	//var basicurl = "http://CloudFinalEventPlanner.elasticbeanstalk.com/";
-	//var serviceLocation = "ws://CloudFinalEventPlanner.elasticbeanstalk.com:8080/Message/";
+	var basicurl = "http://localhost:8080/CloudFinal/";
+	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	var uid;
 	var pword;
 	var prefs;
@@ -36,8 +42,8 @@
 	var $chatWindow;
 	var room = '1233';
 
-	var basicurl = "http://localhost:8080/CloudFinal/";
-	var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
+	//var basicurl = "http://localhost:8080/CloudFinal/";
+	//var serviceLocation = "ws://localhost:8080/CloudFinal/Message/";
 	/////////// easy to hash
 	String.prototype.hashCode = function() {
 		var hash = 0, i, chr, len;
@@ -56,18 +62,22 @@
 	function onMessageReceived(evt) {
 		//var msg = eval('(' + evt.data + ')');
 		var msg = JSON.parse(evt.data); // native API
-		var $messageLine = '<tr><td class="received">'
+		var $messageLine = '<div class="comment"><a class="avatar"><img src="'+msg.url+'"></a><div class="content"><a class="author">'
+				+ msg.sender
+				+ '</a><div class="metadata"><span class="date">'
 				+ new Date().toLocaleTimeString()
-				+ '</td><td class="user label label-info">' + msg.sender
-				+ '</td><td class="message badge">' + msg.message
-				+ '</td></tr>';
+				+ '</span></div><div class="text">'
+				+ msg.message
+				+ '</div></div></div>';
 		$chatWindow.append($messageLine);
 	}
 	function sendMessage() {
-		var msg = '{"message":"' + $message.val() + '", "sender":"' + uid
-				+ '","room":"' + room + '", "processed":false}';
-		wsocket.send(msg);
-		$message.val('').focus();
+		if ($message.val() != "") {
+			var msg = '{"message":"' + $message.val() + '", "sender":"' + uid
+					+ '","room":"' + room + '", "processed":false}';
+			wsocket.send(msg);
+			$message.val('').focus();
+		}
 	}
 
 	function connectToChatserver(roomname) {
@@ -89,7 +99,7 @@
 		if (wsocket != null) {
 			wsocket.close();
 			$chatWindow.empty();
-			$('.chat-wrapper').hide();
+			$('#chat-wrapper').hide();
 			wsocket = null;
 		}
 	}
@@ -198,71 +208,89 @@
 	}
 
 	function addPref() {
-		var element = document.createElement("li");
-		element.
-
-		uid = document.getElementById("addPref").value;
-		var selectop = document.getElementById("activity_name");
-		var array = {
-			"plantform" : "haha",
-			"preference" : {
-				"user_id" : uid,
-				"preference_name" : (new Date()).getTime() + ":"
-						+ document.getElementById("preference_name").value,
-				"location_id" : document.getElementById("maddress").value
-						.hashCode(),
-				"distance_to_tolerance" : parseFloat(document
-						.getElementById("distance_to_tolerance").value),
-				"start_time" : parseInt(Date.parse(document
-						.getElementById("start_time").value)),
-				"end_time" : parseInt(Date.parse(document
-						.getElementById("end_time").value)),
-				"key_word" : "Hello",
-				"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
-				"number_limit_from" : parseInt(document
-						.getElementById("number_limit_from").value),
-				"number_limit_to" : parseInt(document
+		if (document.getElementById("preference_name").value == ""
+				|| parseInt(Date
+						.parse(document.getElementById("start_time").value)) > parseInt(Date
+						.parse(document.getElementById("end_time").value))
+				|| parseInt(document.getElementById("number_limit_from").value) > parseInt(document
 						.getElementById("number_limit_to").value)
-			}
-		};
-		$.ajax({
-			url : basicurl + "InsertLocation",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
+				|| document.getElementById("maddress").value == ""
+				|| document.getElementById("start_time").value == ""
+				|| document.getElementById("end_time").value == ""
+				|| document.getElementById("number_limit_from").value == ""
+				|| document.getElementById("number_limit_to").value == ""
+				|| isNaN(document.getElementById("distance_to_tolerance").value)) {
+
+		} else {
+
+			var element = document.createElement("li");
+			element.
+
+			uid = document.getElementById("addPref").value;
+			var selectop = document.getElementById("activity_name");
+			var array = {
 				"plantform" : "haha",
-				"location" : {
+				"preference" : {
+					"user_id" : uid,
+					"preference_name" : (new Date()).getTime() + ":"
+							+ document.getElementById("preference_name").value,
 					"location_id" : document.getElementById("maddress").value
 							.hashCode(),
-					"address" : document.getElementById("maddress").value,
-					"longitude" : parseFloat(document
-							.getElementById("xCoordinate").value),
-					"latitude" : parseFloat(document
-							.getElementById("yCoordinate").value)
+					"distance_to_tolerance" : parseFloat(document
+							.getElementById("distance_to_tolerance").value),
+					"start_time" : parseInt(Date.parse(document
+							.getElementById("start_time").value)),
+					"end_time" : parseInt(Date.parse(document
+							.getElementById("end_time").value)),
+					"key_word" : "Hello",
+					"activity_name" : selectop.options[selectop.selectedIndex].innerHTML,
+					"number_limit_from" : parseInt(document
+							.getElementById("number_limit_from").value),
+					"number_limit_to" : parseInt(document
+							.getElementById("number_limit_to").value)
 				}
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : function(result) {
-				if (result.result) {
-					$.ajax({
-						url : basicurl + "InsertPreference",
+			};
+			$
+					.ajax({
+						url : basicurl + "InsertLocation",
 						type : 'POST',
 						dataType : "json",
-						data : JSON.stringify(array),
+						data : JSON
+								.stringify({
+									"plantform" : "haha",
+									"location" : {
+										"location_id" : document
+												.getElementById("maddress").value
+												.hashCode(),
+										"address" : document
+												.getElementById("maddress").value,
+										"longitude" : parseFloat(document
+												.getElementById("xCoordinate").value),
+										"latitude" : parseFloat(document
+												.getElementById("yCoordinate").value)
+									}
+								}),
 						processData : false,
 						ContentType : 'application/json',
 						dataType : 'json',
 						success : function(result) {
-							getAndCreateAllPreference();
+							$.ajax({
+								url : basicurl + "InsertPreference",
+								type : 'POST',
+								dataType : "json",
+								data : JSON.stringify(array),
+								processData : false,
+								ContentType : 'application/json',
+								dataType : 'json',
+								success : function(result) {
+									getAndCreateAllPreference();
+								},
+								error : AjaxFailed
+							});
 						},
 						error : AjaxFailed
 					});
-				}
-			},
-			error : AjaxFailed
-		});
+		}
 	}
 	//get and create all preference
 	function getAndCreateAllPreference() {
@@ -496,7 +524,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">CloudFinal</a>
+			<a class="navbar-brand" href="#">Group Up</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -511,7 +539,7 @@
 					<li id="events" role="presentation"><a href="#"
 						onclick="setEvents()">Events</a></li>
 					<li id="message" role="presentation"><a href="#"
-						onclick="setMessage()">Messages</a></li>
+						onclick="setMessage()" style="display: none">Messages</a></li>
 				</ul>
 			</div>
 
@@ -815,11 +843,12 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="container chat-wrapper">
-			<form id="do-chat">
-				<h2 class="alert alert-success "></h2>
-				<div id="chatresponse"></div>
+		<div id="chat-wrapper" class="col-sm-12 col-md-12 col-lg-12">
+			<div class="ui comments">
+				<h3 class="ui dividing header">Let's Chat!</h3>
+			</div>
+			<div id="chatresponse" class="ui comments"></div>
+			<form class="ui reply form" id="do-chat">
 				<fieldset>
 					<legend>Enter your message..</legend>
 					<div class="controls">
@@ -1153,7 +1182,7 @@
 				$("#profileView").hide(500);
 				$("#eventsView").hide(500);
 				$("#nav").show(200);
-				$(".chat-wrapper").hide(500);
+				$("#chat-wrapper").hide(500);
 				google.maps.event.trigger(map, 'resize');
 			}
 			function setProfile() {
@@ -1171,7 +1200,7 @@
 				addUid();
 
 				//hide chat
-				$(".chat-wrapper").hide(500);
+				$("#chat-wrapper").hide(500);
 			}
 			function setMessage() {
 				setActive("message");
@@ -1181,7 +1210,7 @@
 				$("#nav").show(200);
 
 				/////////show message
-				$(".chat-wrapper").hide(500);
+				$("#chat-wrapper").hide(500);
 				$("#test1").hide(500);
 				$("#test2").hide(500);
 				$("#test0").hide(500);
@@ -1199,7 +1228,7 @@
 
 				/////////show message
 				connectToChatserver(roomname);
-				$(".chat-wrapper").show(500);
+				$("#chat-wrapper").show(500); 
 				$("#test1").hide(500);
 				$("#test2").hide(500);
 				$("#test0").hide(500);
@@ -1231,7 +1260,7 @@
 							var res = ress[indsa];
 							var finaltime = new Date(res.start_time)
 									.toLocaleString();
-							createDetailEvent(res.event_id, res.address,
+							createDetailEvent2(res.event_id, res.address,
 									res.activity_name, finaltime,
 									res.number_limit_from, res.number_limit_to,
 									res.number_of, res.is_enrolled);
@@ -1257,7 +1286,7 @@
 				$("#nav").show(200);
 
 				//hide chat
-				$(".chat-wrapper").hide(500);
+				$("#chat-wrapper").hide(500);
 
 			}
 			function setActive(elementId) {
@@ -1736,7 +1765,7 @@
 			$("#test2").hide();
 			$("#eventsView").hide();
 			$("#profileView").hide();
-			$(".chat-wrapper").hide();
+			$("#chat-wrapper").hide();
 			$message = $('#chatmessage');
 			$chatWindow = $('#chatresponse');
 			$('#do-chat').submit(function(evt) {
