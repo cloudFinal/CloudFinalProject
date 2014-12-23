@@ -12,16 +12,17 @@ import org.json.JSONObject;
 
 import parse.JsonProcess;
 import parse.Parse;
+
 /**
- * Servlet implementation class Register
+ * Servlet implementation class ChangePassword
  */
-public class Register extends HttpServlet {
+public class ChangePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public ChangePassword() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,11 +32,6 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		boolean result = Center.db.register("zhangluoma","88522712");
-		Center.db.setOnline("zhangluoma", false);
-		JSONObject output = new JSONObject();
-		output.put("result",result);
-		JsonProcess.sendJson(response,output);
 	}
 
 	/**
@@ -46,15 +42,26 @@ public class Register extends HttpServlet {
 		JSONObject input = Parse.getJson(request);
 		String u = input.getString("username");
 		String p = input.getString("password");
-		boolean result = Center.db.register(u,p);
+		/*
+		if(u!=null&&p!=null){
+			System.out.println("!!!!!");
+			Cookie userid = new Cookie("userid",u);
+			Cookie password = new Cookie("password",p);
+			userid.setMaxAge(60*60*24); 
+			password.setMaxAge(60*60*24);
+			response.addCookie(userid);
+			response.addCookie(password);
+		}*/
+		boolean result = Center.db.changePassword(u,p);
 		if(result){
 			HttpSession session = request.getSession();
 			session.setAttribute("userid",u);
 			session.setAttribute("password",p);
 		}
-		Center.db.setOnline(u, false);
 		JSONObject output = new JSONObject();
 		output.put("result",result);
 		JsonProcess.sendJson(response,output);
+		System.out.println(result);
 	}
+
 }

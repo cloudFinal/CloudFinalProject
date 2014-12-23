@@ -577,6 +577,21 @@ public class Database
 			return null;
 		}
 	}
+	public boolean changePassword(String user_id, String password){
+		if(this.userExist(user_id, password)){
+			try {
+				stmt=conn.createStatement();
+				stmt.execute("update from users set password='"+password+"' where user_id='"+user_id+"'");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return false;
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
 	public boolean deletePreference(String user_id,String preferenceName){
 		try {
 			stmt=conn.createStatement();

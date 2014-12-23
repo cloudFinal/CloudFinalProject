@@ -328,8 +328,8 @@
 	//get and create all preference
 	function getAndCreateAllPreference() {
 		var myNode = document.getElementById("motherlist");
-		while (myNode.firstChild) {
-			myNode.removeChild(myNode.firstChild);
+		while (myNode.children.length>1) {
+			myNode.removeChild(myNode.lastChild);
 		}
 
 		$.ajax({
@@ -422,7 +422,9 @@
 			$("#test2").show(400);
 		};
 		elementb.innerHTML = prefname.substring(n + 1);
+		elementb.setAttribute("href","#");
 		elementa.appendChild(elementb);
+		elementa.setAttribute("role", "presentation");
 		document.getElementById('motherlist').appendChild(elementa);
 	}
 	//this function is called to show addPreference page and hide Preference detail page
@@ -625,10 +627,10 @@
 						placeholder="Password">
 				</div>
 				<div class="form-group">
-					<button class="btn btn-default" onclick="loadXMLDoc()" id="signin">SignIn</button>
+					<button class="btn btn-primary" onclick="loadXMLDoc()" id="signin">SignIn</button>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-default" onclick="singup()" id="signup">SignUp</button>
+					<button class="btn btn-success" onclick="singup()" id="signup">SignUp</button>
 				</div>
 				<div class="form-group" id="logout">
 					<button class="btn btn-danger" onclick="logout()">Log out
@@ -642,18 +644,18 @@
 	<div>
 		<div class="row">
 			<div class="col-sm-2 col-md-2 sidebar" id="test0">
-				<ul class="nav nav-sidebar">
-					<li><a href="#" onclick="addPreference()">New Preference</a></li>
-				</ul>
-				<ul class="nav nav-sidebar" id="motherlist">
-				</ul>
+				<div class="bs-example" data-example-id="simple-nav-stacked">
+					<ul id="motherlist" class="nav nav-pills nav-stacked" style="max-width: 300px">
+						<li role="presentation" class="active"><a href="#"
+							onclick="addPreference()">New Preference</a></li>
+					</ul>
+				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" id="test1">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a href="#" onclick="togglePreference()">New Preference</a> <a
-							href="#" onclick="deletePreference()" style="float: right">Delete
-							it</a>
+							href="#" onclick="deletePreference()" style="float: right"></a>
 					</div>
 					<div class="panel-body">
 						<table class="table">
@@ -811,7 +813,7 @@
 					</div>
 					<div>
 						<div class="panel-body">
-							<div id="dvMap" style="height: 400px"></div>
+							<div id="dvMap" style="height: 457px"></div>
 						</div>
 					</div>
 				</div>
@@ -870,7 +872,7 @@
 												<td>Date of Birth</td>
 												<td><div class='input-group date' id='datetimepicker3'>
 														<input id="set_dob" type='text' class="form-control"
-															placeholder="Date Of Birth" /> <span
+															placeholder="Date Of Birth" readonly/> <span
 															class="input-group-addon"><span
 															class="glyphicon glyphicon-calendar"></span></span>
 													</div></td>
@@ -1030,13 +1032,13 @@
 								+ location);
 				var td2 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"ActivityName " + activityName);
+						"ActivityName: " + activityName);
 				var td3 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Start Time :" + startTime);
+						"Start Time: " + startTime);
 				var td4 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Current Participants:" + currentNumber + "/"
+						"Current Participants: " + currentNumber + "/"
 								+ numberLimitTo);
 				var tr1 = generateElement("tr", null, null, null);
 				var tr2 = generateElement("tr", null, null, null);
@@ -1497,13 +1499,13 @@
 								+ location);
 				var td2 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"ActivityName " + activityName);
+						"ActivityName: " + activityName);
 				var td3 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Start Time :" + startTime);
+						"Start Time: " + startTime);
 				var td4 = generateElement("td",
 						[ [ "style", "font-size: 10px" ] ], null,
-						"Current Participants:" + currentNumber + "/"
+						"Current Participants: " + currentNumber + "/"
 								+ numberLimitTo);
 				var tr1 = generateElement("tr", null, null, null);
 				var tr2 = generateElement("tr", null, null, null);
@@ -1528,8 +1530,6 @@
 				var subtablebody = generateElement("tbody", null, null, null);
 				subtable.appendChild(subtablebody);
 				subtablebody.id = "membertable" + eventid;
-				
-				
 				var subbody = generateElement(
 						"div",
 						[ [ "class", "panel-body" ], [ "style", "padding: 5%" ] ],
