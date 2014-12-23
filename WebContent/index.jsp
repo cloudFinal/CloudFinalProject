@@ -5,7 +5,7 @@
 <head>
 
 
-<link rel="icon" type="image/png" href="./icon_cloud.jpg">
+<link rel="icon" type="image/png" href="./logonew.png">
 
 
 <meta charset="utf-8">
@@ -106,23 +106,37 @@
 
 	/////////////////////////////////////////////////////////////////////////////
 	function loadXMLDoc() {
+		var tmp = true;
 		uid = document.getElementById("username").value;
 		pword = document.getElementById("password").value;
-		document.getElementById("signin").disabled = true;
-		$.ajax({
-			url : basicurl + "Login",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
-				username : document.getElementById("username").value,
-				password : document.getElementById("password").value
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : AjaxSucceeded,
-			error : AjaxFailed
-		});
+
+		if (!validateEmail(uid)) {
+			tmp = false;
+			document.getElementById('undiv').className += ' has-error';
+		}
+
+		if (pword == "") {
+			tmp = false;
+			document.getElementById('pwdiv').className += ' has-error';
+		}
+
+		if (tmp) {
+			document.getElementById("signin").disabled = true;
+			$.ajax({
+				url : basicurl + "Login",
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify({
+					username : document.getElementById("username").value,
+					password : document.getElementById("password").value
+				}),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : AjaxSucceeded,
+				error : AjaxFailed
+			});
+		}
 	}
 
 	function AjaxSucceeded(result) {
@@ -161,21 +175,35 @@
 	function singup() {
 		uid = document.getElementById("username").value;
 		pword = document.getElementById("password").value;
-		document.getElementById("signup").disabled = true;
-		$.ajax({
-			url : basicurl + "Register",
-			type : 'POST',
-			dataType : "json",
-			data : JSON.stringify({
-				username : document.getElementById("username").value,
-				password : document.getElementById("password").value
-			}),
-			processData : false,
-			ContentType : 'application/json',
-			dataType : 'json',
-			success : signupSucceeded,
-			error : AjaxFailed
-		});
+
+		var tmp = true;
+
+		if (!validateEmail(uid)) {
+			tmp = false;
+			document.getElementById('undiv').className += ' has-error';
+		}
+
+		if (pword == "") {
+			tmp = false;
+			document.getElementById('pwdiv').className += ' has-error';
+		}
+		if (tmp) {
+			document.getElementById("signup").disabled = true;
+			$.ajax({
+				url : basicurl + "Register",
+				type : 'POST',
+				dataType : "json",
+				data : JSON.stringify({
+					username : document.getElementById("username").value,
+					password : document.getElementById("password").value
+				}),
+				processData : false,
+				ContentType : 'application/json',
+				dataType : 'json',
+				success : signupSucceeded,
+				error : AjaxFailed
+			});
+		}
 	}
 
 	function signupSucceeded(result) {
@@ -205,6 +233,11 @@
 			document.getElementById('pwdiv').className += ' has-error';
 			document.getElementById("signup").disabled = false;
 		}
+	}
+
+	function validateEmail(email) {
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(email);
 	}
 
 	function addPref() {
@@ -526,6 +559,8 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
+			<a class="navbar-brand" href="#"><img
+				style="height: 60px; margin-top: -18px;" src="./logonew.png"></a>
 			<a class="navbar-brand" href="#">Group Up</a>
 		</div>
 
@@ -548,7 +583,7 @@
 			<div class="navbar-form navbar-right">
 				<div class="form-group" id="undiv">
 					<input type="text" class="form-control" id="username"
-						placeholder="Username">
+						placeholder="Username(Email)">
 				</div>
 				<div class="form-group" id="pwdiv">
 					<input type="password" class="form-control" id="password"
@@ -1272,35 +1307,53 @@
 					myNode.removeChild(myNode.firstChild);
 				}
 
-				$.ajax({
-					url : basicurl + "LookUpUserEvents",
-					type : 'POST',
-					dataType : "json",
-					data : JSON.stringify({
-						plantform : "asd",
-						username : uid
-					}),
-					processData : false,
-					ContentType : 'application/json',
-					dataType : 'json',
-					success : function(result) {
-						var ress = result.event;
-						for ( var indsa in ress) {
-							var res = ress[indsa];
-							var finaltime = new Date(res.start_time)
-									.toLocaleString();
-							createDetailEvent2(res.event_id, res.address,
-									res.activity_name, finaltime,
-									res.number_limit_from, res.number_limit_to,
-									res.number_of, res.is_enrolled);
-							var list = res.urlList;
-							for (li in list) {
-								insertPicture(res.event_id, list[li]);
-							}
-						}
-					},
-					error : AjaxFailed
-				});
+				$
+						.ajax({
+							url : basicurl + "LookUpUserEvents",
+							type : 'POST',
+							dataType : "json",
+							data : JSON.stringify({
+								plantform : "asd",
+								username : uid
+							}),
+							processData : false,
+							ContentType : 'application/json',
+							dataType : 'json',
+							success : function(result) {
+								var ress = result.event;
+								var tmpboo = true;
+								for ( var indsa in ress) {
+									tmpboo = false;
+									var res = ress[indsa];
+									var finaltime = new Date(res.start_time)
+											.toLocaleString();
+									createDetailEvent2(res.event_id,
+											res.address, res.activity_name,
+											finaltime, res.number_limit_from,
+											res.number_limit_to, res.number_of,
+											res.is_enrolled);
+									
+									var list = res.urlList;
+									for (li in list) {
+										insertPicture(res.event_id, list[li]);
+									}
+									
+									
+									list = res.userList;
+									for (li in list) {
+										addMember(res.event_id, list[li]);
+									}
+								}
+								if (tmpboo) {
+									var smalel = document.createElement("p");
+									smalel.innerHTML = "You have no events now, go and join one.";
+									document.getElementById("eventsDetail")
+											.appendChild(smalel);
+								}
+
+							},
+							error : AjaxFailed
+						});
 
 				setActive("events");
 				clearActive("message");
