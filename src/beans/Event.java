@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import parse.JsonArrayForWeb;
-
+//class to store event
 public class Event implements Serializable, JsonAble,Comparable{
 
 	/**

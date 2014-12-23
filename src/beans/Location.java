@@ -3,7 +3,7 @@ package beans;
 import java.io.Serializable;
 
 import org.json.JSONObject;
-
+//class to store location
 public class Location implements Serializable,JsonAble{
 	private int locationid;
 	private String address;

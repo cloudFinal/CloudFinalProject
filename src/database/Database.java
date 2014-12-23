@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import logic.SearchForEvent;
 import Servlet.Center;
 import beans.*;
-
+//database class used to set up connect, and provides the mothods to retrieve data from database
 public class Database
 {
     String jdbcUrl ="jdbc:mysql://cloudfinal.cvdk3xvzipiw.us-east-1.rds.amazonaws.com:3306/cloudFinal";
@@ -281,9 +281,12 @@ public class Database
 			System.out.println("!!!!the size is"+events.size());
 			System.out.println("select * from event where activity_name='"+preference.getActivityName()+"' and start_time<="+preference.getEndTime()+" and end_time>="+preference.getStartTime()+" and number_limit_from<="+preference.getNumberLimitTo()+" and number_limit_to>="+preference.getNumberLimitFrom());
 			for(Event event:events){
+				//System.out.println("------------------");
+				//System.out.println(event.getEventId());
 				if(SearchForEvent.testPreferenceWithOthers(preference, event)!=null){
 					waitingList.add(event);
 				}
+				//System.out.println(if(SearchForEvent.testPreferenceWithOthers(preference, event)==));
 				//for(Preference)
 			}
 			if(waitingList.size()==0){

@@ -9,7 +9,7 @@ import Servlet.Center;
 import beans.Event;
 import beans.Location;
 import beans.Preference;
-
+//the logic for searching events
 public class SearchForEvent {
 	public static boolean testPreferenceWithOthers(Preference tested, ArrayList<Preference> old){
 		//ArrayList<Preference> waitingList = new ArrayList<Preference>();
@@ -43,7 +43,7 @@ public class SearchForEvent {
 			boolean flag=true;
 			for(Preference target:old){
 				double dis = Center.db.getLocation(op.getLocationId()).distance(Center.db.getLocation(target.getLocationId()));
-				if(dis>op.getDistanceTolerance()||dis>target.getDistanceTolerance()){
+				if(dis>target.getDistanceTolerance()){
 					flag=false;
 				}
 			}

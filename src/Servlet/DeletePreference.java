@@ -19,6 +19,7 @@ import beans.Preference;
 /**
  * Servlet implementation class DeletePreference
  */
+
 public class DeletePreference extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

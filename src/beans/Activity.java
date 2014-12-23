@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//class to store activity
 public class Activity implements Serializable, JsonAble, Comparable {
 	/**
 	 * 

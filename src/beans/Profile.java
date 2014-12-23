@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//class to store user's profile
 public class Profile implements Serializable, JsonAble {
 	private String userid;
 	private String password;

@@ -3,7 +3,7 @@ package beans;
 import java.io.Serializable;
 
 import org.json.JSONObject;
-
+//not used yet
 public class ReceiveEducation implements Serializable,JsonAble{
 
     /** 

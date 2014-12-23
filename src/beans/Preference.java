@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import org.json.JSONObject;
-
+//class to store preference
 public class Preference implements Serializable, JsonAble{
 	private static final long serialVersionUID = 1L;
 	/** 

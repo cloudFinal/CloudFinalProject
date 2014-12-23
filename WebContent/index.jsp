@@ -1143,7 +1143,7 @@
 													success : function(result) {
 														var events = result.event;
 														for ( var ke in events) {
-															addEvents(
+																(
 																	events[ke].address,
 																	events[ke].activity_name,
 																	(new Date(
@@ -1955,7 +1955,7 @@
 										document.getElementById("userImage").src = tmp.image;
 									}
 									if (typeof tmp.gender != 'undefined') {
-										document.getElementById("gender").src = tmp.gender;
+										document.getElementById("gender").value = tmp.gender;
 									}
 								}
 							},

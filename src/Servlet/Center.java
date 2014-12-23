@@ -41,8 +41,9 @@ import database.Database;
 /**
  * Servlet implementation class Center
  */
+//initialize database and accept for request of file uploading
 public class Center extends HttpServlet {
-	public static String publickey = "AKIAJI2KVNE6A6VFEWOA";
+	public static String publickey = "";
 	public static String secretKey = "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";
 	private static final long serialVersionUID = 1L;
 	public static WorkPool wp;

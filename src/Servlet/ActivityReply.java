@@ -19,6 +19,7 @@ import parse.Parse;
 /**
  * Servlet implementation class ActivityReply
  */
+//accept request for activity query
 public class ActivityReply extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

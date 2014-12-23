@@ -16,6 +16,7 @@ import parse.Parse;
 /**
  * Servlet implementation class ChangePassword
  */
+//receive the request and change password
 public class ChangePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

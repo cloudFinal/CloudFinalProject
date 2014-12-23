@@ -1,5 +1,5 @@
 package database;
-
+//generate query available in sql
 public class QueryGenerator {
 	public static String locationIdGenerate(String address){
 		return String.valueOf(address.hashCode());

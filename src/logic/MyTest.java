@@ -7,7 +7,7 @@ import beans.Preference;
 import beans.Profile;
 import database.Database;
 import Servlet.Center;
-
+//test logic only for debug
 public class MyTest {
 	public static boolean t(){
 		for(Profile p:Center.db.getUsersInEvent(1977140399)){
