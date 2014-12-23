@@ -375,9 +375,9 @@
 			document.getElementById("set_location").innerHTML = prefs[indexi].address
 					.substring(0, prefs[indexi].address.indexOf(","));
 			document.getElementById("set_starttime").innerHTML = (new Date(
-					prefs[indexi].start_time)).toDateString();
+					prefs[indexi].start_time)).toLocaleString();
 			document.getElementById("set_endtime").innerHTML = (new Date(
-					prefs[indexi].end_time)).toDateString();
+					prefs[indexi].end_time)).toLocaleString();
 			document.getElementById("set_numberlimitfrom").innerHTML = prefs[indexi].number_limit_from;
 			document.getElementById("set_numberlimitto").innerHTML = prefs[indexi].number_limit_to;
 
@@ -403,7 +403,7 @@
 					for ( var ke in events) {
 						addEvents(events[ke].address, events[ke].activity_name,
 								(new Date(events[ke].start_time))
-										.toDateString(),
+										.toLocaleString(),
 								events[ke].number_limit_from,
 								events[ke].number_limit_to,
 								events[ke].number_of, events[ke].event_id,
@@ -1137,7 +1137,7 @@
 																	events[ke].activity_name,
 																	(new Date(
 																			events[ke].start_time))
-																			.toDateString(),
+																			.toLocaleString(),
 																	events[ke].number_limit_from,
 																	events[ke].number_limit_to,
 																	events[ke].number_of,
@@ -1207,7 +1207,7 @@
 																	events[ke].activity_name,
 																	(new Date(
 																			events[ke].start_time))
-																			.toDateString(),
+																			.toLocaleString(),
 																	events[ke].number_limit_from,
 																	events[ke].number_limit_to,
 																	events[ke].number_of,
