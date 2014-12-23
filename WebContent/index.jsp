@@ -1954,6 +1954,9 @@
 											&& tmp.hasOwnProperty('image')) {
 										document.getElementById("userImage").src = tmp.image;
 									}
+									if (typeof tmp.gender != 'undefined') {
+										document.getElementById("gender").src = tmp.gender;
+									}
 								}
 							},
 							error : AjaxFailed
